@@ -1,6 +1,6 @@
 ﻿namespace CheckInMonitorAPI.Models.Entities
 {
-    public class Roles
+    public class Role
     {
     }
 }
