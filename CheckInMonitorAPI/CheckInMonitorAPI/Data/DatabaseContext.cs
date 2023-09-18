@@ -1,6 +1,11 @@
-﻿namespace CheckInMonitorAPI.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace CheckInMonitorAPI.Data
 {
-    public class DatabaseContext
+    public class DatabaseContext : DbContext
     {
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+
+
     }
 }

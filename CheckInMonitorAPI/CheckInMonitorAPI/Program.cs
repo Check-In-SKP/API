@@ -1,11 +1,21 @@
+using CheckInMonitorAPI;
+using CheckInMonitorAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Get's appsetting from machine specific json file
+builder.Configuration.AddJsonFile($"appsettings.{Environment.MachineName}.json", optional: false, reloadOnChange: true);
+AppSettings settings = builder.Configuration.Get<AppSettings>();
 
+// Add services to the container.
+builder.Services.AddLogging();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<DatabaseContext>(options =>
+    options.UseNpgsql(settings.ConnectionStrings.CheckInDB));
 
 var app = builder.Build();
 
@@ -18,6 +28,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
