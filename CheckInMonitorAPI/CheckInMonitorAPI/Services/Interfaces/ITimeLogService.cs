@@ -1,6 +1,8 @@
-﻿namespace CheckInMonitorAPI.Services.Interfaces
+﻿using CheckInMonitorAPI.Models.Entities;
+
+namespace CheckInMonitorAPI.Services.Interfaces
 {
-    public interface ITimeLogService
+    public interface ITimeLogService : IGenericService<TimeLog, int>
     {
     }
 }
