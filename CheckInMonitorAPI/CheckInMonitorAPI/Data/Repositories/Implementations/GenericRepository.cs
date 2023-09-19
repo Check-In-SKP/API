@@ -1,4 +1,5 @@
-﻿using CheckInMonitorAPI.Data.Repositories.Interfaces;
+﻿using CheckInMonitorAPI.Data.Context;
+using CheckInMonitorAPI.Data.Repositories.Interfaces;
 using CheckInMonitorAPI.Exceptions.Data;
 using Microsoft.EntityFrameworkCore;
 
