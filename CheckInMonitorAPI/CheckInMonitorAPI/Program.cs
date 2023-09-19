@@ -1,5 +1,12 @@
 using CheckInMonitorAPI;
 using CheckInMonitorAPI.Data;
+using CheckInMonitorAPI.Data.Repositories.Implementations;
+using CheckInMonitorAPI.Data.Repositories.Interfaces;
+using CheckInMonitorAPI.Data.Repositories.UnitOfWork.Implementations;
+using CheckInMonitorAPI.Data.Repositories.UnitOfWork.Interfaces;
+using CheckInMonitorAPI.Models.Entities;
+using CheckInMonitorAPI.Services.Implementations;
+using CheckInMonitorAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +23,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(settings.ConnectionStrings.CheckInDB));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IGenericRepository<Role, int>, GenericRepository<Role, int>>();
+builder.Services.AddScoped<IGenericRepository<TimeLog, int>, GenericRepository<TimeLog, int>>();
+builder.Services.AddScoped<IGenericRepository<TimeType, int>, GenericRepository<TimeType, int>>();
+builder.Services.AddScoped<IGenericRepository<User, int>, GenericRepository<User, int>>();
+
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ITimeLogService, TimeLogService>();
+builder.Services.AddScoped<ITimeTypeService, TimeTypeService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

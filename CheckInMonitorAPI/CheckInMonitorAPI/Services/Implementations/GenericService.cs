@@ -1,0 +1,74 @@
+﻿using CheckInMonitorAPI.Data.Repositories.Interfaces;
+using CheckInMonitorAPI.Data.Repositories.UnitOfWork.Interfaces;
+using CheckInMonitorAPI.Services.Interfaces;
+
+namespace CheckInMonitorAPI.Services.Implementations
+{
+    public class GenericService<T, TKey> : IGenericService<T, TKey> where T : class
+    {
+        private readonly IGenericRepository<T, TKey> _repository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public GenericService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _repository = unitOfWork.GetRepository<T, TKey>();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _repository.GetAllAsync();
+        }
+
+        public async Task<T> GetByIdAsync(TKey id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
+
+        public async Task AddAsync(T entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            await _repository.AddAsync(entity);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+            await _repository.UpdateAsync(entity);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task DeleteAsync(TKey id)
+        {
+            var entity = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(entity);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            if (entities == null || !entities.Any())
+                throw new ArgumentNullException(nameof(entities));
+
+            await _repository.AddRangeAsync(entities);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task DeleteRangeAsync(IEnumerable<T> entities)
+        {
+            if (entities == null || !entities.Any())
+                throw new ArgumentNullException(nameof(entities));
+
+            await _repository.DeleteRangeAsync(entities);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public IQueryable<T> Query()
+        {
+            return _repository.Query();
+        }
+    }
+}
