@@ -5,13 +5,13 @@ using CheckInMonitorAPI.Services.Interfaces;
 
 namespace CheckInMonitorAPI.Services.Implementations
 {
-    public class RoleService : GenericService<User, int>, IRoleService
+    public class RoleService : GenericService<Role, int>, IRoleService
     {
-        private readonly IGenericRepository<User, int> _repository;
+        private readonly IGenericRepository<Role, int> _repository;
 
         public RoleService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _repository = unitOfWork.GetRepository<User, int>();
+            _repository = unitOfWork.GetRepository<Role, int>();
         }
 
         // Other implementations here

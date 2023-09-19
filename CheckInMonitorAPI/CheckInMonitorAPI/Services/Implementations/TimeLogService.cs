@@ -5,13 +5,13 @@ using CheckInMonitorAPI.Services.Interfaces;
 
 namespace CheckInMonitorAPI.Services.Implementations
 {
-    public class TimeLogService : GenericService<User, int>, ITimeLogService
+    public class TimeLogService : GenericService<TimeLog, int>, ITimeLogService
     {
-        private readonly IGenericRepository<User, int> _repository;
+        private readonly IGenericRepository<TimeLog, int> _repository;
 
         public TimeLogService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _repository = unitOfWork.GetRepository<User, int>();
+            _repository = unitOfWork.GetRepository<TimeLog, int>();
         }
 
         // Other implementations here

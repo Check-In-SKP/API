@@ -1,13 +1,13 @@
 ﻿using CheckInMonitorAPI.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CheckInMonitorAPI.Data
+namespace CheckInMonitorAPI.Data.Context
 {
     public class DatabaseContext : DbContext
     {
         // Commands for 'Package Manager Console' to create and update the database
         // dotnet ef migrations remove --project CheckInMonitorAPI
-        // dotnet ef migrations add InitialMigration --project CheckInMonitorAPI --output-dir Data/Migrations
+        // dotnet ef migrations add InitialMigration --project CheckInMonitorAPI --output-dir Data/Context/Migrations
         // dotnet ef database update --project CheckInMonitorAPI
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
