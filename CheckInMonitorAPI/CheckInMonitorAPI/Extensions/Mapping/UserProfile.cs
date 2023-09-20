@@ -2,7 +2,7 @@
 using CheckInMonitorAPI.Models.Entities;
 using CheckInMonitorAPI.Models.DTOs.User;
 
-namespace CheckInMonitorAPI.Extensions
+namespace CheckInMonitorAPI.Extensions.Mapping
 {
     public class UserProfile : Profile
     {

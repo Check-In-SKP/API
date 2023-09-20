@@ -2,7 +2,7 @@
 using CheckInMonitorAPI.Models.DTOs.Role;
 using CheckInMonitorAPI.Models.Entities;
 
-namespace CheckInMonitorAPI.Extensions
+namespace CheckInMonitorAPI.Extensions.Mapping
 {
     public class RoleProfile : Profile
     {

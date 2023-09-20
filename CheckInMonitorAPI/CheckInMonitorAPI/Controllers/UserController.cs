@@ -7,6 +7,10 @@ using AutoMapper;
 
 namespace CheckInMonitorAPI.Controllers
 {
+
+    //NOTE TO SELF: Add exceptions, logging, and validation
+
+
     [Route("api/[controller]")]
     public class UserController : Controller
     {
