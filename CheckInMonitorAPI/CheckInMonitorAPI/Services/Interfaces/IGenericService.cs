@@ -9,6 +9,7 @@
         Task DeleteAsync(TKey id);
         Task AddRangeAsync(IEnumerable<T> entities);
         Task DeleteRangeAsync(IEnumerable<T> entities);
+        bool EntityExist(TKey id);
         IQueryable<T> Query();
     }
 }

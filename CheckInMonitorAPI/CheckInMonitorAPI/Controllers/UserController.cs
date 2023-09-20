@@ -32,18 +32,51 @@ namespace CheckInMonitorAPI.Controllers
             }
             var user = _mapper.Map<User>(createUserDTO);
             await _userService.AddAsync(user);
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+
+            var response = _mapper.Map<ResponseUserDTO>(user);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var user = await _userService.GetByIdAsync(id);
+            var user = _mapper.Map<ResponseUserDTO>(await _userService.GetByIdAsync(id));
+
             if (user == null)
             {
                 return NotFound();
             }
             return Ok(user);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUserDTO)
+        {
+            var existingUser = await _userService.GetByIdAsync(updateUserDTO.Id);
+            if (updateUserDTO == null)
+            {
+                return BadRequest("User data cannot be null");
+            }
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(updateUserDTO, existingUser);
+            await _userService.UpdateAsync(existingUser);
+
+            return Ok(existingUser);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            if (_userService.EntityExist(id))
+            {
+                return NotFound();
+            }
+            await _userService.DeleteAsync(id);
+            return Ok();
         }
     }
 }

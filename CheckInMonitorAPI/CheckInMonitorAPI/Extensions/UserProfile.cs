@@ -9,6 +9,8 @@ namespace CheckInMonitorAPI.Extensions
         public UserProfile()
         {
             CreateMap<CreateUserDTO, User>();
+            CreateMap<User, ResponseUserDTO>();
+            CreateMap<UpdateUserDTO, User>();
         }
     }
 }

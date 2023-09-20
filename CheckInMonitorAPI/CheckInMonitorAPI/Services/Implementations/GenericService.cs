@@ -27,6 +27,18 @@ namespace CheckInMonitorAPI.Services.Implementations
             return await _repository.GetByIdAsync(id);
         }
 
+        public bool EntityExist(TKey id)
+        {
+            if(GetByIdAsync(id) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task AddAsync(T entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

@@ -64,10 +64,10 @@ namespace CheckInMonitorAPI.Data.Repositories.UnitOfWork.Implementations
             if (_disposed)
                 return;
 
-            if (disposing)
-            {
-                _context.Dispose();
-            }
+            //if (disposing)
+            //{
+            //    _context.Dispose();
+            //}
 
             _disposed = true;
         }
