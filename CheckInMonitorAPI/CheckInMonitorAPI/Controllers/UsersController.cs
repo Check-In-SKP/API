@@ -10,7 +10,6 @@ namespace CheckInMonitorAPI.Controllers
 
     //NOTE TO SELF: Add exceptions, logging, and validation
 
-
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
@@ -71,13 +70,13 @@ namespace CheckInMonitorAPI.Controllers
             _mapper.Map(userDTO, existingUser);
             await _userService.UpdateAsync(existingUser);
 
-            return Ok(existingUser);
+            return Ok(userDTO);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            if (_userService.EntityExist(id))
+            if (!_userService.EntityExist(id))
             {
                 return NotFound();
             }
@@ -96,6 +95,9 @@ namespace CheckInMonitorAPI.Controllers
             var response = _mapper.Map<IEnumerable<ResponseUserDTO>>(users);
             return Ok(response);
         }
+
+
+        // Yet to be implemented                                                        <----------
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)

@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CheckInMonitorAPI.Data.Migrations
+namespace CheckInMonitorAPI.Data.Context.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230919111623_InitialMigration")]
+    [Migration("20230920125726_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -40,7 +40,22 @@ namespace CheckInMonitorAPI.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("CheckInMonitorAPI.Models.Entities.TimeLog", b =>
@@ -84,7 +99,22 @@ namespace CheckInMonitorAPI.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("TimeTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Check In"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Check Out"
+                        });
                 });
 
             modelBuilder.Entity("CheckInMonitorAPI.Models.Entities.User", b =>
@@ -104,6 +134,7 @@ namespace CheckInMonitorAPI.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("MeetingTime")
+                        .IsRequired()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -133,9 +164,23 @@ namespace CheckInMonitorAPI.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("CardNumber")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

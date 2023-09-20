@@ -64,13 +64,13 @@ namespace CheckInMonitorAPI.Controllers
             _mapper.Map(roleDTO, existingRole);
             await _roleService.UpdateAsync(existingRole);
 
-            return Ok(existingRole);
+            return Ok(roleDTO);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRole(int id)
         {
-            if (_roleService.EntityExist(id))
+            if (!_roleService.EntityExist(id))
             {
                 return NotFound();
             }

@@ -22,8 +22,6 @@
   <ItemGroup>
     <Folder Include="Data\Context\Migrations\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Models\DTOs\TimeType\" />
-    <Folder Include="Models\DTOs\TimeLog\" />
   </ItemGroup>
 
 </Project>
