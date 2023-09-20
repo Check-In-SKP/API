@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace CheckInMonitorAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class RoleController : Controller
+    public class RolesController : Controller
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
-        private readonly ILogger<RoleController> _logger;
+        private readonly ILogger<RolesController> _logger;
 
-        public RoleController(IUserService userService, IRoleService roleService, IMapper mapper, ILogger<RoleController> logger)
+        public RolesController(IUserService userService, IRoleService roleService, IMapper mapper, ILogger<RolesController> logger)
         {
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -42,7 +42,53 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return NotFound();
             }
+
             return Ok(role);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRole([FromBody] RoleDTO roleDTO)
+        {
+            if (roleDTO == null)
+            {
+                return BadRequest("Role data cannot be null");
+            }
+
+            var existingRole = await _roleService.GetByIdAsync(roleDTO.Id);
+
+            if (existingRole == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(roleDTO, existingRole);
+            await _roleService.UpdateAsync(existingRole);
+
+            return Ok(existingRole);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRole(int id)
+        {
+            if (_roleService.EntityExist(id))
+            {
+                return NotFound();
+            }
+
+            await _roleService.DeleteAsync(id);
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            var roles = await _roleService.GetAllAsync();
+            if (roles == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(roles);
         }
     }
 }

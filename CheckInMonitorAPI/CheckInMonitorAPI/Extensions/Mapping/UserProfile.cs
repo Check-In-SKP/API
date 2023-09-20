@@ -10,7 +10,7 @@ namespace CheckInMonitorAPI.Extensions.Mapping
         {
             CreateMap<CreateUserDTO, User>();
             CreateMap<User, ResponseUserDTO>();
-            CreateMap<UpdateUserDTO, User>();
+            CreateMap<UserDTO, User>();
         }
     }
 }

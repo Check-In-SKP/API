@@ -9,18 +9,26 @@ namespace CheckInMonitorAPI.Models.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         [MaxLength(128)]
         public string CardNumber { get; set; }
 
+        [Required]
         [MaxLength(64)]
         public string Name { get; set; }
 
+        [Required]
+        [MaxLength(128)]
+        public string Username { get; set; }
+
+        [Required]
         [MaxLength(128)]
         public string Password { get; set; }
 
         [MaxLength(64)]
         public string PhoneNumber { get; set; }
 
+        [Required]
         public bool PhoneNotification { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -29,8 +37,10 @@ namespace CheckInMonitorAPI.Models.Entities
 
         public bool Preoccupied { get; set; }
 
+        [Required]
         public DateTime? MeetingTime { get; set; }
 
+        [Required]
         public int RoleId { get; set; }
 
         [ForeignKey(nameof(RoleId))]

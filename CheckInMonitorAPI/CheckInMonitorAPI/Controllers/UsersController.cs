@@ -12,14 +12,14 @@ namespace CheckInMonitorAPI.Controllers
 
 
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
 
-        public UserController(IUserService userService, IRoleService roleService, IMapper mapper, ILogger<UserController> logger)
+        public UsersController(IUserService userService, IRoleService roleService, IMapper mapper, ILogger<UsersController> logger)
         {
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -54,19 +54,21 @@ namespace CheckInMonitorAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updateUserDTO)
+        public async Task<IActionResult> UpdateUser([FromBody] UserDTO userDTO)
         {
-            var existingUser = await _userService.GetByIdAsync(updateUserDTO.Id);
-            if (updateUserDTO == null)
+            if (userDTO == null)
             {
                 return BadRequest("User data cannot be null");
             }
+
+            var existingUser = await _userService.GetByIdAsync(userDTO.Id);
+            
             if (existingUser == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(updateUserDTO, existingUser);
+            _mapper.Map(userDTO, existingUser);
             await _userService.UpdateAsync(existingUser);
 
             return Ok(existingUser);
@@ -80,6 +82,34 @@ namespace CheckInMonitorAPI.Controllers
                 return NotFound();
             }
             await _userService.DeleteAsync(id);
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAllAsync();
+            if(users == null)
+            {
+                return NotFound();
+            }
+            var response = _mapper.Map<IEnumerable<ResponseUserDTO>>(users);
+            return Ok(response);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        {
+            if (loginDTO == null)
+            {
+                return BadRequest("User data cannot be null");
+            }
+            //var user = await _userService.Login(loginDTO.Username, loginDTO.Password);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+            //var response = _mapper.Map<ResponseUserDTO>(user);
             return Ok();
         }
     }
