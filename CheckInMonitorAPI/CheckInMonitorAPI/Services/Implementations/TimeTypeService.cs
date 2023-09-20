@@ -9,7 +9,7 @@ namespace CheckInMonitorAPI.Services.Implementations
     {
         private readonly IGenericRepository<TimeType, int> _repository;
 
-        public TimeTypeService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public TimeTypeService(IUnitOfWork unitOfWork, ILogger<GenericService<TimeType, int>> logger) : base(unitOfWork, logger)
         {
             _repository = unitOfWork.GetRepository<TimeType, int>();
         }

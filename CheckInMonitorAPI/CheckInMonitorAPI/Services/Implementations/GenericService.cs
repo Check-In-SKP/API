@@ -8,11 +8,13 @@ namespace CheckInMonitorAPI.Services.Implementations
     {
         private readonly IGenericRepository<T, TKey> _repository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<GenericService<T, TKey>> _logger;
 
-        public GenericService(IUnitOfWork unitOfWork)
+        public GenericService(IUnitOfWork unitOfWork, ILogger<GenericService<T, TKey>> logger)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _repository = unitOfWork.GetRepository<T, TKey>();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()

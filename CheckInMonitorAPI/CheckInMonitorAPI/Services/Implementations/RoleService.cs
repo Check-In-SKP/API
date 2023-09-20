@@ -9,7 +9,7 @@ namespace CheckInMonitorAPI.Services.Implementations
     {
         private readonly IGenericRepository<Role, int> _repository;
 
-        public RoleService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public RoleService(IUnitOfWork unitOfWork, ILogger<GenericService<Role, int>> logger) : base(unitOfWork, logger)
         {
             _repository = unitOfWork.GetRepository<Role, int>();
         }
