@@ -1,5 +1,6 @@
 ﻿using CheckInMonitorAPI.Data.Repositories.Interfaces;
 using CheckInMonitorAPI.Data.Repositories.UnitOfWork.Interfaces;
+using CheckInMonitorAPI.Models.DTOs.User;
 using CheckInMonitorAPI.Models.Entities;
 using CheckInMonitorAPI.Services.Interfaces;
 
@@ -14,6 +15,16 @@ namespace CheckInMonitorAPI.Services.Implementations
             _repository = unitOfWork.GetRepository<User, int>();
         }
 
-        // Other implementations here
+        public bool Login(LoginDTO loginDTO)
+        {
+            var user = _repository.GetAllAsync().Result.Where(u => u.Username == loginDTO.Username).FirstOrDefault();
+            if (user == null)
+                return false;
+
+            if (user.Username == loginDTO.Username && user.Password == loginDTO.Password)
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -7,9 +7,6 @@ using AutoMapper;
 
 namespace CheckInMonitorAPI.Controllers
 {
-
-    //NOTE TO SELF: Add exceptions, logging, and validation
-
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
@@ -96,9 +93,6 @@ namespace CheckInMonitorAPI.Controllers
             return Ok(response);
         }
 
-
-        // Yet to be implemented                                                        <----------
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
@@ -107,14 +101,16 @@ namespace CheckInMonitorAPI.Controllers
                 return BadRequest("User data cannot be null");
             }
 
-            //var user = await _userService.Login(loginDTO.Username, loginDTO.Password);
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
-            //var response = _mapper.Map<ResponseUserDTO>(user);
+            if (!_userService.Login(loginDTO))
+            {
+                return Unauthorized();
+            }
 
-            return Ok();
+            var user = _userService.GetAllAsync().Result.Where(u => u.Username == loginDTO.Username).FirstOrDefault();
+
+            var response = _mapper.Map<ResponseUserDTO>(user);
+
+            return Ok(response);
         }
     }
 }
