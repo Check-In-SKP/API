@@ -61,7 +61,6 @@ namespace CheckInMonitorAPI.Controllers
             }
 
             var existingUser = await _userService.GetByIdAsync(userDTO.Id);
-            
             if (existingUser == null)
             {
                 return NotFound();
@@ -92,6 +91,7 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return NotFound();
             }
+
             var response = _mapper.Map<IEnumerable<ResponseUserDTO>>(users);
             return Ok(response);
         }
@@ -106,12 +106,14 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return BadRequest("User data cannot be null");
             }
+
             //var user = await _userService.Login(loginDTO.Username, loginDTO.Password);
             //if (user == null)
             //{
             //    return NotFound();
             //}
             //var response = _mapper.Map<ResponseUserDTO>(user);
+
             return Ok();
         }
     }

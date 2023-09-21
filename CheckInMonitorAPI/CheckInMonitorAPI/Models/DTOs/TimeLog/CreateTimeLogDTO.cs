@@ -1,12 +1,13 @@
-﻿namespace CheckInMonitorAPI.Models.DTOs.TimeLog
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CheckInMonitorAPI.Models.DTOs.TimeLog
 {
     public class CreateTimeLogDTO
     {
+        public DateTime TimeStamp { get; set; }
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int TimeTypeId { get; set; }
-        public int RoleId { get; set; }
-        public string Description { get; set; }
-        public string Date { get; set; }
-        public string Time { get; set; }
     }
 }
