@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj": {}
+    "C:\\xampp\\htdocs\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj": {}
   },
   "projects": {
-    "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj": {
+    "C:\\xampp\\htdocs\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj",
         "projectName": "CheckInMonitorAPI",
-        "projectPath": "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj",
-        "packagesPath": "C:\\Users\\benj4651\\.nuget\\packages\\",
-        "outputPath": "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj",
+        "packagesPath": "C:\\Users\\zbctoli\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\benj4651\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zbctoli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
