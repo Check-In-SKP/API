@@ -47,24 +47,24 @@ namespace CheckInMonitorAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRole([FromBody] RoleDTO roleDTO)
+        public async Task<IActionResult> UpdateRole(int id, [FromBody] UpdateRoleDTO updateRoleDTO)
         {
-            if (roleDTO == null)
+            if (updateRoleDTO == null)
             {
                 return BadRequest("Role data cannot be null");
             }
 
-            var existingRole = await _roleService.GetByIdAsync(roleDTO.Id);
+            var existingRole = await _roleService.GetByIdAsync(id);
 
             if (existingRole == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(roleDTO, existingRole);
+            _mapper.Map(updateRoleDTO, existingRole);
             await _roleService.UpdateAsync(existingRole);
 
-            return Ok(roleDTO);
+            return Ok(updateRoleDTO);
         }
 
         [HttpDelete("{id}")]

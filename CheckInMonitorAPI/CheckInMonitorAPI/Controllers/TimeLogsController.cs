@@ -28,9 +28,9 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return BadRequest("TimeLog data cannot be null");
             }
+
             var timeLog = _mapper.Map<TimeLog>(createTimeLogDTO);
             await _timeLogService.AddAsync(timeLog);
-
             var response = _mapper.Map<ResponseTimeLogDTO>(timeLog);
             return Ok(response);
         }
@@ -49,18 +49,20 @@ namespace CheckInMonitorAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTimeLog([FromBody] TimeLogDTO timeLogDTO)
+        public async Task<IActionResult> UpdateTimeLog(int id, [FromBody] UpdateTimeLogDTO updateTimeLogDTO)
         {
-            if (timeLogDTO == null)
+            if (updateTimeLogDTO == null)
             {
                 return BadRequest("TimeLog data cannot be null");
             }
-            var existingTimeLog = await _timeLogService.GetByIdAsync(timeLogDTO.Id);
+            
+            var existingTimeLog = await _timeLogService.GetByIdAsync(id);
             if (existingTimeLog == null)
             {
                 return NotFound();
             }
-            await _timeLogService.UpdateAsync(_mapper.Map(timeLogDTO, existingTimeLog));
+
+            await _timeLogService.UpdateAsync(_mapper.Map(updateTimeLogDTO, existingTimeLog));
             return Ok();
         }
 
@@ -71,6 +73,7 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return NotFound();
             }
+
             await _timeLogService.DeleteAsync(id);
             return Ok();
         }
@@ -79,6 +82,7 @@ namespace CheckInMonitorAPI.Controllers
         public async Task<IActionResult> GetAllTimeLogs()
         {
             var timeLogs = await _timeLogService.GetAllAsync();
+            
             if(timeLogs == null)
             {
                 return NotFound();

@@ -12,6 +12,7 @@ namespace CheckInMonitorAPI.Extensions.Mapping
             CreateMap<CreateTimeLogDTO, TimeLog>();
             CreateMap<TimeLog, ResponseTimeLogDTO>();
             CreateMap<TimeLogDTO, TimeLog>();
+            CreateMap<UpdateTimeLogDTO, TimeLog>();
         }
     }
 }

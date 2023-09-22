@@ -46,27 +46,27 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return NotFound();
             }
+
             return Ok(user);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UserDTO userDTO)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDTO updateUserDTO)
         {
-            if (userDTO == null)
+            if (updateUserDTO == null)
             {
                 return BadRequest("User data cannot be null");
             }
 
-            var existingUser = await _userService.GetByIdAsync(userDTO.Id);
+            var existingUser = await _userService.GetByIdAsync(id);
             if (existingUser == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(userDTO, existingUser);
+            _mapper.Map(updateUserDTO, existingUser);
             await _userService.UpdateAsync(existingUser);
-
-            return Ok(userDTO);
+            return Ok(updateUserDTO);
         }
 
         [HttpDelete("{id}")]
@@ -76,6 +76,7 @@ namespace CheckInMonitorAPI.Controllers
             {
                 return NotFound();
             }
+
             await _userService.DeleteAsync(id);
             return Ok();
         }
@@ -107,9 +108,7 @@ namespace CheckInMonitorAPI.Controllers
             }
 
             var user = _userService.GetAllAsync().Result.Where(u => u.Username == loginDTO.Username).FirstOrDefault();
-
             var response = _mapper.Map<ResponseUserDTO>(user);
-
             return Ok(response);
         }
     }

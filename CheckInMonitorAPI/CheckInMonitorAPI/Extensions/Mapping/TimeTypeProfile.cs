@@ -12,6 +12,7 @@ namespace CheckInMonitorAPI.Extensions.Mapping
             CreateMap<CreateTimeTypeDTO, TimeType>();
             CreateMap<TimeType, ResponseTimeTypeDTO>();
             CreateMap<TimeTypeDTO, TimeType>();
+            CreateMap<UpdateTimeTypeDTO, TimeType>();
         }
     }
 }

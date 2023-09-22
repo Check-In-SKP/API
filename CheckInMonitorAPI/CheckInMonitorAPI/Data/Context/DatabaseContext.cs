@@ -22,7 +22,8 @@ namespace CheckInMonitorAPI.Data.Context
             // Predetermined data
             modelBuilder.Entity<Role>().HasData(
                     new Role { Id = 1, Name = "Admin" },
-                    new Role { Id = 2, Name = "User" }
+                    new Role { Id = 2, Name = "User" },
+                    new Role { Id = 3, Name = "Monitor" }
             );
 
             modelBuilder.Entity<TimeType>().HasData(

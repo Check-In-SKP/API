@@ -12,6 +12,7 @@ namespace CheckInMonitorAPI.Extensions.Mapping
             CreateMap<CreateRoleDTO, Role>();
             CreateMap<Role, ResponseRoleDTO>();
             CreateMap<RoleDTO, Role>();
+            CreateMap<UpdateRoleDTO, Role>();
         }
     }
 }

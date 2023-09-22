@@ -49,21 +49,21 @@ namespace CheckInMonitorAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTimeType([FromBody] TimeTypeDTO timeTypeDTO)
+        public async Task<IActionResult> UpdateTimeType(int id, [FromBody] UpdateTimeTypeDTO updateTimeTypeDTO)
         {
-            if (timeTypeDTO == null)
+            if (updateTimeTypeDTO == null)
             {
                 return BadRequest("TimeType data cannot be null");
             }
 
-            var existingTimeType = await _timeTypeService.GetByIdAsync(timeTypeDTO.Id);
+            var existingTimeType = await _timeTypeService.GetByIdAsync(id);
             if (existingTimeType == null)
             {
                 return NotFound();
             }
 
-            await _timeTypeService.UpdateAsync(_mapper.Map(timeTypeDTO, existingTimeType));
-            return Ok(timeTypeDTO);
+            await _timeTypeService.UpdateAsync(_mapper.Map(updateTimeTypeDTO, existingTimeType));
+            return Ok(updateTimeTypeDTO);
         }
 
         [HttpDelete("{id}")]
