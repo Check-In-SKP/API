@@ -38,7 +38,7 @@ namespace CheckInMonitorAPI.Models.Entities
         public bool Preoccupied { get; set; }
 
         [Required]
-        public DateTime? MeetingTime { get; set; }
+        public TimeOnly MeetingTime { get; set; }
 
         [Required]
         public int RoleId { get; set; }
