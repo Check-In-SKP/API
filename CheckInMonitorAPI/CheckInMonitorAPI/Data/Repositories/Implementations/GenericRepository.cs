@@ -43,19 +43,33 @@ namespace CheckInMonitorAPI.Data.Repositories.Implementations
             await _dbSet.AddAsync(entity);
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            try
+            {
+                _dbSet.Attach(entity);
+                _context.Entry(entity).State = EntityState.Modified;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task<bool> DeleteAsync(T entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            _dbSet.Remove(entity);
+            try
+            {
+                _dbSet.Remove(entity);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task AddRangeAsync(IEnumerable<T> entities)

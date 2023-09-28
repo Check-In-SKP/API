@@ -55,7 +55,7 @@ namespace CheckInMonitorAPI.Data.Context.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Preoccupied = table.Column<bool>(type: "boolean", nullable: false),
-                    MeetingTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MeetingTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     RoleId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -102,7 +102,8 @@ namespace CheckInMonitorAPI.Data.Context.Migrations
                 values: new object[,]
                 {
                     { 1, "Admin" },
-                    { 2, "User" }
+                    { 2, "User" },
+                    { 3, "Monitor" }
                 });
 
             migrationBuilder.InsertData(

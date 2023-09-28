@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CheckInMonitorAPI.Data.Context.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230920125726_InitialMigration")]
+    [Migration("20230928074141_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -55,6 +55,11 @@ namespace CheckInMonitorAPI.Data.Context.Migrations
                         {
                             Id = 2,
                             Name = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Monitor"
                         });
                 });
 
@@ -133,9 +138,8 @@ namespace CheckInMonitorAPI.Data.Context.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("MeetingTime")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<TimeOnly>("MeetingTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()

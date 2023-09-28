@@ -43,13 +43,18 @@ namespace CheckInMonitorAPI.Data.Repositories.UnitOfWork.Implementations
 
         public async Task CompleteAsync()
         {
-            try
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new UnitOfWorkException("An error occurred while saving changes.", ex);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw new UnitOfWorkException("An error occurred while saving changes.", ex);
+                }
             }
         }
 

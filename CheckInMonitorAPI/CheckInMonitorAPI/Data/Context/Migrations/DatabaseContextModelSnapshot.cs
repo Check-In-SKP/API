@@ -52,6 +52,11 @@ namespace CheckInMonitorAPI.Data.Context.Migrations
                         {
                             Id = 2,
                             Name = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Monitor"
                         });
                 });
 
@@ -130,9 +135,8 @@ namespace CheckInMonitorAPI.Data.Context.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("MeetingTime")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<TimeOnly>("MeetingTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
