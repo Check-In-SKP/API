@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CheckInMonitorAPI.Models.DTOs.TimeType;
-using CheckInMonitorAPI.Models.DTOs.User;
 using CheckInMonitorAPI.Models.Entities;
 using CheckInMonitorAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,7 @@ namespace CheckInMonitorAPI.Controllers
             var timeType = _mapper.Map<TimeType>(createTimeTypeDTO);
             await _timeTypeService.AddAsync(timeType);
 
-            var response = _mapper.Map<ResponseUserDTO>(timeType);
+            var response = _mapper.Map<ResponseTimeTypeDTO>(timeType);
             return Ok(response);
         }
 

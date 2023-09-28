@@ -9,15 +9,13 @@ namespace CheckInMonitorAPI.Controllers
     [Route("api/[controller]")]
     public class RolesController : Controller
     {
-        private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly ILogger<RolesController> _logger;
 
-        public RolesController(IUserService userService, IRoleService roleService, IMapper mapper, ILogger<RolesController> logger)
+        public RolesController(IRoleService roleService, IMapper mapper, ILogger<RolesController> logger)
         {
             _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
