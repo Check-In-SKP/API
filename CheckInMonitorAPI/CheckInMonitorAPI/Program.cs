@@ -30,11 +30,13 @@ builder.Services.AddScoped<IGenericRepository<Role, int>, GenericRepository<Role
 builder.Services.AddScoped<IGenericRepository<TimeLog, int>, GenericRepository<TimeLog, int>>();
 builder.Services.AddScoped<IGenericRepository<TimeType, int>, GenericRepository<TimeType, int>>();
 builder.Services.AddScoped<IGenericRepository<User, int>, GenericRepository<User, int>>();
+builder.Services.AddScoped<IGenericService<Token, int>, GenericService<Token, int>>();
 
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ITimeLogService, TimeLogService>();
 builder.Services.AddScoped<ITimeTypeService, TimeTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
