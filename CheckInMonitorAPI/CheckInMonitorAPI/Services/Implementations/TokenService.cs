@@ -2,6 +2,8 @@
 using CheckInMonitorAPI.Data.Repositories.UnitOfWork.Interfaces;
 using CheckInMonitorAPI.Models.Entities;
 using CheckInMonitorAPI.Services.Interfaces;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace CheckInMonitorAPI.Services.Implementations
 {
@@ -13,7 +15,5 @@ namespace CheckInMonitorAPI.Services.Implementations
         {
             _repository = unitOfWork.GetRepository<Token, int>();
         }
-
-        // Other implementations here
     }
 }

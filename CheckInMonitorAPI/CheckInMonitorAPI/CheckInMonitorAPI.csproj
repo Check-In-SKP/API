@@ -17,11 +17,13 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Context\Migrations\" />
     <Folder Include="Configurations\" />
+    <Folder Include="Models\DTOs\Token\" />
   </ItemGroup>
 
 </Project>
