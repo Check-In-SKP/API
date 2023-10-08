@@ -23,12 +23,9 @@
   <ItemGroup>
     <Folder Include="Application\Services\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Domain\Interfaces\" />
     <Folder Include="Domain\ValueObjects\" />
-    <Folder Include="Domain\Repositories\" />
     <Folder Include="Extensions\" />
     <Folder Include="Infrastructure\Data\Migrations\" />
-    <Folder Include="Infrastructure\Repositories\" />
   </ItemGroup>
 
 </Project>
