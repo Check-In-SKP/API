@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ThwartAPI.Domain.Entities;
 using ThwartAPI.Infrastructure.Data.Entities;
 
 namespace ThwartAPI.Infrastructure.Data.Configurations

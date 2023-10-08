@@ -34,12 +34,12 @@ namespace ThwartAPI.Infrastructure.Data.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public bool Preoccupied { get; set; }
 
         [Required]
-        public DateTime? MeetingTime { get; set; }
+        public TimeOnly MeetingTime { get; set; }
 
         [Required]
         public int RoleId { get; set; }

@@ -11,8 +11,8 @@ using ThwartAPI.Infrastructure.Data;
 
 namespace ThwartAPI.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(DatabaseContext))]
-    [Migration("20231006104721_InitialMigration")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20231008115503_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

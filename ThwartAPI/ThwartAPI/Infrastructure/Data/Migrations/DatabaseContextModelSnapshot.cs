@@ -10,7 +10,7 @@ using ThwartAPI.Infrastructure.Data;
 
 namespace ThwartAPI.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(DatabaseContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

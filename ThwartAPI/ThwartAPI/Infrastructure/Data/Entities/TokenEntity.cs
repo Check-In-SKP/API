@@ -19,7 +19,7 @@ namespace ThwartAPI.Infrastructure.Data.Entities
         public DateTime CreatedAt { get; set; }
 
         [Required]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [Required]
         public DateTime ExpiryDate { get; set; }

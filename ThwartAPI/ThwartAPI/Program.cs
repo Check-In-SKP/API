@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(settings.ConnectionStrings.CheckInDB));
 
 var app = builder.Build();
