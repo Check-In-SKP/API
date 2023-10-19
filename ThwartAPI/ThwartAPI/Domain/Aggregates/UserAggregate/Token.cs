@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ThwartAPI.Domain.Entities
+namespace ThwartAPI.Domain.Aggregates.UserAggregate
 {
     public class Token
     {

@@ -1,17 +1,18 @@
-﻿namespace ThwartAPI.Domain.Entities
+﻿using ThwartAPI.Domain.Aggregates.UserAggregate;
+using ThwartAPI.Domain.Entities;
+
+namespace ThwartAPI.Domain.Aggregates.StaffAggregate
 {
     public class TimeLog
     {
         public int Id { get; set; }
         public DateTime TimeStamp { get; set; }
         public TimeType TimeType { get; set; }
-        public User User { get; set; }
 
-        public TimeLog(DateTime timeStamp, TimeType timeType, User user)
+        public TimeLog(DateTime timeStamp, TimeType timeType)
         {
             TimeStamp = timeStamp;
             TimeType = timeType ?? throw new ArgumentNullException(nameof(timeType));
-            User = user ?? throw new ArgumentNullException(nameof(user));
         }
 
         public void UpdateTimeStamp(DateTime newTimeStamp)

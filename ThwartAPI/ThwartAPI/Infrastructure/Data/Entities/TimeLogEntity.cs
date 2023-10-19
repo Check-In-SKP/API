@@ -16,9 +16,9 @@ namespace ThwartAPI.Infrastructure.Data.Entities
         [ForeignKey(nameof(TimeTypeId))]
         public TimeTypeEntity TimeType { get; set; }
 
-        public int UserId { get; set; }
+        public int StaffId { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        public UserEntity User { get; set; }
+        [ForeignKey(nameof(StaffId))]
+        public StaffEntity Staff { get; set; }
     }
 }

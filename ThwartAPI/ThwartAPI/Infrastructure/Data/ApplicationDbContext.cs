@@ -24,10 +24,6 @@ namespace ThwartAPI.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Apply configurations
-            //modelBuilder.ApplyConfiguration(new UserEntityConfig());
-            //modelBuilder.ApplyConfiguration(new RoleEntityConfig());
-            //modelBuilder.ApplyConfiguration(new TimeLogEntityConfig());
-            //modelBuilder.ApplyConfiguration(new TimeTypeEntityConfig());
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             // Seed data

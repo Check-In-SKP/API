@@ -1,14 +1,8 @@
-﻿using ThwartAPI.Domain.Entities;
+﻿using ThwartAPI.Domain.Aggregates.UserAggregate;
 
 namespace ThwartAPI.Domain.Interfaces.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IGenericRepository<User, int>
     {
-        Task<User> GetByIdAsync(int id);
-        Task<IEnumerable<User>> GetAllAsync();
-        Task AddAsync(User user);
-        void Update(User user);
-        void Remove(User user);
-        Task SaveChangesAsync();
     }
 }
