@@ -25,11 +25,13 @@ namespace ThwartAPI.Infrastructure.Data.Entities
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
+        public ICollection<TokenEntity> Tokens { get; set; } = new List<TokenEntity>();
 
         [Required]
         public int RoleId { get; set; }
 
         [ForeignKey(nameof(RoleId))]
         public RoleEntity Role { get; set; }
+
     }
 }

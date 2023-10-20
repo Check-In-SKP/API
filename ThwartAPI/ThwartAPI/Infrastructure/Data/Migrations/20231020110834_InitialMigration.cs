@@ -15,6 +15,21 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Devices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Label = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    Authorized = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Devices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -46,16 +61,11 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CardNumber = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Username = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Password = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    PhoneNotification = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Preoccupied = table.Column<bool>(type: "boolean", nullable: false),
-                    MeetingTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     RoleId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -70,6 +80,56 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Staffs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CardNumber = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    PhoneNotification = table.Column<bool>(type: "boolean", nullable: false),
+                    Preoccupied = table.Column<bool>(type: "boolean", nullable: false),
+                    MeetingTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Staffs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Staffs_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    JwtId = table.Column<string>(type: "text", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TimeLogs",
                 columns: table => new
                 {
@@ -77,21 +137,21 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TimeStamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TimeTypeId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    StaffId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TimeLogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TimeLogs_TimeTypes_TimeTypeId",
-                        column: x => x.TimeTypeId,
-                        principalTable: "TimeTypes",
+                        name: "FK_TimeLogs_Staffs_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staffs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TimeLogs_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        name: "FK_TimeLogs_TimeTypes_TimeTypeId",
+                        column: x => x.TimeTypeId,
+                        principalTable: "TimeTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -116,6 +176,18 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Devices_Id",
+                table: "Devices",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_Label",
+                table: "Devices",
+                column: "Label",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Roles_Id",
                 table: "Roles",
                 column: "Id",
@@ -128,20 +200,43 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Staffs_CardNumber",
+                table: "Staffs",
+                column: "CardNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_Id",
+                table: "Staffs",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_PhoneNumber",
+                table: "Staffs",
+                column: "PhoneNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staffs_UserId",
+                table: "Staffs",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TimeLogs_Id",
                 table: "TimeLogs",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TimeLogs_StaffId",
+                table: "TimeLogs",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TimeLogs_TimeTypeId",
                 table: "TimeLogs",
                 column: "TimeTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeLogs_UserId",
-                table: "TimeLogs",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeTypes_Id",
@@ -156,21 +251,26 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_CardNumber",
-                table: "Users",
-                column: "CardNumber",
+                name: "IX_Tokens_Id",
+                table: "Tokens",
+                column: "Id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tokens_JwtId",
+                table: "Tokens",
+                column: "JwtId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tokens_UserId",
+                table: "Tokens",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Id",
                 table: "Users",
                 column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_PhoneNumber",
-                table: "Users",
-                column: "PhoneNumber",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -189,7 +289,16 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Devices");
+
+            migrationBuilder.DropTable(
                 name: "TimeLogs");
+
+            migrationBuilder.DropTable(
+                name: "Tokens");
+
+            migrationBuilder.DropTable(
+                name: "Staffs");
 
             migrationBuilder.DropTable(
                 name: "TimeTypes");

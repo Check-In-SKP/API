@@ -3,28 +3,42 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ThwartAPI.Domain.Entities
 {
+
     public class TimeType
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        private readonly int _id;
+        public int Id => _id;
 
+        [Required, StringLength(64)]
+        public string Name { get; private set; }
+
+        // Constructor for new TimeType
         public TimeType(string name)
         {
-            if (string.IsNullOrEmpty(name) || name.Length > 64)
-            {
-                throw new ArgumentException("Invalid time type name.");
-            }
+            ValidateInput(name);
 
             Name = name;
         }
 
+        // Constructor for existing TimeType
+        public TimeType(int id, string name)
+        {
+            ValidateInput(name);
+
+            _id = id;
+            Name = name;
+        }
+
+        private void ValidateInput(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name) || name.Length > 64)
+                throw new ArgumentException("Invalid name.", nameof(name));
+        }
+
         public void UpdateName(string newName)
         {
-            if (string.IsNullOrEmpty(newName) || newName.Length > 64)
-            {
-                throw new ArgumentException("Invalid new time type name.");
-            }
-
+            if (string.IsNullOrWhiteSpace(newName) || newName.Length > 64)
+                throw new ArgumentException("Invalid new time type name.", nameof(newName));
             Name = newName;
         }
     }

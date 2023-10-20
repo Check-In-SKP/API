@@ -25,6 +25,7 @@ namespace ThwartAPI.Infrastructure.Data.Entities
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public ICollection<TimeLogEntity> TimeLogs { get; set; } = new List<TimeLogEntity>();
 
         [Required]
         public int UserId { get; set; }

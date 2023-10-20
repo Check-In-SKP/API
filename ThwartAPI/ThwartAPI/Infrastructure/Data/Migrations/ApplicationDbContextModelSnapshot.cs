@@ -11,7 +11,7 @@ using ThwartAPI.Infrastructure.Data;
 namespace ThwartAPI.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,37 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.DeviceEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Authorized")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Label")
+                        .IsUnique();
+
+                    b.ToTable("Devices");
+                });
 
             modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.RoleEntity", b =>
                 {
@@ -63,6 +94,58 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.StaffEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<TimeOnly>("MeetingTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<bool>("PhoneNotification")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<bool>("Preoccupied")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardNumber")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Staffs");
+                });
+
             modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.TimeLogEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -71,13 +154,13 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("StaffId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("TimeTypeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -85,9 +168,9 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("TimeTypeId");
+                    b.HasIndex("StaffId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("TimeTypeId");
 
                     b.ToTable("TimeLogs");
                 });
@@ -128,6 +211,47 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.TokenEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .IsRequired()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("JwtId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -136,16 +260,7 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("MeetingTime")
-                        .IsRequired()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -153,26 +268,15 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<bool>("PhoneNotification")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
-                    b.Property<bool>("Preoccupied")
-                        .HasColumnType("boolean");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
@@ -182,13 +286,7 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CardNumber")
-                        .IsUnique();
-
                     b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumber")
                         .IsUnique();
 
                     b.HasIndex("RoleId");
@@ -199,21 +297,43 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.TimeLogEntity", b =>
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.StaffEntity", b =>
                 {
-                    b.HasOne("ThwartAPI.Infrastructure.Data.Entities.TimeTypeEntity", "TimeType")
-                        .WithMany()
-                        .HasForeignKey("TimeTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ThwartAPI.Infrastructure.Data.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.TimeLogEntity", b =>
+                {
+                    b.HasOne("ThwartAPI.Infrastructure.Data.Entities.StaffEntity", "Staff")
+                        .WithMany("TimeLogs")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ThwartAPI.Infrastructure.Data.Entities.TimeTypeEntity", "TimeType")
+                        .WithMany()
+                        .HasForeignKey("TimeTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Staff");
+
                     b.Navigation("TimeType");
+                });
+
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.TokenEntity", b =>
+                {
+                    b.HasOne("ThwartAPI.Infrastructure.Data.Entities.UserEntity", "User")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -227,6 +347,16 @@ namespace ThwartAPI.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.StaffEntity", b =>
+                {
+                    b.Navigation("TimeLogs");
+                });
+
+            modelBuilder.Entity("ThwartAPI.Infrastructure.Data.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }
