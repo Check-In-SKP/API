@@ -1,4 +1,4 @@
-﻿using ThwartAPI.Domain.Aggregates.StaffAggregate;
+﻿using ThwartAPI.Domain.Entities.StaffAggregate;
 
 namespace ThwartAPI.Domain.Interfaces.Repositories
 {

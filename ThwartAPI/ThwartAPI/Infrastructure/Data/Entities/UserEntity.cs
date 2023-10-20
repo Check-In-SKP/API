@@ -32,6 +32,5 @@ namespace ThwartAPI.Infrastructure.Data.Entities
 
         [ForeignKey(nameof(RoleId))]
         public RoleEntity Role { get; set; }
-
     }
 }
