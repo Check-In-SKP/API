@@ -19,32 +19,32 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
         [Required, StringLength(128)]
         public string PasswordHash { get; private set; }
 
-        public Role Role { get; private set; }
+        public int RoleId { get; private set; }
 
         private ImmutableList<Token> _tokens = ImmutableList<Token>.Empty;
         public IReadOnlyList<Token> Tokens => _tokens;
 
         // Constructor for new User
-        public User(string name, string username, string passwordHash, Role role)
+        public User(string name, string username, string passwordHash, int roleId)
         {
-            ValidateInput(name, username, passwordHash, role);
+            ValidateInput(name, username, passwordHash, roleId);
 
             Name = name;
             Username = username;
             PasswordHash = passwordHash;
-            Role = role;
+            RoleId = roleId;
         }
 
         // Constructor for existing User
-        public User(int id, string name, string username, string passwordHash, Role role, IEnumerable<Token>? tokens = null)
+        public User(int id, string name, string username, string passwordHash, int roleId, IEnumerable<Token>? tokens = null)
         {
-            ValidateInput(name, username, passwordHash, role);
+            ValidateInput(name, username, passwordHash, roleId);
 
             _id = id;
             Name = name;
             Username = username;
             PasswordHash = passwordHash;
-            Role = role;
+            RoleId = roleId;
 
             if (tokens != null)
             {
@@ -55,7 +55,7 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
             }
         }
 
-        private void ValidateInput(string name, string username, string passwordHash, Role role)
+        private void ValidateInput(string name, string username, string passwordHash, int roleId)
         {
             if (string.IsNullOrWhiteSpace(name) || name.Length > 64)
                 throw new ArgumentException("Invalid name.", nameof(name));
@@ -63,8 +63,8 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
                 throw new ArgumentException("Invalid username.", nameof(username));
             if (string.IsNullOrWhiteSpace(passwordHash) || passwordHash.Length > 128)
                 throw new ArgumentException("Invalid password hash.", nameof(passwordHash));
-            if (role == null)
-                throw new ArgumentNullException(nameof(role));
+            if (roleId <= 0)
+                throw new ArgumentException("Invalid role ID.", nameof(roleId));
         }
 
         public void AddToken(Token token)
@@ -106,10 +106,14 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
             PasswordHash = newPasswordHash;
         }
 
-        public void UpdateRole(Role newRole)
+        public void UpdateRole(int newRoleId)
         {
+            if (newRoleId <= 0)
+            {
+                throw new ArgumentException("Invalid new role ID.");
+            }
 
-            Role = newRole ?? throw new ArgumentNullException(nameof(newRole));
+            RoleId = newRoleId;
         }
     }
 }

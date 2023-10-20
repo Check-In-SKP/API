@@ -8,12 +8,10 @@ namespace ThwartAPI.Infrastructure.Mappings
 {
     public class UserMap : IGenericMapper<User, UserEntity>
     {
-        private readonly RoleMap _roleMapper;
         private readonly UserFactory _userFactory;
 
-        public UserMap(RoleMap roleMapper, UserFactory userFactory)
+        public UserMap(UserFactory userFactory)
         {
-            _roleMapper = roleMapper ?? throw new ArgumentNullException(nameof(roleMapper));
             _userFactory = userFactory ?? throw new ArgumentNullException(nameof(userFactory));
         }
 
@@ -22,7 +20,7 @@ namespace ThwartAPI.Infrastructure.Mappings
             // Maps token entities from user to domain tokens
             var tokens = entity.Tokens.Select(MapTokenToDomain).ToList();
 
-            return _userFactory.CreateUser(entity.Id, entity.Name, entity.Username, entity.PasswordHash, _roleMapper.MapToDomain(entity.Role), tokens);
+            return _userFactory.CreateUser(entity.Id, entity.Name, entity.Username, entity.PasswordHash, entity.RoleId, tokens);
         }
 
         public UserEntity MapToEntity(User domain)
@@ -37,7 +35,7 @@ namespace ThwartAPI.Infrastructure.Mappings
                 Name = domain.Name,
                 Username = domain.Username,
                 PasswordHash = domain.PasswordHash,
-                Role = _roleMapper.MapToEntity(domain.Role),
+                RoleId = domain.RoleId,
                 Tokens = tokens
             };
         }

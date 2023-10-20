@@ -1,4 +1,4 @@
-﻿using ThwartAPI.Domain.Aggregates.StaffAggregate;
+﻿using ThwartAPI.Domain.Entities.StaffAggregate;
 using ThwartAPI.Domain.Interfaces.Repositories;
 using ThwartAPI.Infrastructure.Data;
 
@@ -17,6 +17,16 @@ namespace ThwartAPI.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public Task AddRangeAsync(IEnumerable<Staff> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ExistsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Staff>> GetAllAsync()
         {
             throw new NotImplementedException();
@@ -28,6 +38,11 @@ namespace ThwartAPI.Infrastructure.Repositories
         }
 
         public Task RemoveAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveRangeAsync(IEnumerable<Staff> entities)
         {
             throw new NotImplementedException();
         }

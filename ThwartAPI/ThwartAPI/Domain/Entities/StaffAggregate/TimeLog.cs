@@ -13,34 +13,34 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
         public DateTime TimeStamp { get; private set; }
 
         [Required]
-        public TimeType TimeType { get; private set; }
+        public int TimeTypeId { get; private set; }
 
         // Constructor for new TimeLog
-        public TimeLog(DateTime timeStamp, TimeType timeType)
+        public TimeLog(DateTime timeStamp, int timeTypeId)
         {
-            ValidateInput(timeStamp, timeType);
+            ValidateInput(timeStamp, timeTypeId);
 
             TimeStamp = timeStamp;
-            TimeType = timeType;
+            TimeTypeId = timeTypeId;
         }
 
         // Constructor for existing TimeLog
-        public TimeLog(int id, DateTime timeStamp, TimeType timeType)
+        public TimeLog(int id, DateTime timeStamp, int timeTypeId)
         {
-            ValidateInput(timeStamp, timeType);
+            ValidateInput(timeStamp, timeTypeId);
 
             _id = id;
             TimeStamp = timeStamp;
-            TimeType = timeType;
+            TimeTypeId = timeTypeId;
         }
 
-        private void ValidateInput(DateTime timeStamp, TimeType timeType)
+        private void ValidateInput(DateTime timeStamp, int timeTypeId)
         {
             if (timeStamp == DateTime.MinValue)
                 throw new ArgumentException("Invalid time stamp.", nameof(timeStamp));
 
-            if (timeType == null)
-                throw new ArgumentNullException(nameof(timeType));
+            if (timeTypeId <= 0)
+                throw new ArgumentException("Invalid time type ID.", nameof(timeTypeId));
         }
 
         public void UpdateTimeStamp(DateTime newTimeStamp)
@@ -51,12 +51,12 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
             TimeStamp = newTimeStamp;
         }
 
-        public void UpdateTimeType(TimeType newTimeType)
+        public void UpdateTimeType(int newTimeTypeId)
         {
-            if (newTimeType == null)
-                throw new ArgumentNullException(nameof(newTimeType));
+            if (newTimeTypeId <= 0)
+                throw new ArgumentException("Invalid time type ID.", nameof(newTimeTypeId));
 
-            TimeType = newTimeType;
+            TimeTypeId = newTimeTypeId;
         }
     }
 }

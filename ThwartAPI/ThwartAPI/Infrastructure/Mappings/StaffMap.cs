@@ -8,16 +8,10 @@ namespace ThwartAPI.Infrastructure.Mappings
 {
     public class StaffMap : IGenericMapper<Staff, StaffEntity>
     {
-        private readonly UserMap _userMap;
-        private readonly TimeTypeMap _timeTypeMap;
-        private readonly TimeTypeFactory _timeTypeFactory;
         private readonly StaffFactory _staffFactory;
 
-        public StaffMap(UserMap userMap, TimeTypeMap timeTypeMap, TimeTypeFactory timeTypeFactory, StaffFactory staffFactory)
+        public StaffMap(StaffFactory staffFactory)
         {
-            _userMap = userMap;
-            _timeTypeMap = timeTypeMap;
-            _timeTypeFactory = timeTypeFactory;
             _staffFactory = staffFactory;
         }
 
@@ -26,7 +20,7 @@ namespace ThwartAPI.Infrastructure.Mappings
             // Maps entity timelogs from staff to domain timelogs
             var timelogs = entity.TimeLogs.Select(MapTimeLogToDomain).ToList();
 
-            return _staffFactory.CreateStaff(entity.Id, _userMap.MapToDomain(entity.User), entity.PhoneNumber, entity.CardNumber, entity.PhoneNotification, entity.Preoccupied, entity.MeetingTime);
+            return _staffFactory.CreateStaff(entity.Id, entity.UserId, entity.PhoneNumber, entity.CardNumber, entity.PhoneNotification, entity.Preoccupied, entity.MeetingTime);
         }
 
         public StaffEntity MapToEntity(Staff domain)
@@ -37,7 +31,7 @@ namespace ThwartAPI.Infrastructure.Mappings
             return new StaffEntity
             {
                 Id = domain.Id,
-                User = _userMap.MapToEntity(domain.User),
+                UserId = domain.UserId,
                 PhoneNumber = domain.PhoneNumber,
                 CardNumber = domain.CardNumber,
                 PhoneNotification = domain.PhoneNotification,
@@ -49,22 +43,16 @@ namespace ThwartAPI.Infrastructure.Mappings
 
         private TimeLog MapTimeLogToDomain(TimeLogEntity entity)
         {
-            // Maps entity timetype to domain timetype
-            var timetype = _timeTypeMap.MapToDomain(entity.TimeType);
-
-            return _staffFactory.CreateTimeLog(entity.Id, entity.TimeStamp, timetype);
+            return _staffFactory.CreateTimeLog(entity.Id, entity.TimeStamp, entity.TimeTypeId);
         }
 
         private TimeLogEntity MapTimeLogToEntity(TimeLog domain)
         {
-            // Maps domain timetype to entity timetype
-            var timetype = _timeTypeMap.MapToEntity(domain.TimeType);
-
             return new TimeLogEntity
             {
                 Id = domain.Id,
                 TimeStamp = domain.TimeStamp,
-                TimeType = timetype
+                TimeTypeId = domain.TimeTypeId
             };
         }
     }

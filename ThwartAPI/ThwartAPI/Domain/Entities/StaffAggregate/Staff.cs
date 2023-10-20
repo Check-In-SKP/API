@@ -24,14 +24,14 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
         private ImmutableList<TimeLog> _timeLogs = ImmutableList<TimeLog>.Empty;
         public IReadOnlyList<TimeLog> TimeLogs => _timeLogs;
 
-        public User User { get; private set; }
+        public int UserId { get; private set; }
 
         // Constructor for new Staff
-        public Staff(User user, string phoneNumber, string cardNumber, bool phoneNotification)
+        public Staff(int userId, string phoneNumber, string cardNumber, bool phoneNotification)
         {
-            ValidateInput(user, phoneNumber, cardNumber);
+            ValidateInput(userId, phoneNumber, cardNumber);
 
-            User = user;
+            UserId = userId;
             PhoneNumber = phoneNumber;
             CardNumber = cardNumber;
             PhoneNotification = phoneNotification;
@@ -40,12 +40,12 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
         }
 
         // Constructor for existing Staff
-        public Staff(int id, User user, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
+        public Staff(int id, int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
         {
-            ValidateInput(user, phoneNumber, cardNumber);
+            ValidateInput(userId, phoneNumber, cardNumber);
 
             _id = id;
-            User = user;
+            UserId = userId;
             PhoneNumber = phoneNumber;
             CardNumber = cardNumber;
             PhoneNotification = phoneNotification;
@@ -53,9 +53,9 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
             MeetingTime = meetingTime;
         }
 
-        private void ValidateInput(User user, string phoneNumber, string cardNumber)
+        private void ValidateInput(int userId, string phoneNumber, string cardNumber)
         {
-            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (userId <= 0) throw new ArgumentException("Invalid user ID.", nameof(userId));
             if (string.IsNullOrWhiteSpace(phoneNumber) || phoneNumber.Length > 64)
                 throw new ArgumentException("Invalid phone number.", nameof(phoneNumber));
             if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length > 128)

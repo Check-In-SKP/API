@@ -5,14 +5,14 @@ namespace ThwartAPI.Domain.Factories
 {
     public class UserFactory
     {
-        public User CreateUser(int id, string name, string username, string passwordHash, Role role, IEnumerable<Token>? tokens = null)
+        public User CreateUser(int id, string name, string username, string passwordHash, int roleId, IEnumerable<Token>? tokens = null)
         {
-            return new User(id, name, username, passwordHash, role, tokens);
+            return new User(id, name, username, passwordHash, roleId, tokens);
         }
 
-        public User CreateNewUser(string name, string username, string passwordHash, Role role)
+        public User CreateNewUser(string name, string username, string passwordHash, int roleId)
         {
-            return new User(name, username, passwordHash, role);
+            return new User(name, username, passwordHash, roleId);
         }
 
         public Token CreateToken(int id, string jwtId, bool isRevoked, DateTime expiryDate)
