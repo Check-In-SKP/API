@@ -1,0 +1,14 @@
+﻿using Infrastructure.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Infrastructure.Data.Configurations
+{
+    public class TimeLogEntityConfig : IEntityTypeConfiguration<TimeLogEntity>
+    {
+        public void Configure(EntityTypeBuilder<TimeLogEntity> builder)
+        {
+            builder.HasIndex(u => u.Id).IsUnique();
+        }
+    }
+}
