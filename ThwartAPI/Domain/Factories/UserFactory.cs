@@ -1,6 +1,6 @@
-﻿using Domain.Entities.UserAggregate;
+﻿using CheckInSKP.Domain.Entities.UserAggregate;
 
-namespace Domain.Factories
+namespace CheckInSKP.Domain.Factories
 {
     public class UserFactory
     {

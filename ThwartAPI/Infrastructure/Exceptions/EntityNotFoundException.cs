@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Exceptions
+﻿namespace CheckInSKP.Infrastructure.Exceptions
 {
     public class EntityNotFoundException : Exception
     {

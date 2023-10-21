@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.StaffAggregate
+namespace CheckInSKP.Domain.Entities.StaffAggregate
 {
     public class TimeLog
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.UserAggregate
+namespace CheckInSKP.Domain.Entities.UserAggregate
 {
     public class User
     {

@@ -1,8 +1,8 @@
-﻿using Infrastructure.Data.Entities;
+﻿using CheckInSKP.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Data.Configurations
+namespace CheckInSKP.Infrastructure.Data.Configurations
 {
     public class TimeTypeEntityConfig : IEntityTypeConfiguration<TimeTypeEntity>
     {

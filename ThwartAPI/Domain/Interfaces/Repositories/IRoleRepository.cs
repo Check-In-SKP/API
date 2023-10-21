@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using CheckInSKP.Domain.Entities;
 
-namespace Domain.Interfaces.Repositories
+namespace CheckInSKP.Domain.Interfaces.Repositories
 {
     public interface IRoleRepository : IGenericRepository<Role, int>
     {

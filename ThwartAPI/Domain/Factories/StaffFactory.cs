@@ -1,6 +1,6 @@
-﻿using Domain.Entities.StaffAggregate;
+﻿using CheckInSKP.Domain.Entities.StaffAggregate;
 
-namespace Domain.Factories
+namespace CheckInSKP.Domain.Factories
 {
     public class StaffFactory
     {

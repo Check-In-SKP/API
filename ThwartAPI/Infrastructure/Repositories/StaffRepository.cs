@@ -1,12 +1,12 @@
-﻿using Domain.Entities.StaffAggregate;
-using Domain.Interfaces.Repositories;
-using Infrastructure.Data;
-using Infrastructure.Data.Entities;
-using Infrastructure.Exceptions;
-using Infrastructure.Mappings;
+﻿using CheckInSKP.Domain.Entities.StaffAggregate;
+using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Infrastructure.Data;
+using CheckInSKP.Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Exceptions;
+using CheckInSKP.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repositories
+namespace CheckInSKP.Infrastructure.Repositories
 {
     public class StaffRepository : IStaffRepository
     {

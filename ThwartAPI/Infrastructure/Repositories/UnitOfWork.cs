@@ -1,7 +1,7 @@
-﻿using Domain.Interfaces.Repositories;
-using Infrastructure.Data;
+﻿using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Infrastructure.Data;
 
-namespace Infrastructure.Repositories
+namespace CheckInSKP.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

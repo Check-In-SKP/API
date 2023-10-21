@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Infrastructure.Data;
-using Infrastructure.Mappings;
-using Infrastructure.Data.Entities;
-using Domain.Interfaces.Repositories;
-using Domain.Entities;
-using Infrastructure.Exceptions;
+using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Domain.Entities;
+using CheckInSKP.Infrastructure.Data;
+using CheckInSKP.Infrastructure.Mappings;
+using CheckInSKP.Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Exceptions;
 
-namespace Infrastructure.Repositories
+namespace CheckInSKP.Infrastructure.Repositories
 {
     public class RoleRepository : IRoleRepository
     {

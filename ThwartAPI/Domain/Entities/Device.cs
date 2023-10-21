@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities
+namespace CheckInSKP.Domain.Entities
 {
     public class Device
     {

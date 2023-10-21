@@ -1,9 +1,9 @@
-﻿using Infrastructure.Data.Entities;
+﻿using CheckInSKP.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
 
-namespace Infrastructure.Data
+namespace CheckInSKP.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {

@@ -1,9 +1,9 @@
-﻿using Infrastructure.Data.Entities;
-using Infrastructure.Mappings.Interfaces;
-using Domain.Entities;
-using Domain.Factories;
+﻿using CheckInSKP.Domain.Entities;
+using CheckInSKP.Domain.Factories;
+using CheckInSKP.Infrastructure.Mappings.Interfaces;
+using CheckInSKP.Infrastructure.Data.Entities;
 
-namespace Infrastructure.Mappings
+namespace CheckInSKP.Infrastructure.Mappings
 {
     public class DeviceMapper : IGenericMapper<Device, DeviceEntity>
     {

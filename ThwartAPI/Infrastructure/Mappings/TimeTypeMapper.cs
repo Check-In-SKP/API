@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
-using Domain.Factories;
-using Infrastructure.Data.Entities;
-using Infrastructure.Mappings.Interfaces;
+﻿using CheckInSKP.Domain.Entities;
+using CheckInSKP.Domain.Factories;
+using CheckInSKP.Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Mappings.Interfaces;
 
-namespace Infrastructure.Mappings
+namespace CheckInSKP.Infrastructure.Mappings
 {
     public class TimeTypeMapper : IGenericMapper<TimeType, TimeTypeEntity>
     {

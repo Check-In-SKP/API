@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using CheckInSKP.Domain.Entities;
 
-namespace Domain.Factories
+namespace CheckInSKP.Domain.Factories
 {
     public class TimeTypeFactory
     {

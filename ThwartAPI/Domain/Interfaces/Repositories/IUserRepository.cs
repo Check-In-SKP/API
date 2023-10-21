@@ -1,6 +1,6 @@
-﻿using Domain.Entities.UserAggregate;
+﻿using CheckInSKP.Domain.Entities.UserAggregate;
 
-namespace Domain.Interfaces.Repositories
+namespace CheckInSKP.Domain.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<User, int>
     {

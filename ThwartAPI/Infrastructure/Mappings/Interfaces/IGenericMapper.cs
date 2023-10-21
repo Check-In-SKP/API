@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Mappings.Interfaces
+﻿namespace CheckInSKP.Infrastructure.Mappings.Interfaces
 {
     public interface IGenericMapper<TDomain, TEntity>
     {

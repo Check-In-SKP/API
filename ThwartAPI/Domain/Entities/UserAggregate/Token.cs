@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.UserAggregate
+namespace CheckInSKP.Domain.Entities.UserAggregate
 {
     public class Token
     {

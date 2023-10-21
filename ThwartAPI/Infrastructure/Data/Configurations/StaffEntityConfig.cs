@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Data.Entities;
 
-namespace Infrastructure.Data.Configurations
+namespace CheckInSKP.Infrastructure.Data.Configurations
 {
     public class StaffEntityConfig : IEntityTypeConfiguration<StaffEntity>
     {
