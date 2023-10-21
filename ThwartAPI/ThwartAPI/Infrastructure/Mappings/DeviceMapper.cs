@@ -5,10 +5,10 @@ using ThwartAPI.Infrastructure.Mappings.Interfaces;
 
 namespace ThwartAPI.Infrastructure.Mappings
 {
-    public class DeviceMap : IGenericMapper<Device, DeviceEntity>
+    public class DeviceMapper : IGenericMapper<Device, DeviceEntity>
     {
         private readonly DeviceFactory _deviceFactory;
-        public DeviceMap(DeviceFactory deviceFactory)
+        public DeviceMapper(DeviceFactory deviceFactory)
         {
             _deviceFactory = deviceFactory ?? throw new ArgumentNullException(nameof(deviceFactory));
         }

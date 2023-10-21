@@ -6,10 +6,10 @@ using ThwartAPI.Infrastructure.Mappings.Interfaces;
 
 namespace ThwartAPI.Infrastructure.Mappings
 {
-    public class RoleMap : IGenericMapper<Role, RoleEntity>
+    public class RoleMapper : IGenericMapper<Role, RoleEntity>
     {
         private readonly RoleFactory _roleFactory;
-        public RoleMap(RoleFactory roleFactory)
+        public RoleMapper(RoleFactory roleFactory)
         {
             _roleFactory = roleFactory ?? throw new ArgumentNullException(nameof(roleFactory));
         }

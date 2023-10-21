@@ -6,11 +6,11 @@ using ThwartAPI.Infrastructure.Mappings.Interfaces;
 
 namespace ThwartAPI.Infrastructure.Mappings
 {
-    public class UserMap : IGenericMapper<User, UserEntity>
+    public class UserMapper : IGenericMapper<User, UserEntity>
     {
         private readonly UserFactory _userFactory;
 
-        public UserMap(UserFactory userFactory)
+        public UserMapper(UserFactory userFactory)
         {
             _userFactory = userFactory ?? throw new ArgumentNullException(nameof(userFactory));
         }

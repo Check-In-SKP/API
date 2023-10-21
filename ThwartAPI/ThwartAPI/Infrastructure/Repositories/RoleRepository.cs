@@ -1,48 +1,90 @@
-﻿using ThwartAPI.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ThwartAPI.Domain.Entities;
+using ThwartAPI.Domain.Entities.UserAggregate;
 using ThwartAPI.Domain.Interfaces.Repositories;
+using ThwartAPI.Infrastructure.Data.Entities;
+using ThwartAPI.Infrastructure.Data;
+using ThwartAPI.Infrastructure.Exceptions;
+using ThwartAPI.Infrastructure.Mappings;
 
 namespace ThwartAPI.Infrastructure.Repositories
 {
     public class RoleRepository : IRoleRepository
     {
-        public Task AddAsync(Role entity)
+        private readonly ApplicationDbContext _context;
+        private readonly RoleMapper _roleMapper;
+
+        public RoleRepository(ApplicationDbContext context, RoleMapper roleMapper)
         {
-            throw new NotImplementedException();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _roleMapper = roleMapper ?? throw new ArgumentNullException(nameof(roleMapper));
         }
 
-        public Task AddRangeAsync(IEnumerable<Role> entities)
+        public async Task AddAsync(Role role)
         {
-            throw new NotImplementedException();
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+
+            RoleEntity entity = _roleMapper.MapToEntity(role);
+            await _context.Roles.AddAsync(entity);
         }
 
-        public Task<bool> ExistsAsync(int id)
+        public async Task<Role> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            RoleEntity entity = await _context.Set<RoleEntity>()
+                                               .FirstOrDefaultAsync(e => e.Id == id) ?? throw new EntityNotFoundException($"Role with id {id} not found.");
+
+            return _roleMapper.MapToDomain(entity);
         }
 
-        public Task<IEnumerable<Role>> GetAllAsync()
+
+        public async Task UpdateAsync(Role role)
         {
-            throw new NotImplementedException();
+            RoleEntity entity = await _context.Set<RoleEntity>().FindAsync(role.Id) ?? throw new EntityNotFoundException($"Role with id {role.Id} not found.");
+
+            entity = _roleMapper.MapToEntity(role);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public Task<Role> GetByIdAsync(int id)
+        public async Task RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            RoleEntity entity = await _context.Set<RoleEntity>().FindAsync(id) ?? throw new EntityNotFoundException($"Role with id {id} not found.");
+
+            _context.Set<RoleEntity>().Remove(entity);
         }
 
-        public Task RemoveAsync(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<RoleEntity>().FindAsync(id) != null ? true : false;
         }
 
-        public Task RemoveRangeAsync(IEnumerable<Role> entities)
+        public async Task<IEnumerable<Role>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            List<RoleEntity> entities = await _context.Set<RoleEntity>().ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
+            return entities.Select(e => _roleMapper.MapToDomain(e));
         }
 
-        public Task UpdateAsync(Role entity)
+        public async Task AddRangeAsync(IEnumerable<Role> roles)
         {
-            throw new NotImplementedException();
+            foreach (var role in roles)
+            {
+                if (role == null)
+                {
+                    throw new ArgumentNullException(nameof(role));
+                }
+            }
+
+            List<RoleEntity> entities = roles.Select(_roleMapper.MapToEntity).ToList();
+            await _context.Roles.AddRangeAsync(entities);
+        }
+
+        public async Task RemoveRangeAsync(IEnumerable<Role> roles)
+        {
+            IEnumerable<int> roleIds = roles.Select(u => u.Id);
+            List<RoleEntity> entities = await _context.Roles.Where(u => roleIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
+            _context.Roles.RemoveRange(entities);
         }
     }
 }

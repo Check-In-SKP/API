@@ -6,11 +6,11 @@ using ThwartAPI.Infrastructure.Mappings.Interfaces;
 
 namespace ThwartAPI.Infrastructure.Mappings
 {
-    public class StaffMap : IGenericMapper<Staff, StaffEntity>
+    public class StaffMapper : IGenericMapper<Staff, StaffEntity>
     {
         private readonly StaffFactory _staffFactory;
 
-        public StaffMap(StaffFactory staffFactory)
+        public StaffMapper(StaffFactory staffFactory)
         {
             _staffFactory = staffFactory;
         }

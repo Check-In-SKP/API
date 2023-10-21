@@ -5,12 +5,12 @@ using ThwartAPI.Infrastructure.Mappings.Interfaces;
 
 namespace ThwartAPI.Infrastructure.Mappings
 {
-    public class TimeTypeMap : IGenericMapper<TimeType, TimeTypeEntity>
+    public class TimeTypeMapper : IGenericMapper<TimeType, TimeTypeEntity>
     {
  
         private readonly TimeTypeFactory _timeTypeFactory;
 
-        public TimeTypeMap(TimeTypeFactory timeTypeFactory)
+        public TimeTypeMapper(TimeTypeFactory timeTypeFactory)
         {
             _timeTypeFactory = timeTypeFactory;
         }

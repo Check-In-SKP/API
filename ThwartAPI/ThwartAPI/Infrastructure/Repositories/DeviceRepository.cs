@@ -1,48 +1,90 @@
-﻿using ThwartAPI.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ThwartAPI.Domain.Entities;
+using ThwartAPI.Domain.Entities.UserAggregate;
 using ThwartAPI.Domain.Interfaces.Repositories;
+using ThwartAPI.Infrastructure.Data.Entities;
+using ThwartAPI.Infrastructure.Data;
+using ThwartAPI.Infrastructure.Exceptions;
+using ThwartAPI.Infrastructure.Mappings;
 
 namespace ThwartAPI.Infrastructure.Repositories
 {
     public class DeviceRepository : IDeviceRepository
     {
-        public Task AddAsync(Device entity)
+        private readonly ApplicationDbContext _context;
+        private readonly DeviceMapper _deviceMapper;
+
+        public DeviceRepository(ApplicationDbContext context, DeviceMapper deviceMapper)
         {
-            throw new NotImplementedException();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _deviceMapper = deviceMapper ?? throw new ArgumentNullException(nameof(deviceMapper));
         }
 
-        public Task AddRangeAsync(IEnumerable<Device> entities)
+        public async Task AddAsync(Device device)
         {
-            throw new NotImplementedException();
+            if (device == null)
+            {
+                throw new ArgumentNullException(nameof(device));
+            }
+
+            DeviceEntity entity = _deviceMapper.MapToEntity(device);
+            await _context.Devices.AddAsync(entity);
         }
 
-        public Task<bool> ExistsAsync(Guid id)
+        public async Task<Device> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            DeviceEntity entity = await _context.Set<DeviceEntity>()
+                                               .FirstOrDefaultAsync(e => e.Id == id) ?? throw new EntityNotFoundException($"Device with id {id} not found.");
+
+            return _deviceMapper.MapToDomain(entity);
         }
 
-        public Task<IEnumerable<Device>> GetAllAsync()
+
+        public async Task UpdateAsync(Device device)
         {
-            throw new NotImplementedException();
+            DeviceEntity entity = await _context.Set<DeviceEntity>().FindAsync(device.Id) ?? throw new EntityNotFoundException($"Device with id {device.Id} not found.");
+
+            entity = _deviceMapper.MapToEntity(device);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public Task<Device> GetByIdAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            throw new NotImplementedException();
+            DeviceEntity entity = await _context.Set<DeviceEntity>().FindAsync(id) ?? throw new EntityNotFoundException($"Device with id {id} not found.");
+
+            _context.Set<DeviceEntity>().Remove(entity);
         }
 
-        public Task RemoveAsync(Guid id)
+        public async Task<bool> ExistsAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<DeviceEntity>().FindAsync(id) != null ? true : false;
         }
 
-        public Task RemoveRangeAsync(IEnumerable<Device> entities)
+        public async Task<IEnumerable<Device>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            IEnumerable<DeviceEntity> entities = await _context.Set<DeviceEntity>().ToListAsync() ?? throw new EntityNotFoundException("No devices found.");
+            return entities.Select(e => _deviceMapper.MapToDomain(e));
         }
 
-        public Task UpdateAsync(Device entity)
+        public async Task AddRangeAsync(IEnumerable<Device> devices)
         {
-            throw new NotImplementedException();
+            foreach (var device in devices)
+            {
+                if (device == null)
+                {
+                    throw new ArgumentNullException(nameof(device));
+                }
+            }
+
+            List<DeviceEntity> entities = devices.Select(_deviceMapper.MapToEntity).ToList();
+            await _context.Devices.AddRangeAsync(entities);
+        }
+
+        public async Task RemoveRangeAsync(IEnumerable<Device> devices)
+        {
+            IEnumerable<Guid> deviceIds = devices.Select(u => u.Id);
+            List<DeviceEntity> entities = await _context.Devices.Where(u => deviceIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No devices found.");
+            _context.Devices.RemoveRange(entities);
         }
     }
 }

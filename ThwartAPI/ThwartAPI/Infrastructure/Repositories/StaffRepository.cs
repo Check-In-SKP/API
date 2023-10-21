@@ -1,55 +1,93 @@
-﻿using ThwartAPI.Domain.Entities.StaffAggregate;
+﻿using Microsoft.EntityFrameworkCore;
+using ThwartAPI.Domain.Entities.StaffAggregate;
+using ThwartAPI.Domain.Entities.UserAggregate;
 using ThwartAPI.Domain.Interfaces.Repositories;
 using ThwartAPI.Infrastructure.Data;
+using ThwartAPI.Infrastructure.Data.Entities;
+using ThwartAPI.Infrastructure.Exceptions;
+using ThwartAPI.Infrastructure.Mappings;
 
 namespace ThwartAPI.Infrastructure.Repositories
 {
     public class StaffRepository : IStaffRepository
     {
         private readonly ApplicationDbContext _context;
-        public StaffRepository(ApplicationDbContext context)
+        private readonly StaffMapper _staffMapper;
+
+        public StaffRepository(ApplicationDbContext context, StaffMapper staffMapper)
         {
-               _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _staffMapper = staffMapper ?? throw new ArgumentNullException(nameof(staffMapper));
         }
 
-        public Task AddAsync(Staff entity)
+        public async Task AddAsync(Staff staff)
         {
-            throw new NotImplementedException();
+            if (staff == null)
+            {
+                throw new ArgumentNullException(nameof(staff));
+            }
+
+            StaffEntity entity = _staffMapper.MapToEntity(staff);
+            await _context.Staffs.AddAsync(entity);
         }
 
-        public Task AddRangeAsync(IEnumerable<Staff> entities)
+        public async Task<Staff> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            StaffEntity entity = await _context.Set<StaffEntity>()
+                                               .Include(e => e.TimeLogs)
+                                               .FirstOrDefaultAsync(e => e.Id == id) ?? throw new EntityNotFoundException($"Staff with id {id} not found.");
+
+            return _staffMapper.MapToDomain(entity);
         }
 
-        public Task<bool> ExistsAsync(int id)
+
+        public async Task UpdateAsync(Staff staff)
         {
-            throw new NotImplementedException();
+            StaffEntity entity = await _context.Set<StaffEntity>().FindAsync(staff.Id) ?? throw new EntityNotFoundException($"Staff with id {staff.Id} not found.");
+
+            entity = _staffMapper.MapToEntity(staff);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public Task<IEnumerable<Staff>> GetAllAsync()
+        public async Task RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            StaffEntity entity = await _context.Set<StaffEntity>().FindAsync(id) ?? throw new EntityNotFoundException($"Staff with id {id} not found.");
+
+            _context.Set<StaffEntity>().Remove(entity);
         }
 
-        public Task<Staff> GetByIdAsync(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<StaffEntity>().FindAsync(id) != null ? true : false;
         }
 
-        public Task RemoveAsync(int id)
+        public async Task<IEnumerable<Staff>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            List<StaffEntity> entities = await _context.Set<StaffEntity>()
+                                                       .Include(e => e.TimeLogs)
+                                                       .ToListAsync() ?? throw new EntityNotFoundException("No staff found.");
+            return entities.Select(e => _staffMapper.MapToDomain(e));
         }
 
-        public Task RemoveRangeAsync(IEnumerable<Staff> entities)
+        public async Task AddRangeAsync(IEnumerable<Staff> staffs)
         {
-            throw new NotImplementedException();
+            foreach (var staff in staffs)
+            {
+                if (staff == null)
+                {
+                    throw new ArgumentNullException(nameof(staff));
+                }
+            }
+
+            List<StaffEntity> entities = staffs.Select(_staffMapper.MapToEntity).ToList();
+            await _context.Staffs.AddRangeAsync(entities);
         }
 
-        public Task UpdateAsync(Staff entity)
+        public async Task RemoveRangeAsync(IEnumerable<Staff> staffs)
         {
-            throw new NotImplementedException();
+            IEnumerable<int> staffIds = staffs.Select(u => u.Id);
+            List<StaffEntity> entities = await _context.Staffs.Where(u => staffIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No staff found.");
+            _context.Staffs.RemoveRange(entities);
         }
     }
 }
