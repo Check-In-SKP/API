@@ -28,7 +28,7 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
         public User(string name, string username, string passwordHash, int roleId)
         {
             ValidateInput(name, username, passwordHash, roleId);
-
+            
             Name = name;
             Username = username;
             PasswordHash = passwordHash;
