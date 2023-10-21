@@ -16,7 +16,7 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
         public int TimeTypeId { get; private set; }
 
         // Constructor for new TimeLog
-        public TimeLog(DateTime timeStamp, int timeTypeId)
+        internal TimeLog(DateTime timeStamp, int timeTypeId)
         {
             ValidateInput(timeStamp, timeTypeId);
 
@@ -25,7 +25,7 @@ namespace ThwartAPI.Domain.Entities.StaffAggregate
         }
 
         // Constructor for existing TimeLog
-        public TimeLog(int id, DateTime timeStamp, int timeTypeId)
+        internal TimeLog(int id, DateTime timeStamp, int timeTypeId)
         {
             ValidateInput(timeStamp, timeTypeId);
 

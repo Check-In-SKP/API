@@ -31,9 +31,11 @@ namespace ThwartAPI.Infrastructure.Data
 
             // Seed data
             builder.Entity<RoleEntity>().HasData(
-                    new RoleEntity { Id = 1, Name = "Admin" },
-            new RoleEntity { Id = 2, Name = "User" },
-                    new RoleEntity { Id = 3, Name = "Monitor" }
+                new RoleEntity { Id = 1, Name = "Admin" },
+                new RoleEntity { Id = 2, Name = "Moderator" },
+                new RoleEntity { Id = 3, Name = "Staff"},
+                new RoleEntity { Id = 4, Name = "User" },
+                new RoleEntity { Id = 5, Name = "Monitor" }
             );
 
             builder.Entity<TimeTypeEntity>().HasData(

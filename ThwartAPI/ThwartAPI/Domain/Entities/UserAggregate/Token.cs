@@ -16,7 +16,7 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
         public DateTime ExpiryDate { get; private set; }
 
         // Constructor for new token
-        public Token(string jwtId, DateTime expiryDate)
+        internal Token(string jwtId, DateTime expiryDate)
         {
             ValidateInput(jwtId, expiryDate);
 
@@ -26,7 +26,7 @@ namespace ThwartAPI.Domain.Entities.UserAggregate
         }
 
         // Constructor for existing token
-        public Token(int id, string jwtId, bool isRevoked, DateTime expiryDate)
+        internal Token(int id, string jwtId, bool isRevoked, DateTime expiryDate)
         {
             ValidateInput(jwtId, expiryDate);
 

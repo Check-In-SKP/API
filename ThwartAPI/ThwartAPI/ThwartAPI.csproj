@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="Application\Services\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Domain\Common\" />
     <Folder Include="Extensions\" />
     <Folder Include="Infrastructure\Data\Migrations\" />
   </ItemGroup>
