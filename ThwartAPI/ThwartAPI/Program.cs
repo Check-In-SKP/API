@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using ThwartAPI;
+using ThwartAPI.Domain.Factories;
 using ThwartAPI.Domain.Interfaces.Repositories;
 using ThwartAPI.Infrastructure.Data;
+using ThwartAPI.Infrastructure.Mappings;
 using ThwartAPI.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +19,25 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
 builder.Services.AddAutoMapper(typeof(Program));
 
+// Database context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(settings.ConnectionStrings.CheckInDB));
 
+// Factories
+builder.Services.AddTransient<DeviceFactory>();
+builder.Services.AddTransient<RoleFactory>();
+builder.Services.AddTransient<StaffFactory>();
+builder.Services.AddTransient<TimeTypeFactory>();
+builder.Services.AddTransient<UserFactory>();
+
+// Mappers
+builder.Services.AddScoped<DeviceMapper>();
+builder.Services.AddScoped<RoleMapper>();
+builder.Services.AddScoped<StaffMapper>();
+builder.Services.AddScoped<TimeTypeMapper>();
+builder.Services.AddScoped<UserMapper>();
+
+// Repositories
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
