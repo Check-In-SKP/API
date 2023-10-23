@@ -8,9 +8,9 @@ namespace CheckInSKP.Infrastructure.Data
     public class ApplicationDbContext : DbContext
     {
         // Commands for 'Package Manager Console' to create and update the database
-        // dotnet ef migrations add InitialMigration --project ThwartAPI --output-dir Infrastructure/Data/Migrations
-        // dotnet ef database update --project ThwartAPI
-        // dotnet ef migrations remove --project ThwartAPI
+        // dotnet ef migrations add InitialMigration --project CheckInSKP.Infrastructure --output-dir Infrastructure/Data/Migrations
+        // dotnet ef database update --project CheckInSKP.Infrastructure
+        // dotnet ef migrations remove --project CheckInSKP.Infrastructure
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
