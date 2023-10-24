@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.TimeType
+namespace CheckInSKP.Application.Services.Device.Commands.DeleteDevice
 {
-    internal class TimeTypeManager
+    internal class DeleteDeviceCommand
     {
     }
 }

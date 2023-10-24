@@ -1,9 +1,10 @@
-﻿using System.Collections.Immutable;
+﻿using CheckInSKP.Domain.Common;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
 namespace CheckInSKP.Domain.Entities.UserAggregate
 {
-    public class User
+    public class User : DomainEntity
     {
         private readonly int _id;
         public int Id => _id;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using CheckInSKP.Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Entities;
 
 namespace CheckInSKP.Infrastructure.Data.Configurations
 {

@@ -1,7 +1,7 @@
 ﻿using CheckInSKP.Domain.Entities.UserAggregate;
 using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Infrastructure.Data;
-using CheckInSKP.Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Entities;
 using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;

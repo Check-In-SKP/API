@@ -1,9 +1,10 @@
-﻿using System.Collections.Immutable;
+﻿using CheckInSKP.Domain.Common;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
 namespace CheckInSKP.Domain.Entities.StaffAggregate
 {
-    public class Staff
+    public class Staff : DomainEntity
     {
         private readonly int _id;
         public int Id => _id;
@@ -72,14 +73,14 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
             _timeLogs = _timeLogs.Remove(timeLog);
         }
 
-        public void SetMeetingTime(TimeOnly newMeetingTime)
+        public void IsPreoccupied()
         {
-            MeetingTime = newMeetingTime;
+            Preoccupied = true;
         }
 
-        public void SetPreoccupied(bool newPreoccupied)
+        public void IsNotPreoccupied()
         {
-            Preoccupied = newPreoccupied;
+            Preoccupied = false;
         }
 
         public void UpdatePhoneNumber(string newPhoneNumber)
@@ -95,11 +96,6 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         public void UpdatePhoneNotification(bool newPhoneNotification)
         {
             PhoneNotification = newPhoneNotification;
-        }
-
-        public void UpdatePreoccupied(bool newPreoccupied)
-        {
-            Preoccupied = newPreoccupied;
         }
 
         public void UpdateMeetingTime(TimeOnly newMeetingTime)

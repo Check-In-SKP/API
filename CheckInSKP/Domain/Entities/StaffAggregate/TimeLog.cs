@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CheckInSKP.Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace CheckInSKP.Domain.Entities.StaffAggregate
 {
-    public class TimeLog
+    public class TimeLog : DomainEntity
     {
         private readonly int _id;
         public int Id => _id;

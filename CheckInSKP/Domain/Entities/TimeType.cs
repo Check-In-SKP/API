@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using CheckInSKP.Domain.Common;
 
 namespace CheckInSKP.Domain.Entities
 {
 
-    public class TimeType
+    public class TimeType : DomainEntity
     {
         private readonly int _id;
         public int Id => _id;

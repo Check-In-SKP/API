@@ -1,6 +1,6 @@
 ﻿using CheckInSKP.Domain.Entities;
 using CheckInSKP.Domain.Factories;
-using CheckInSKP.Infrastructure.Data.Entities;
+using CheckInSKP.Infrastructure.Entities;
 using CheckInSKP.Infrastructure.Mappings.Interfaces;
 
 namespace CheckInSKP.Infrastructure.Mappings

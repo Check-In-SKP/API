@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Device
+namespace CheckInSKP.Application.Services.Role.Commands.DeleteRole
 {
-    public class DeviceManager
+    internal class DeleteRoleCommand
     {
     }
 }

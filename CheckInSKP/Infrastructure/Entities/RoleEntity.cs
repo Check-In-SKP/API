@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CheckInSKP.Infrastructure.Data.Entities
+namespace CheckInSKP.Infrastructure.Entities
 {
-    public class TimeTypeEntity
+    public class RoleEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

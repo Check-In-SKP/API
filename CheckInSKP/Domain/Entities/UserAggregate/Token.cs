@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using CheckInSKP.Domain.Common;
 
 namespace CheckInSKP.Domain.Entities.UserAggregate
 {
-    public class Token
+    public class Token : DomainEntity
     {
         private readonly int _id;
         public int Id => _id;

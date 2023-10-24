@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CheckInSKP.Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace CheckInSKP.Domain.Entities
 {
-    public class Device
+    public class Device : DomainEntity
     {
         private readonly Guid _id;
         public Guid Id => _id;

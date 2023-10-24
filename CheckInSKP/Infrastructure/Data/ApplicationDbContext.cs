@@ -1,4 +1,4 @@
-﻿using CheckInSKP.Infrastructure.Data.Entities;
+﻿using CheckInSKP.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
