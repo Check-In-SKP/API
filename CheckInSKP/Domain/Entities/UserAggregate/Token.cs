@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Events.TokenEvents;
 
 namespace CheckInSKP.Domain.Entities.UserAggregate
 {
@@ -52,6 +53,8 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
                 throw new InvalidOperationException("Cannot revoke an expired token.");
             }
             IsRevoked = true;
+
+            AddDomainEvent(new TokenRevokedEvent(Id));
         }
 
         public bool IsExpired()

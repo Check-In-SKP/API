@@ -9,10 +9,10 @@ namespace CheckInSKP.Domain.Events.DeviceEvents
 {
     public class DeviceAuthorizedEvent : DomainEvent
     {
-        public DeviceAuthorizedEvent(string deviceId)
+        public DeviceAuthorizedEvent(Guid deviceId)
         {
             DeviceId = deviceId;
         }
-        public string DeviceId { get; }
+        public Guid DeviceId { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Events.StaffEvents;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
@@ -91,6 +92,8 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
             }
 
             PhoneNumber = newPhoneNumber;
+
+            AddDomainEvent(new StaffPhoneNumberUpdatedEvent(Id, PhoneNumber));
         }
 
         public void UpdatePhoneNotification(bool newPhoneNotification)
@@ -101,6 +104,8 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         public void UpdateMeetingTime(TimeOnly newMeetingTime)
         {
             MeetingTime = newMeetingTime;
+
+            AddDomainEvent(new StaffMeetingTimeUpdatedEvent(Id, MeetingTime));
         }
 
         public void UpdateCardNumber(string newCardNumber)

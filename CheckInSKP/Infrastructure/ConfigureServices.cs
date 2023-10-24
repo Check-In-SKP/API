@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Infrastructure
 {
-    public static class Dependencies
+    public static class ConfigureServices
     {
-        public static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+        public static void AddInfrastructureServices(IConfiguration configuration, IServiceCollection services)
         {
             // Database
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("CheckInDB")));

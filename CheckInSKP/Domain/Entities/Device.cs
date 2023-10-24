@@ -1,4 +1,5 @@
 ﻿using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Events.DeviceEvents;
 using System.ComponentModel.DataAnnotations;
 
 namespace CheckInSKP.Domain.Entities
@@ -14,8 +15,10 @@ namespace CheckInSKP.Domain.Entities
         public bool Authorized { get; private set; }
 
         // Constructor for new Device
-        public Device(string label, bool authorized)
+        public Device(string? label, bool authorized)
         {
+            label ??= "Unknown";
+
             ValidateInput(label);
 
             Label = label;
@@ -49,11 +52,15 @@ namespace CheckInSKP.Domain.Entities
         public void Authorize()
         {
             Authorized = true;
+
+            AddDomainEvent(new DeviceAuthorizedEvent(Id));
         }
 
         public void Deauthorize()
         {
             Authorized = false;
+
+            AddDomainEvent(new DeviceDeauthorizedEvent(Id));
         }
     }
 }

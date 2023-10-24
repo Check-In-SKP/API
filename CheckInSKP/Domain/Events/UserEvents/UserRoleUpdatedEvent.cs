@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CheckInSKP.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Domain.Events.UserEvents
 {
-    public class RoleUpdatedEvent
+    public class UserRoleUpdatedEvent : DomainEvent
     {
         public int UserId { get; }
-        public string Role { get; }
-        public RoleUpdatedEvent(int userId, string role)
+        public int RoleId { get; }
+        public UserRoleUpdatedEvent(int userId, int roleId)
         {
             UserId = userId;
-            Role = role;
+            RoleId = roleId;
         }
     }
 }

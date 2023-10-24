@@ -37,7 +37,6 @@ namespace CheckInSKP.Domain.Entities
         public void UpdateName(string newName)
         {
             if (string.IsNullOrWhiteSpace(newName) || newName.Length > 64)
-                throw new ArgumentException("Invalid new role name.", nameof(newName));
 
             Name = newName;
         }

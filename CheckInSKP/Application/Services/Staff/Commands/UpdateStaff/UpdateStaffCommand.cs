@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Services.Staff.Commands.UpdateStaff
 {
-    internal class UpdateStaffCommand
+    public class UpdateStaffCommand
     {
     }
 }

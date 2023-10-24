@@ -1,4 +1,5 @@
 ﻿using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Events.UserEvents;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
@@ -93,6 +94,8 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
             }
 
             Username = newUsername;
+
+            AddDomainEvent(new UserUsernameUpdatedEvent(Id, Username));
         }
 
         public void UpdatePasswordHash(string newPasswordHash)
@@ -103,6 +106,8 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
             }
 
             PasswordHash = newPasswordHash;
+
+            AddDomainEvent(new UserPasswordHashUpdatedEvent(Id, PasswordHash));
         }
 
         public void UpdateRole(int newRoleId)
@@ -113,6 +118,8 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
             }
 
             RoleId = newRoleId;
+
+            AddDomainEvent(new UserRoleUpdatedEvent(Id, RoleId));
         }
     }
 }
