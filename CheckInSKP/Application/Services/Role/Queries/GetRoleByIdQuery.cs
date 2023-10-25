@@ -9,24 +9,25 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Services.Role.Queries
 {
-    public record GetRolesQuery : IRequest<IEnumerable<RoleDto>>;
+    public record GetRoleByIdQuery : IRequest<RoleDto>
+    {
+        public int Id { get; init; }
+    }
 
-    public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, IEnumerable<RoleDto>>
+    public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, RoleDto>
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
-
-        public GetRolesQueryHandler(IRoleRepository roleRepository, IMapper mapper)
+        public GetRoleByIdQueryHandler(IRoleRepository roleRepository, IMapper mapper)
         {
             _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-
-        public async Task<IEnumerable<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
+        public async Task<RoleDto> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Role> roles = await _roleRepository.GetAllAsync();
-            IEnumerable<RoleDto> roleDtos = _mapper.Map<IEnumerable<RoleDto>>(roles);
-            return roleDtos;
+            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(request.Id);
+            RoleDto roleDto = _mapper.Map<RoleDto>(role);
+            return roleDto;
         }
     }
 }

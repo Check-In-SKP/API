@@ -35,7 +35,6 @@ namespace CheckInSKP.Application.Services.Device.Commands.DeleteDevice
             }
 
             await _deviceRepository.RemoveAsync(device.Id);
-
             await _unitOfWork.CompleteAsync(cancellationToken);
 
             return;

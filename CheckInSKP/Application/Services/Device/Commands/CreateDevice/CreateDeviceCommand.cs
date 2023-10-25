@@ -33,7 +33,6 @@ namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
             var entity = _deviceFactory.CreateNewDevice(request.Label, request.IsAuthorized);
 
             await _deviceRepository.AddAsync(entity);
-
             await _unitOfWork.CompleteAsync(cancellationToken);
 
             return entity.Id;

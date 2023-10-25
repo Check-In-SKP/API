@@ -92,5 +92,15 @@ namespace CheckInSKP.Infrastructure.Repositories
         {
             return _context.Set<StaffEntity>().Select(e => _staffMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No staff found.");
         }
+
+        public async Task<IEnumerable<Staff>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            List<StaffEntity> entities = await _context.Set<StaffEntity>()
+                                                       .Include(e => e.TimeLogs)
+                                                       .Skip((page - 1) * pageSize)
+                                                       .Take(pageSize)
+                                                       .ToListAsync() ?? throw new EntityNotFoundException("No staff found.");
+            return entities.Select(e => _staffMapper.MapToDomain(e));
+        }
     }
 }

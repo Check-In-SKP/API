@@ -89,5 +89,11 @@ namespace CheckInSKP.Infrastructure.Repositories
         {
             return _context.Set<RoleEntity>().Select(e => _roleMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No roles found.");
         }
+
+        public async Task<IEnumerable<Role>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            List<RoleEntity> entities = await _context.Set<RoleEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
+            return entities.Select(e => _roleMapper.MapToDomain(e));
+        }
     }
 }

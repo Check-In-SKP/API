@@ -9,21 +9,26 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Services.Device.Queries
 {
-    public record GetDevicesQuery : IRequest<IEnumerable<DeviceDto>>;
+    public record GetDevicesWithPaginationQuery : IRequest<IEnumerable<DeviceDto>>
+    {
+        public int Page { get; init; }
+        public int PageSize { get; init; }
+    }
 
-    public class GetDevicesQueryHandler : IRequestHandler<GetDevicesQuery, IEnumerable<DeviceDto>>
+    public class GetDevicesWithPaginationQueryHandler : IRequestHandler<GetDevicesWithPaginationQuery, IEnumerable<DeviceDto>>
     {
         private readonly IDeviceRepository _deviceRepository;
         private readonly IMapper _mapper;
-        public GetDevicesQueryHandler(IDeviceRepository deviceRepository, IMapper mapper)
+        public GetDevicesWithPaginationQueryHandler(IDeviceRepository deviceRepository, IMapper mapper)
         {
             _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public async Task<IEnumerable<DeviceDto>> Handle(GetDevicesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DeviceDto>> Handle(GetDevicesWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Device> devices = await _deviceRepository.GetAllAsync();
+            IEnumerable<Domain.Entities.Device> devices = await _deviceRepository.GetAllWithPaginationAsync(request.Page, request.PageSize);
             IEnumerable<DeviceDto> deviceDtos = _mapper.Map<IEnumerable<DeviceDto>>(devices);
+
             return deviceDtos;
         }
     }

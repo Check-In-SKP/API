@@ -1,4 +1,5 @@
-﻿using CheckInSKP.Domain.Entities.UserAggregate;
+﻿using CheckInSKP.Domain.Entities.StaffAggregate;
+using CheckInSKP.Domain.Entities.UserAggregate;
 using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Entities;
@@ -89,6 +90,12 @@ namespace CheckInSKP.Infrastructure.Repositories
         public IQueryable<User> Query()
         {
             return _context.Set<UserEntity>().Select(e => _userMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No users found.");
+        }
+
+        public async Task<IEnumerable<User>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            List<UserEntity> entities = await _context.Set<UserEntity>().Include(e => e.Tokens).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No users found.");
+            return entities.Select(e => _userMapper.MapToDomain(e));
         }
     }
 }

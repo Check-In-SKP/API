@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.UpdateStaff
+namespace CheckInSKP.Application.Services.Staff.Queries
 {
-    public class UpdateStaffCommand
+    internal class GetStaffWithPaginationQuery
     {
     }
 }

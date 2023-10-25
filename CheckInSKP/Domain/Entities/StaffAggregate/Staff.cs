@@ -21,7 +21,7 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
 
         public TimeOnly MeetingTime { get; private set; }
 
-        private ImmutableList<TimeLog> _timeLogs = ImmutableList<TimeLog>.Empty;
+        private readonly List<TimeLog> _timeLogs = new();
         public IReadOnlyList<TimeLog> TimeLogs => _timeLogs;
 
         public int UserId { get; private set; }
@@ -65,25 +65,22 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         public void AddTimeLog(TimeLog timeLog)
         {
             if (timeLog == null) throw new ArgumentNullException(nameof(timeLog));
-            _timeLogs = _timeLogs.Add(timeLog);
+
+            _timeLogs.Add(timeLog);
         }
 
         public void RemoveTimeLog(TimeLog timeLog)
         {
             if (timeLog == null) throw new ArgumentNullException(nameof(timeLog));
-            _timeLogs = _timeLogs.Remove(timeLog);
+            if (!_timeLogs.Contains(timeLog)) throw new ArgumentException("Time log does not exist.");            
+            
+            _timeLogs.Remove(timeLog);
         }
 
-        public void IsPreoccupied()
+        public void UpdateOccupation(bool isPreoccupied)
         {
-            Preoccupied = true;
+            Preoccupied = isPreoccupied;
         }
-
-        public void IsNotPreoccupied()
-        {
-            Preoccupied = false;
-        }
-
         public void UpdatePhoneNumber(string newPhoneNumber)
         {
             if (string.IsNullOrEmpty(newPhoneNumber) || newPhoneNumber.Length > 64)

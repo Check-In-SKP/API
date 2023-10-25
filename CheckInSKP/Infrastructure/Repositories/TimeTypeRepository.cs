@@ -89,5 +89,11 @@ namespace CheckInSKP.Infrastructure.Repositories
         {
             return _context.Set<TimeTypeEntity>().Select(e => _timeTypeMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No TimeTypes found.");
         }
+
+        public async Task<IEnumerable<TimeType>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            List<TimeTypeEntity> entities = await _context.Set<TimeTypeEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No TimeTypes found.");
+            return entities.Select(e => _timeTypeMapper.MapToDomain(e));
+        }
     }
 }

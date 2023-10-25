@@ -5,6 +5,7 @@ using CheckInSKP.Infrastructure.Mappings;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Entities;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CheckInSKP.Infrastructure.Repositories
 {
@@ -88,6 +89,12 @@ namespace CheckInSKP.Infrastructure.Repositories
         public IQueryable<Device> Query()
         {
             return _context.Set<DeviceEntity>().Select(e => _deviceMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No devices found.");
+        }
+
+        public async Task<IEnumerable<Device>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            IEnumerable<DeviceEntity> entities = await _context.Set<DeviceEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No devices found.");
+            return entities.Select(e => _deviceMapper.MapToDomain(e));
         }
     }
 }
