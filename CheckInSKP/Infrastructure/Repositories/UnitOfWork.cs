@@ -27,9 +27,9 @@ namespace CheckInSKP.Infrastructure.Repositories
         public ITimeTypeRepository TimeTypeRepository { get; }
         public IUserRepository UserRepository { get; }
 
-        public async Task CompleteAsync()
+        public async Task<int> CompleteAsync(CancellationToken cancellationToken)
         {
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public void Dispose()

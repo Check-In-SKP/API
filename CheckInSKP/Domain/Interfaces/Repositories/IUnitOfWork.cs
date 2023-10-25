@@ -7,6 +7,6 @@
         IStaffRepository StaffRepository { get; }
         ITimeTypeRepository TimeTypeRepository { get; }
         IUserRepository UserRepository { get; }
-        Task CompleteAsync();
+        Task<int> CompleteAsync(CancellationToken cancellationToken);
     }
 }

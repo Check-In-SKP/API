@@ -34,7 +34,7 @@ namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
 
             await _deviceRepository.AddAsync(entity);
 
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.CompleteAsync(cancellationToken);
 
             return entity.Id;
         }
