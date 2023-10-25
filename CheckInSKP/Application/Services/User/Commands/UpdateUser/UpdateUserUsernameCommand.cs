@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Queries
+namespace CheckInSKP.Application.Services.User.Commands.UpdateUser
 {
-    internal class GetStaffQuery
+    internal class UpdateUserUsernameCommand
     {
     }
 }

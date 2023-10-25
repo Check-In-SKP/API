@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.TimeType.Queries
+namespace CheckInSKP.Application.Services.User.Commands.UpdateUser
 {
-    internal class GetTimeTypeQuery
+    public record UpdateUserPasswordHashCommand
     {
     }
 }

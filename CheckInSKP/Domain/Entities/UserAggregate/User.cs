@@ -67,6 +67,11 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
                 throw new ArgumentException("Invalid role ID.", nameof(roleId));
         }
 
+        public bool ValidatePasswordHash(string passwordHash)
+        {
+            return PasswordHash == passwordHash;
+        }
+
         public void AddToken(Token token)
         {
             if (token == null) throw new ArgumentNullException(nameof(token));

@@ -97,5 +97,10 @@ namespace CheckInSKP.Infrastructure.Repositories
             List<UserEntity> entities = await _context.Set<UserEntity>().Include(e => e.Tokens).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No users found.");
             return entities.Select(e => _userMapper.MapToDomain(e));
         }
+
+        public Task<User> GetByUsernameAsync(string username)
+        {
+            return _context.Set<UserEntity>().Include(e => e.Tokens).FirstOrDefaultAsync(e => e.Username == username).ContinueWith(t => _userMapper.MapToDomain(t.Result)) ?? throw new EntityNotFoundException($"User with username {username} not found.");
+        }
     }
 }
