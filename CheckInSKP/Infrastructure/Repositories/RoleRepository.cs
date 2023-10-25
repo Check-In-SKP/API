@@ -84,5 +84,10 @@ namespace CheckInSKP.Infrastructure.Repositories
             List<RoleEntity> entities = await _context.Roles.Where(u => roleIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
             _context.Roles.RemoveRange(entities);
         }
+
+        public IQueryable<Role> Query()
+        {
+            return _context.Set<RoleEntity>().Select(e => _roleMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No roles found.");
+        }
     }
 }

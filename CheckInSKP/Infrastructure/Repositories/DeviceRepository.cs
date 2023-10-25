@@ -84,5 +84,10 @@ namespace CheckInSKP.Infrastructure.Repositories
             List<DeviceEntity> entities = await _context.Devices.Where(u => deviceIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No devices found.");
             _context.Devices.RemoveRange(entities);
         }
+
+        public IQueryable<Device> Query()
+        {
+            return _context.Set<DeviceEntity>().Select(e => _deviceMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No devices found.");
+        }
     }
 }

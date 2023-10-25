@@ -87,5 +87,10 @@ namespace CheckInSKP.Infrastructure.Repositories
             List<StaffEntity> entities = await _context.Staffs.Where(u => staffIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No staff found.");
             _context.Staffs.RemoveRange(entities);
         }
+
+        public IQueryable<Staff> Query()
+        {
+            return _context.Set<StaffEntity>().Select(e => _staffMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No staff found.");
+        }
     }
 }

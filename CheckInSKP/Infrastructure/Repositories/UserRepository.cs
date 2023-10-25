@@ -85,5 +85,10 @@ namespace CheckInSKP.Infrastructure.Repositories
             List<UserEntity> entities = await _context.Users.Where(u => userIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No users found.");
             _context.Users.RemoveRange(entities);
         }
+
+        public IQueryable<User> Query()
+        {
+            return _context.Set<UserEntity>().Select(e => _userMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No users found.");
+        }
     }
 }

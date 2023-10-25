@@ -84,5 +84,10 @@ namespace CheckInSKP.Infrastructure.Repositories
             List<TimeTypeEntity> entities = await _context.TimeTypes.Where(u => timeTypeIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No TimeTypes found.");
             _context.TimeTypes.RemoveRange(entities);
         }
+
+        public IQueryable<TimeType> Query()
+        {
+            return _context.Set<TimeTypeEntity>().Select(e => _timeTypeMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No TimeTypes found.");
+        }
     }
 }

@@ -10,5 +10,6 @@
         Task<IEnumerable<T>> GetAllAsync();
         Task AddRangeAsync(IEnumerable<T> entities);
         Task RemoveRangeAsync(IEnumerable<TKey> entities);
+        IQueryable<T> Query();
     }
 }

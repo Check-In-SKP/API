@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Services.Device.Queries
 {
-    internal class GetDevicesQuery
+    public record GetDevicesQuery
     {
     }
 }
