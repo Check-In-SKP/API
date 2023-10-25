@@ -80,9 +80,8 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.Users.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<User> users)
+        public async Task RemoveRangeAsync(IEnumerable<int> userIds)
         {
-            IEnumerable<int> userIds = users.Select(u => u.Id);
             List<UserEntity> entities = await _context.Users.Where(u => userIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No users found.");
             _context.Users.RemoveRange(entities);
         }

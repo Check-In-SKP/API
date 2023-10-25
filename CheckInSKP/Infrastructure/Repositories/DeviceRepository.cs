@@ -79,9 +79,8 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.Devices.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<Device> devices)
+        public async Task RemoveRangeAsync(IEnumerable<Guid> deviceIds)
         {
-            IEnumerable<Guid> deviceIds = devices.Select(u => u.Id);
             List<DeviceEntity> entities = await _context.Devices.Where(u => deviceIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No devices found.");
             _context.Devices.RemoveRange(entities);
         }

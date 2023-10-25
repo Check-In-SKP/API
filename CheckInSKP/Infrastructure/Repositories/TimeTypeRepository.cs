@@ -79,9 +79,8 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.TimeTypes.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<TimeType> timeTypes)
+        public async Task RemoveRangeAsync(IEnumerable<int> timeTypeIds)
         {
-            IEnumerable<int> timeTypeIds = timeTypes.Select(u => u.Id);
             List<TimeTypeEntity> entities = await _context.TimeTypes.Where(u => timeTypeIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No TimeTypes found.");
             _context.TimeTypes.RemoveRange(entities);
         }

@@ -6,33 +6,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
+namespace CheckInSKP.Application.Services.Device.Commands.DeauthorizeDevice
 {
-    public record UpdateDeviceCommand : IRequest
+    public record DeauthorizeDeviceCommand : IRequest
     {
         public Guid DeviceId { get; init; }
-        public required string Label { get; init; }
     }
 
-    public class UpdateDeviceCommandHandler : IRequestHandler<UpdateDeviceCommand>
+    public class DeauthorizeDeviceCommandHandler : IRequestHandler<DeauthorizeDeviceCommand>
     {
         private readonly IDeviceRepository _deviceRepository;
         private readonly IUnitOfWork _unitOfWork;
-
-        public UpdateDeviceCommandHandler(IDeviceRepository deviceRepository, IUnitOfWork unitOfWork)
+        public DeauthorizeDeviceCommandHandler(IDeviceRepository deviceRepository, IUnitOfWork unitOfWork)
         {
             _deviceRepository = unitOfWork.DeviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
-        public async Task Handle(UpdateDeviceCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeauthorizeDeviceCommand request, CancellationToken cancellationToken)
         {
             Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId);
             if (device == null)
             {
                 throw new Exception($"Device with id {request.DeviceId} not found");
             }
-
-            device.UpdateLabel(request.Label);
+            device.Deauthorize();
             await _deviceRepository.UpdateAsync(device);
             await _unitOfWork.CompleteAsync(cancellationToken);
             return;

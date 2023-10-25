@@ -9,6 +9,6 @@
         Task<bool> ExistsAsync(TKey id);
         Task<IEnumerable<T>> GetAllAsync();
         Task AddRangeAsync(IEnumerable<T> entities);
-        Task RemoveRangeAsync(IEnumerable<T> entities);
+        Task RemoveRangeAsync(IEnumerable<TKey> entities);
     }
 }

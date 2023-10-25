@@ -79,9 +79,8 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.Roles.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<Role> roles)
+        public async Task RemoveRangeAsync(IEnumerable<int> roleIds)
         {
-            IEnumerable<int> roleIds = roles.Select(u => u.Id);
             List<RoleEntity> entities = await _context.Roles.Where(u => roleIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
             _context.Roles.RemoveRange(entities);
         }

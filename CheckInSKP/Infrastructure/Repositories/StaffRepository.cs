@@ -82,9 +82,8 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.Staffs.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<Staff> staffs)
+        public async Task RemoveRangeAsync(IEnumerable<int> staffIds)
         {
-            IEnumerable<int> staffIds = staffs.Select(u => u.Id);
             List<StaffEntity> entities = await _context.Staffs.Where(u => staffIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No staff found.");
             _context.Staffs.RemoveRange(entities);
         }
