@@ -28,15 +28,8 @@ namespace CheckInSKP.Application.Services.Staff.Queries
 
         public async Task<StaffDto> Handle(GetStaffByIdQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId);
-
-            if (staff == null)
-            {
-                throw new Exception($"Staff with id {request.StaffId} not found");
-            }
-
+            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId) ?? throw new Exception($"Staff with id {request.StaffId} not found");
             StaffDto staffDto = _mapper.Map<StaffDto>(staff);
-
             return staffDto;
         }
     }

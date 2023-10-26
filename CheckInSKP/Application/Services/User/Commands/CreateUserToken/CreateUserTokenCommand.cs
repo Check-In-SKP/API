@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -25,10 +26,11 @@ namespace CheckInSKP.Application.Services.User.Commands.CreateUserToken
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserTokenCommandHandler(UserFactory userFactory, IDeviceRepository deviceRepository, IUnitOfWork unitOfWork)
+        public CreateUserTokenCommandHandler(UserFactory userFactory, IDeviceRepository deviceRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userFactory = userFactory ?? throw new ArgumentNullException(nameof(userFactory));
-            _userRepository = unitOfWork.UserRepository ?? throw new ArgumentNullException(nameof(unitOfWork.UserRepository));
+            _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
@@ -43,6 +45,8 @@ namespace CheckInSKP.Application.Services.User.Commands.CreateUserToken
 
             Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId) ?? throw new Exception($"Device with id {request.DeviceId} not found");
 
+            // TODO make this better
+
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TestKey"));
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
@@ -53,7 +57,23 @@ namespace CheckInSKP.Application.Services.User.Commands.CreateUserToken
                 new Claim(ClaimTypes.Hash, user.PasswordHash)
             };
 
-            return null;
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = signingCredentials
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            string token = tokenHandler.WriteToken(securityToken);
+
+            var tokenEntity = _userFactory.CreateNewToken(token, DateTime.UtcNow.AddHours(1));
+            user.AddToken(tokenEntity);
+
+            await _unitOfWork.CompleteAsync(cancellationToken);
+
+            return token;
         }
     }
 }

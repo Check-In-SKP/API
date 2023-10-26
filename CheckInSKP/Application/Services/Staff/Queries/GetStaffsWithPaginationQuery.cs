@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Services.Staff.Queries
 {
-    public record GetStaffWithPaginationQuery : IRequest<IEnumerable<StaffDto>>
+    public record GetStaffsWithPaginationQuery : IRequest<IEnumerable<StaffDto>>
     {
         public int Page { get; init; }
         public int PageSize { get; init; }
     }
 
-    public class GetStaffWithPaginationQueryHandler : IRequestHandler<GetStaffWithPaginationQuery, IEnumerable<StaffDto>>
+    public class GetStaffsWithPaginationQueryHandler : IRequestHandler<GetStaffsWithPaginationQuery, IEnumerable<StaffDto>>
     {
         private readonly IStaffRepository _staffRepository;
         private readonly IMapper _mapper;
-        public GetStaffWithPaginationQueryHandler(IStaffRepository staffRepository, IMapper mapper)
+        public GetStaffsWithPaginationQueryHandler(IStaffRepository staffRepository, IMapper mapper)
         {
             _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public async Task<IEnumerable<StaffDto>> Handle(GetStaffWithPaginationQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<StaffDto>> Handle(GetStaffsWithPaginationQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Domain.Entities.StaffAggregate.Staff> staffs = await _staffRepository.GetAllWithPaginationAsync(request.Page, request.PageSize);
             IEnumerable<StaffDto> staffDtos = _mapper.Map<IEnumerable<StaffDto>>(staffs);

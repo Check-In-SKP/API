@@ -15,7 +15,7 @@ namespace CheckInSKP.Application.Services.Staff.Queries.Dtos
         public bool PhoneNotification { get; init; }
         public bool IsPreoccupied { get; init; }
         public TimeOnly MeetingTime { get; init; }
-        public List<TimeLogDto> TimeLogs { get; init; }
+        public IEnumerable<TimeLogDto> TimeLogs { get; init; }
 
         private class Mapping : Profile
         {
