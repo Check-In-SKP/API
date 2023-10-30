@@ -19,7 +19,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.DeleteStaff
         private readonly IUnitOfWork _unitOfWork;
         public DeleteStaffCommandHandler(IStaffRepository staffRepository, IUnitOfWork unitOfWork)
         {
-            _staffRepository = unitOfWork.StaffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
+            _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
         public async Task Handle(DeleteStaffCommand request, CancellationToken cancellationToken)

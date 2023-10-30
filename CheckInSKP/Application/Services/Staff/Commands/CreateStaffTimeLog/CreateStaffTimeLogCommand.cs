@@ -24,8 +24,8 @@ namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaffTimeLog
         public CreateStaffTimeLogCommandHandler(StaffFactory staffFactory, IStaffRepository staffRepository, ITimeTypeRepository timeTypeRepository, IUnitOfWork unitOfWork)
         {
             _staffFactory = staffFactory ?? throw new ArgumentNullException(nameof(staffFactory));
-            _staffRepository = unitOfWork.StaffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
-            _timeTypeRepository = unitOfWork.TimeTypeRepository ?? throw new ArgumentNullException(nameof(timeTypeRepository));
+            _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
+            _timeTypeRepository = timeTypeRepository ?? throw new ArgumentNullException(nameof(timeTypeRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 

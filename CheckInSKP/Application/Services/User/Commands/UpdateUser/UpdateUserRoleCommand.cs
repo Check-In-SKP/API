@@ -21,6 +21,7 @@ namespace CheckInSKP.Application.Services.User.Commands.UpdateUser
         private readonly IUnitOfWork _unitOfWork;
         public UpdateUserRoleCommandHandler(IRoleRepository roleRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
+            _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }

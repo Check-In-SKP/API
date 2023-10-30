@@ -25,7 +25,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaff
         public CreateStaffCommandHandler(StaffFactory staffFactory ,IStaffRepository staffRepository, IUnitOfWork unitOfWork)
         {
             _staffFactory = staffFactory ?? throw new ArgumentNullException(nameof(staffFactory));
-            _staffRepository = unitOfWork.StaffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
+            _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
         public async Task<int> Handle(CreateStaffCommand request, CancellationToken cancellationToken)

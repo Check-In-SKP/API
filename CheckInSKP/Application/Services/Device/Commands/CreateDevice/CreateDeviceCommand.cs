@@ -24,7 +24,7 @@ namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
         public CreateDeviceCommandHandler(DeviceFactory deviceFactory, IDeviceRepository deviceRepository, IUnitOfWork unitOfWork)
         {
             _deviceFactory = deviceFactory ?? throw new ArgumentNullException(nameof(deviceFactory));
-            _deviceRepository = unitOfWork.DeviceRepository ?? throw new ArgumentNullException(nameof(unitOfWork.DeviceRepository));
+            _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 

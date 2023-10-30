@@ -20,7 +20,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.DeleteStaffTimeLog
         private readonly IUnitOfWork _unitOfWork;
         public DeleteStaffTimeLogCommandHandler(IStaffRepository staffRepository, IUnitOfWork unitOfWork)
         {
-            _staffRepository = unitOfWork.StaffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
+            _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
         public async Task Handle(DeleteStaffTimeLogCommand request, CancellationToken cancellationToken)

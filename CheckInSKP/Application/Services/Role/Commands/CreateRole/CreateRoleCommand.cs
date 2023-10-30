@@ -25,7 +25,7 @@ namespace CheckInSKP.Application.Services.Role.Commands.CreateRole
         public CreateRoleCommandHandler(RoleFactory roleFactory, IRoleRepository roleRepository, IUnitOfWork unitOfWork)
         {
             _roleFactory = roleFactory ?? throw new ArgumentNullException(nameof(roleFactory));
-            _roleRepository = unitOfWork.RoleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
+            _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
         public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)

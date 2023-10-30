@@ -21,7 +21,7 @@ namespace CheckInSKP.Application.Services.Device.Commands.DeleteDevice
 
         public DeleteDeviceCommandHandler(IDeviceRepository deviceRepository, IUnitOfWork unitOfWork)
         {
-            _deviceRepository = unitOfWork.DeviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
+            _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 

@@ -21,7 +21,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.UpdateStaff
 
         public UpdateStaffCardNumberCommandHandler(IStaffRepository staffRepository, IUnitOfWork unitOfWork)
         {
-            _staffRepository = unitOfWork.StaffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
+            _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 

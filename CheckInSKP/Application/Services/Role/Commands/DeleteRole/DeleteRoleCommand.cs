@@ -19,7 +19,7 @@ namespace CheckInSKP.Application.Services.Role.Commands.DeleteRole
         private readonly IUnitOfWork _unitOfWork;
         public DeleteRoleCommandHandler(IRoleRepository roleRepository, IUnitOfWork unitOfWork)
         {
-            _roleRepository = unitOfWork.RoleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
+            _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
         public async Task Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
