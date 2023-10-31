@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj",
         "projectName": "CheckInMonitorAPI",
         "projectPath": "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\CheckInMonitorAPI.csproj",
-        "packagesPath": "C:\\Users\\beho5\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\benj4651\\.nuget\\packages\\",
         "outputPath": "C:\\Code\\Check-In-SKP\\API\\CheckInMonitorAPI\\CheckInMonitorAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\beho5\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\benj4651\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -99,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

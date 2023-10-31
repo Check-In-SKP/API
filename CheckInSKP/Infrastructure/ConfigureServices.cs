@@ -6,23 +6,16 @@ using CheckInSKP.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Versioning;
 
 namespace CheckInSKP.Infrastructure
 {
     public static class ConfigureServices
     {
-        public static void AddInfrastructureServices(IConfiguration configuration, IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Database
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("CheckInDB")));
-
-            // Unit of work
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Factories
             services.AddTransient<DeviceFactory>();
@@ -44,6 +37,11 @@ namespace CheckInSKP.Infrastructure
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<ITimeTypeRepository, TimeTypeRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            // Unit of work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            return services;
         }
     }
 }
