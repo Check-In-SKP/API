@@ -1,5 +1,5 @@
 ﻿using CheckInSKP.Domain.Factories;
-using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Domain.Repositories;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using System;

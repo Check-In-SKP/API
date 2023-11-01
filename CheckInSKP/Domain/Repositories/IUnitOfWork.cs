@@ -1,4 +1,4 @@
-﻿namespace CheckInSKP.Domain.Interfaces.Repositories
+﻿namespace CheckInSKP.Domain.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {

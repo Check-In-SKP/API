@@ -1,7 +1,7 @@
 ﻿using CheckInSKP.Domain.Entities.StaffAggregate;
 using CheckInSKP.Domain.Entities.UserAggregate;
 
-namespace CheckInSKP.Domain.Interfaces.Repositories
+namespace CheckInSKP.Domain.Repositories
 {
     public interface IStaffRepository : IGenericRepository<Staff, int>
     {

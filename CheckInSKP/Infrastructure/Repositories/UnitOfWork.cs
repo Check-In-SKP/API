@@ -1,4 +1,4 @@
-﻿using CheckInSKP.Domain.Interfaces.Repositories;
+﻿using CheckInSKP.Domain.Repositories;
 using CheckInSKP.Infrastructure.Data;
 
 namespace CheckInSKP.Infrastructure.Repositories

@@ -1,11 +1,11 @@
-﻿using CheckInSKP.Domain.Interfaces.Repositories;
-using CheckInSKP.Domain.Factories;
+﻿using CheckInSKP.Domain.Factories;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CheckInSKP.Domain.Repositories;
 
 namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaffTimeLog
 {

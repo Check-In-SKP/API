@@ -2,7 +2,7 @@
 using CheckInSKP.Domain.Entities.UserAggregate;
 using System.Reflection.Metadata.Ecma335;
 
-namespace CheckInSKP.Domain.Interfaces.Repositories
+namespace CheckInSKP.Domain.Repositories
 {
     public interface IUserRepository : IGenericRepository<User, int>
     {

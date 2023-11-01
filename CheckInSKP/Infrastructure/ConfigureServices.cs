@@ -1,5 +1,5 @@
 ﻿using CheckInSKP.Domain.Factories;
-using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Domain.Repositories;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Mappings;
 using CheckInSKP.Infrastructure.Repositories;

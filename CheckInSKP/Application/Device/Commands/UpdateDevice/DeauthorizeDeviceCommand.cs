@@ -1,17 +1,12 @@
-﻿using CheckInSKP.Domain.Interfaces.Repositories;
+﻿using CheckInSKP.Domain.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
 {
     public record DeauthorizeDeviceCommand : IRequest
     {
+        public required string token { get; init; }
         public Guid DeviceId { get; init; }
-        public required bool IsAuthorized { get; init; }
     }
 
     public class DeauthorizeDeviceCommandHandler : IRequestHandler<DeauthorizeDeviceCommand>
@@ -25,7 +20,8 @@ namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
         }
         public async Task Handle(DeauthorizeDeviceCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId);
+            var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
+
             if (device == null)
             {
                 throw new Exception($"Device with id {request.DeviceId} not found");

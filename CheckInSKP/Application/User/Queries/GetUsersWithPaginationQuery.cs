@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CheckInSKP.Application.Services.User.Queries.Dtos;
-using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Domain.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;

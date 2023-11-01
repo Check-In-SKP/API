@@ -1,4 +1,4 @@
-﻿namespace CheckInSKP.Domain.Interfaces.Repositories
+﻿namespace CheckInSKP.Domain.Repositories
 {
     public interface IGenericRepository<T, TKey> where T : class
     {

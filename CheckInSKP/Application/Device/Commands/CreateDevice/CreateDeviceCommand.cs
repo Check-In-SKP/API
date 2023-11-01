@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckInSKP.Domain.Factories;
-using CheckInSKP.Domain.Interfaces.Repositories;
+using CheckInSKP.Domain.Repositories;
 
 namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
 {
