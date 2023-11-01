@@ -26,6 +26,7 @@ namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
         public async Task Handle(UpdateDeviceAuthorizationCommand request, CancellationToken cancellationToken)
         {
             Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId);
+
             if (device == null)
             {
                 throw new Exception($"Device with id {request.DeviceId} not found");

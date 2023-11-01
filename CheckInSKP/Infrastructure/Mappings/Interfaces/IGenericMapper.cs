@@ -2,7 +2,7 @@
 {
     public interface IGenericMapper<TDomain, TEntity>
     {
-        TDomain MapToDomain(TEntity entity);
+        TDomain? MapToDomain(TEntity entity);
         TEntity MapToEntity(TDomain domain);
     }
 }

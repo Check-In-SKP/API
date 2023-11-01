@@ -12,17 +12,17 @@ namespace CheckInSKP.Domain.Entities
         [Required, StringLength(64)]
         public string Label { get; private set; }
 
-        public bool Authorized { get; private set; }
+        public bool IsAuthorized { get; private set; }
 
         // Constructor for new Device
-        public Device(string? label, bool authorized)
+        public Device(string? label)
         {
             label ??= "Unknown";
 
             ValidateInput(label);
 
             Label = label;
-            Authorized = authorized;
+            IsAuthorized = false;
         }
 
         // Constructor for existing Device
@@ -32,7 +32,7 @@ namespace CheckInSKP.Domain.Entities
 
             _id = id;
             Label = label;
-            Authorized = authorized;
+            IsAuthorized = authorized;
         }
 
         private void ValidateInput(string label)
@@ -51,14 +51,14 @@ namespace CheckInSKP.Domain.Entities
 
         public void Authorize()
         {
-            Authorized = true;
+            IsAuthorized = true;
 
             AddDomainEvent(new DeviceAuthorizedEvent(Id));
         }
 
         public void Deauthorize()
         {
-            Authorized = false;
+            IsAuthorized = false;
 
             AddDomainEvent(new DeviceDeauthorizedEvent(Id));
         }

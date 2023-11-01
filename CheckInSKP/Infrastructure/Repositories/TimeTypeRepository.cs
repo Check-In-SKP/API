@@ -21,79 +21,65 @@ namespace CheckInSKP.Infrastructure.Repositories
 
         public async Task AddAsync(TimeType timeType)
         {
-            if (timeType == null)
-            {
-                throw new ArgumentNullException(nameof(timeType));
-            }
-
-            TimeTypeEntity entity = _timeTypeMapper.MapToEntity(timeType);
-            await _context.TimeTypes.AddAsync(entity);
+            var entity = _timeTypeMapper.MapToEntity(timeType);
+            _ = await _context.TimeTypes.AddAsync(entity);
         }
 
-        public async Task<TimeType> GetByIdAsync(int id)
+        public async Task<TimeType?> GetByIdAsync(int id)
         {
-            TimeTypeEntity entity = await _context.Set<TimeTypeEntity>()
-                                               .FirstOrDefaultAsync(e => e.Id == id) ?? throw new EntityNotFoundException($"TimeType with id {id} not found.");
-
+            var entity = await _context.TimeTypes.FindAsync(id);
             return _timeTypeMapper.MapToDomain(entity);
         }
 
 
         public async Task UpdateAsync(TimeType timeType)
         {
-            TimeTypeEntity entity = await _context.Set<TimeTypeEntity>().FindAsync(timeType.Id) ?? throw new EntityNotFoundException($"TimeType with id {timeType.Id} not found.");
-
-            entity = _timeTypeMapper.MapToEntity(timeType);
-            _context.Entry(entity).State = EntityState.Modified;
+            var entity = await _context.Set<TimeTypeEntity>().FindAsync(timeType.Id);
+            if(entity != null)
+            {
+                entity.Name = timeType.Name;
+            }
         }
 
         public async Task RemoveAsync(int id)
         {
-            TimeTypeEntity entity = await _context.Set<TimeTypeEntity>().FindAsync(id) ?? throw new EntityNotFoundException($"TimeType with id {id} not found.");
-
-            _context.Set<TimeTypeEntity>().Remove(entity);
+            var entity = await _context.Set<TimeTypeEntity>().FindAsync(id);
+            if(entity != null)
+                _context.Set<TimeTypeEntity>().Remove(entity);
         }
 
         public async Task<bool> ExistsAsync(int id)
         {
-            return await _context.Set<TimeTypeEntity>().FindAsync(id) != null ? true : false;
+            return await _context.Set<TimeTypeEntity>().FindAsync(id) != null;
         }
 
-        public async Task<IEnumerable<TimeType>> GetAllAsync()
+        public async Task<IEnumerable<TimeType?>> GetAllAsync()
         {
-            List<TimeTypeEntity> entities = await _context.Set<TimeTypeEntity>().ToListAsync() ?? throw new EntityNotFoundException("No TimeTypes found.");
-            return entities.Select(e => _timeTypeMapper.MapToDomain(e));
+            var entities = await _context.Set<TimeTypeEntity>().ToListAsync();
+            return entities.Select(_timeTypeMapper.MapToDomain);
+        }
+
+        public async Task<IEnumerable<TimeType?>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            var entities = await _context.Set<TimeTypeEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return entities.Select(_timeTypeMapper.MapToDomain);
         }
 
         public async Task AddRangeAsync(IEnumerable<TimeType> timeTypes)
         {
-            foreach (var timeType in timeTypes)
-            {
-                if (timeType == null)
-                {
-                    throw new ArgumentNullException(nameof(timeType));
-                }
-            }
-
-            List<TimeTypeEntity> entities = timeTypes.Select(_timeTypeMapper.MapToEntity).ToList();
+            var entities = timeTypes.Select(_timeTypeMapper.MapToEntity).ToList();
             await _context.TimeTypes.AddRangeAsync(entities);
         }
 
         public async Task RemoveRangeAsync(IEnumerable<int> timeTypeIds)
         {
-            List<TimeTypeEntity> entities = await _context.TimeTypes.Where(u => timeTypeIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No TimeTypes found.");
-            _context.TimeTypes.RemoveRange(entities);
+            var entities = await _context.TimeTypes.Where(u => timeTypeIds.Contains(u.Id)).ToListAsync();
+            if(entities != null)
+            {
+                _context.TimeTypes.RemoveRange(entities);
+            }
         }
 
-        public IQueryable<TimeType> Query()
-        {
-            return _context.Set<TimeTypeEntity>().Select(e => _timeTypeMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No TimeTypes found.");
-        }
-
-        public async Task<IEnumerable<TimeType>> GetAllWithPaginationAsync(int page, int pageSize)
-        {
-            List<TimeTypeEntity> entities = await _context.Set<TimeTypeEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No TimeTypes found.");
-            return entities.Select(e => _timeTypeMapper.MapToDomain(e));
-        }
+        public IQueryable<TimeType?> Query() => _context.Set<TimeTypeEntity>().Select(e => _timeTypeMapper.MapToDomain(e));
     }
 }

@@ -14,8 +14,11 @@ namespace CheckInSKP.Infrastructure.Mappings
             _userFactory = userFactory ?? throw new ArgumentNullException(nameof(userFactory));
         }
 
-        public User MapToDomain(UserEntity entity)
+        public User? MapToDomain(UserEntity? entity)
         {
+            if(entity == null)
+                return null;
+
             // Maps token entities from user to domain tokens
             var tokens = entity.Tokens.Select(MapTokenToDomain).ToList();
 
@@ -24,6 +27,9 @@ namespace CheckInSKP.Infrastructure.Mappings
 
         public UserEntity MapToEntity(User domain)
         {
+            // Throws an null exceptions under the extreme circumstance that the domain is null.
+            if (domain == null)
+                throw new ArgumentNullException(nameof(domain));
 
             // Maps tokens from user to entity tokens
             var tokens = domain.Tokens.Select(MapTokenToEntity).ToList();

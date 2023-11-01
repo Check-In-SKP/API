@@ -13,13 +13,20 @@ namespace CheckInSKP.Infrastructure.Mappings
             _roleFactory = roleFactory ?? throw new ArgumentNullException(nameof(roleFactory));
         }
 
-        public Role MapToDomain(RoleEntity entity)
+        public Role? MapToDomain(RoleEntity? entity)
         {
+            if (entity == null)
+                return null;
+
             return _roleFactory.CreateRole(entity.Id, entity.Name);
         }
 
         public RoleEntity MapToEntity(Role domain)
         {
+            // Throws an null exceptions under the extreme circumstance that the domain is null.
+            if (domain == null)
+                throw new ArgumentNullException(nameof(domain));
+
             return new RoleEntity
             {
                 Id = domain.Id,

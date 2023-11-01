@@ -4,6 +4,6 @@ namespace CheckInSKP.Domain.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<User, int>
     {
-        Task<User> GetByUsernameAsync(string username);
+        Task<User?> GetByUsernameAsync(string username);
     }
 }

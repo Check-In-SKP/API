@@ -28,11 +28,11 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("Authorized")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsAuthorized")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Label")
                         .IsRequired()

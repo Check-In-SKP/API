@@ -9,9 +9,9 @@ namespace CheckInSKP.Domain.Factories
             return new Device(id, label, authorized);
         }
 
-        public Device CreateNewDevice(string? label, bool authorized)
+        public Device CreateNewDevice(string? label)
         {
-            return new Device(label, authorized);
+            return new Device(label);
         }
     }
 }

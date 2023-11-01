@@ -12,7 +12,6 @@ namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
     public record CreateDeviceCommand : IRequest<Guid>
     {
         public string? Label { get; init; }
-        public bool IsAuthorized { get; init; }
     }
 
     public class CreateDeviceCommandHandler : IRequestHandler<CreateDeviceCommand, Guid>
@@ -30,7 +29,7 @@ namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
 
         public async Task<Guid> Handle(CreateDeviceCommand request, CancellationToken cancellationToken)
         {
-            var entity = _deviceFactory.CreateNewDevice(request.Label, request.IsAuthorized);
+            var entity = _deviceFactory.CreateNewDevice(request.Label);
 
             await _deviceRepository.AddAsync(entity);
             await _unitOfWork.CompleteAsync(cancellationToken);

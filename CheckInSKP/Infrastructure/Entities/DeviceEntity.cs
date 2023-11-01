@@ -12,7 +12,7 @@ namespace CheckInSKP.Infrastructure.Entities
         public string Label { get; set; }
 
         [Required]
-        public bool Authorized { get; set; }
+        public bool IsAuthorized { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

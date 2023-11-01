@@ -14,8 +14,11 @@ namespace CheckInSKP.Infrastructure.Mappings
             _staffFactory = staffFactory;
         }
 
-        public Staff MapToDomain(StaffEntity entity)
+        public Staff? MapToDomain(StaffEntity? entity)
         {
+            if(entity == null) 
+                return null;
+
             // Maps entity timelogs from staff to domain timelogs
             var timelogs = entity.TimeLogs.Select(MapTimeLogToDomain).ToList();
 
@@ -24,6 +27,10 @@ namespace CheckInSKP.Infrastructure.Mappings
 
         public StaffEntity MapToEntity(Staff domain)
         {
+            // Throws an null exceptions under the extreme circumstance that the domain is null.
+            if (domain == null)
+                throw new ArgumentNullException(nameof(domain));
+
             // Maps domain timelogs from staff to entity timelogs
             var timelogs = domain.TimeLogs.Select(MapTimeLogToEntity).ToList();
 

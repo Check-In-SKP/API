@@ -21,79 +21,68 @@ namespace CheckInSKP.Infrastructure.Repositories
 
         public async Task AddAsync(Role role)
         {
-            if (role == null)
-            {
-                throw new ArgumentNullException(nameof(role));
-            }
-
-            RoleEntity entity = _roleMapper.MapToEntity(role);
-            await _context.Roles.AddAsync(entity);
+            var entity = _roleMapper.MapToEntity(role);
+            _ = await _context.Roles.AddAsync(entity);
         }
 
-        public async Task<Role> GetByIdAsync(int id)
+        public async Task<Role?> GetByIdAsync(int id)
         {
-            RoleEntity entity = await _context.Set<RoleEntity>()
-                                               .FirstOrDefaultAsync(e => e.Id == id) ?? throw new EntityNotFoundException($"Role with id {id} not found.");
+            var entity = await _context.Set<RoleEntity>()
+                                               .FirstOrDefaultAsync(e => e.Id == id);
 
             return _roleMapper.MapToDomain(entity);
         }
 
-
         public async Task UpdateAsync(Role role)
         {
-            RoleEntity entity = await _context.Set<RoleEntity>().FindAsync(role.Id) ?? throw new EntityNotFoundException($"Role with id {role.Id} not found.");
-
-            entity = _roleMapper.MapToEntity(role);
-            _context.Entry(entity).State = EntityState.Modified;
+            var entity = await _context.Set<RoleEntity>().FindAsync(role.Id);
+            if(entity != null)
+            {
+                entity.Name = role.Name;
+            }
         }
 
         public async Task RemoveAsync(int id)
         {
-            RoleEntity entity = await _context.Set<RoleEntity>().FindAsync(id) ?? throw new EntityNotFoundException($"Role with id {id} not found.");
-
-            _context.Set<RoleEntity>().Remove(entity);
+            var entity = await _context.Set<RoleEntity>().FindAsync(id);
+            if(entity != null)
+            {
+                _context.Set<RoleEntity>().Remove(entity);
+            }
         }
 
         public async Task<bool> ExistsAsync(int id)
         {
-            return await _context.Set<RoleEntity>().FindAsync(id) != null ? true : false;
+            return await _context.Set<RoleEntity>().FindAsync(id) != null;
         }
 
-        public async Task<IEnumerable<Role>> GetAllAsync()
+        public async Task<IEnumerable<Role?>> GetAllAsync()
         {
-            List<RoleEntity> entities = await _context.Set<RoleEntity>().ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
-            return entities.Select(e => _roleMapper.MapToDomain(e));
+            var entities = await _context.Set<RoleEntity>().ToListAsync();
+            return entities.Select(_roleMapper.MapToDomain);
+        }
+
+        public async Task<IEnumerable<Role?>> GetAllWithPaginationAsync(int page, int pageSize)
+        {
+            var entities = await _context.Set<RoleEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return entities.Select(_roleMapper.MapToDomain);
         }
 
         public async Task AddRangeAsync(IEnumerable<Role> roles)
         {
-            foreach (var role in roles)
-            {
-                if (role == null)
-                {
-                    throw new ArgumentNullException(nameof(role));
-                }
-            }
-
-            List<RoleEntity> entities = roles.Select(_roleMapper.MapToEntity).ToList();
+            var entities = roles.Select(_roleMapper.MapToEntity).ToList();
             await _context.Roles.AddRangeAsync(entities);
         }
 
         public async Task RemoveRangeAsync(IEnumerable<int> roleIds)
         {
-            List<RoleEntity> entities = await _context.Roles.Where(u => roleIds.Contains(u.Id)).ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
-            _context.Roles.RemoveRange(entities);
+            var entities = await _context.Roles.Where(u => roleIds.Contains(u.Id)).ToListAsync();
+            if(entities != null)
+            {
+                _context.Roles.RemoveRange(entities);
+            }
         }
 
-        public IQueryable<Role> Query()
-        {
-            return _context.Set<RoleEntity>().Select(e => _roleMapper.MapToDomain(e)) ?? throw new EntityNotFoundException("No roles found.");
-        }
-
-        public async Task<IEnumerable<Role>> GetAllWithPaginationAsync(int page, int pageSize)
-        {
-            List<RoleEntity> entities = await _context.Set<RoleEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new EntityNotFoundException("No roles found.");
-            return entities.Select(e => _roleMapper.MapToDomain(e));
-        }
+        public IQueryable<Role?> Query() => _context.Set<RoleEntity>().Select(e => _roleMapper.MapToDomain(e));
     }
 }
