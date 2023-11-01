@@ -1,12 +1,9 @@
-﻿using CheckInSKP.Domain.Entities.StaffAggregate;
-using CheckInSKP.Domain.Entities.UserAggregate;
+﻿using CheckInSKP.Domain.Entities.UserAggregate;
 using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Entities;
-using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace CheckInSKP.Infrastructure.Repositories
 {
@@ -46,8 +43,6 @@ namespace CheckInSKP.Infrastructure.Repositories
                 entity.Username = user.Username;
                 entity.PasswordHash = user.PasswordHash;
                 entity.RoleId = user.RoleId;
-
-                // TODO: Fix tokens
             }
         }
 
@@ -71,7 +66,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             return entities.Select(_userMapper.MapToDomain);
         }
 
-        public async Task<IEnumerable<User?>> GetAllWithPaginationAsync(int page, int pageSize)
+        public async Task<IEnumerable<User?>> GetWithPaginationAsync(int page, int pageSize)
         {
             var entities = await _context.Set<UserEntity>().Include(e => e.Tokens).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return entities.Select(_userMapper.MapToDomain);
@@ -94,10 +89,58 @@ namespace CheckInSKP.Infrastructure.Repositories
 
         public IQueryable<User?> Query() => _context.Set<UserEntity>().Select(e => _userMapper.MapToDomain(e));
 
-
         public async Task<User?> GetByUsernameAsync(string username)
         {
             var entity = await _context.Set<UserEntity>().FirstOrDefaultAsync(e => e.Username == username);
+            return _userMapper.MapToDomain(entity);
+        }
+
+        public async Task UpdateTokenAsync(int userId, Token updatedToken)
+        {
+            var entity = await _context.Set<UserEntity>().FindAsync(userId);
+            if(entity != null)
+            {
+                var tokenEntity = entity.Tokens.FirstOrDefault(t => t.Id == updatedToken.Id);
+                if(tokenEntity != null)
+                {
+                    tokenEntity.IsRevoked = updatedToken.IsRevoked;
+                    tokenEntity.ExpiryDate = updatedToken.ExpiryDate;
+                }
+            }
+        }
+
+        public async Task RemoveTokenAsync(int userId, int tokenId)
+        {
+            var entity = await _context.Set<UserEntity>().FindAsync(userId);
+            if (entity != null)
+            {
+                var tokenEntity = entity.Tokens.FirstOrDefault(t => t.Id == tokenId);
+                if (tokenEntity != null)
+                {
+                    entity.Tokens.Remove(tokenEntity);
+                }
+            }
+        }
+
+        public async Task AddTokenAsync(int userId, Token token)
+        {
+            var entity = await _context.Set<UserEntity>().FindAsync(userId);
+
+            if(entity != null)
+            {
+                var tokenEntity = new TokenEntity
+                {
+                    Id = token.Id,
+                    IsRevoked = token.IsRevoked,
+                    ExpiryDate = token.ExpiryDate
+                };
+                entity.Tokens.Add(tokenEntity);
+            }
+        }
+
+        public async Task<User?> GetUserWithPagedTokensAsync(int userId, int page, int pageSize)
+        {
+            var entity = await _context.Set<UserEntity>().Include(e => e.Tokens).Skip((page - 1) * pageSize).Take(pageSize).FirstOrDefaultAsync(e => e.Id == userId);
             return _userMapper.MapToDomain(entity);
         }
     }

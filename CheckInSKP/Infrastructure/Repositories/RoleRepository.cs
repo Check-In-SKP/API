@@ -3,7 +3,6 @@ using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Domain.Entities;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Mappings;
-using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Entities;
 
 namespace CheckInSKP.Infrastructure.Repositories
@@ -62,7 +61,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             return entities.Select(_roleMapper.MapToDomain);
         }
 
-        public async Task<IEnumerable<Role?>> GetAllWithPaginationAsync(int page, int pageSize)
+        public async Task<IEnumerable<Role?>> GetWithPaginationAsync(int page, int pageSize)
         {
             var entities = await _context.Set<RoleEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return entities.Select(_roleMapper.MapToDomain);

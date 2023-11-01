@@ -3,7 +3,6 @@ using CheckInSKP.Domain.Entities;
 using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Mappings;
-using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Entities;
 
 namespace CheckInSKP.Infrastructure.Repositories
@@ -59,7 +58,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             return entities.Select(_timeTypeMapper.MapToDomain);
         }
 
-        public async Task<IEnumerable<TimeType?>> GetAllWithPaginationAsync(int page, int pageSize)
+        public async Task<IEnumerable<TimeType?>> GetWithPaginationAsync(int page, int pageSize)
         {
             var entities = await _context.Set<TimeTypeEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return entities.Select(_timeTypeMapper.MapToDomain);

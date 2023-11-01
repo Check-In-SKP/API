@@ -26,7 +26,7 @@ namespace CheckInSKP.Application.Services.Device.Queries
         }
         public async Task<IEnumerable<DeviceDto>> Handle(GetDevicesWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.Device> devices = await _deviceRepository.GetAllWithPaginationAsync(request.Page, request.PageSize);
+            IEnumerable<Domain.Entities.Device> devices = await _deviceRepository.GetWithPaginationAsync(request.Page, request.PageSize);
             IEnumerable<DeviceDto> deviceDtos = _mapper.Map<IEnumerable<DeviceDto>>(devices);
 
             return deviceDtos;

@@ -2,7 +2,6 @@
 using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Entities;
-using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,8 +46,6 @@ namespace CheckInSKP.Infrastructure.Repositories
                 entity.Preoccupied = staff.Preoccupied;
                 entity.MeetingTime = staff.MeetingTime;
                 entity.UserId = staff.UserId;
-
-                // TODO: TimeLog fix
             }
         }
 
@@ -74,7 +71,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             return entities.Select(_staffMapper.MapToDomain);
         }
 
-        public async Task<IEnumerable<Staff?>> GetAllWithPaginationAsync(int page, int pageSize)
+        public async Task<IEnumerable<Staff?>> GetWithPaginationAsync(int page, int pageSize)
         {
             var entities = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return entities.Select(_staffMapper.MapToDomain);
@@ -96,5 +93,54 @@ namespace CheckInSKP.Infrastructure.Repositories
         }
 
         public IQueryable<Staff?> Query() => _context.Set<StaffEntity>().Select(e => _staffMapper.MapToDomain(e));
+
+        public async Task UpdateTimeLogAsync(int staffId, TimeLog updatedTimeLog)
+        {
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.Id == staffId);
+
+            if(entity != null)
+            {
+                var timeLog = entity.TimeLogs.FirstOrDefault(t => t.Id == updatedTimeLog.Id);
+                if(timeLog != null)
+                {
+                    timeLog.TimeTypeId = updatedTimeLog.TimeTypeId;
+                    timeLog.TimeStamp = updatedTimeLog.TimeStamp;
+                }
+            }
+        }
+
+        public async Task RemoveTimeLogAsync(int staffId, int tokenId)
+        {
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.Id == staffId);
+
+            if(entity != null)
+            {
+                var timeLog = entity.TimeLogs.FirstOrDefault(t => t.Id == tokenId);
+                if(timeLog != null)
+                {
+                    entity.TimeLogs.Remove(timeLog);
+                }
+            }
+        }
+
+        public async Task AddTimeLogAsync(int staffId, TimeLog timeLog)
+        {
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.Id == staffId);
+
+            if(entity != null)
+            {
+                entity.TimeLogs.Add(new TimeLogEntity
+                {
+                    TimeStamp = timeLog.TimeStamp,
+                    TimeTypeId = timeLog.TimeTypeId
+                });
+            }
+        }
+
+        public async Task<Staff?> GetStaffWithPagedTimeLogs(int staffId, int page, int pageSize)
+        {
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).Skip((page - 1) * pageSize).Take(pageSize).FirstOrDefaultAsync(e => e.Id == staffId);
+            return _staffMapper.MapToDomain(entity);
+        }
     }
 }

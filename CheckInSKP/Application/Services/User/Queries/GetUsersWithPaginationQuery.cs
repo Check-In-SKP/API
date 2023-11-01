@@ -29,7 +29,7 @@ namespace CheckInSKP.Application.Services.User.Queries
 
         public async Task<IEnumerable<UserDto>> Handle(GetUsersWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.UserAggregate.User> users = await _userRepository.GetAllWithPaginationAsync(request.PageNumber, request.PageSize);
+            IEnumerable<Domain.Entities.UserAggregate.User> users = await _userRepository.GetWithPaginationAsync(request.PageNumber, request.PageSize);
             IEnumerable<UserDto> userDtos = _mapper.Map<IEnumerable<UserDto>>(users);
             return userDtos;
         }

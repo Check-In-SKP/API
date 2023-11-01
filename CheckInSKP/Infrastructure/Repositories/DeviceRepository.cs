@@ -3,9 +3,7 @@ using CheckInSKP.Domain.Entities;
 using CheckInSKP.Domain.Interfaces.Repositories;
 using CheckInSKP.Infrastructure.Mappings;
 using CheckInSKP.Infrastructure.Data;
-using CheckInSKP.Infrastructure.Exceptions;
 using CheckInSKP.Infrastructure.Entities;
-using System.Security.Cryptography.X509Certificates;
 
 namespace CheckInSKP.Infrastructure.Repositories
 {
@@ -62,7 +60,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             var entities = await _context.Devices.ToListAsync();
             return entities.Select(_deviceMapper.MapToDomain);
         }
-        public async Task<IEnumerable<Device?>> GetAllWithPaginationAsync(int page, int pageSize)
+        public async Task<IEnumerable<Device?>> GetWithPaginationAsync(int page, int pageSize)
         {
             var entities = await _context.Set<DeviceEntity>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             return entities.Select(_deviceMapper.MapToDomain);
