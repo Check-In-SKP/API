@@ -24,7 +24,6 @@ namespace CheckInSKP.Infrastructure.Entities
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
-        public ICollection<TokenEntity> Tokens { get; set; } = new List<TokenEntity>();
 
         [Required]
         public int RoleId { get; set; }

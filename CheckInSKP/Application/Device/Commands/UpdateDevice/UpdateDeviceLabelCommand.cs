@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
+namespace CheckInSKP.Application.Device.Commands.UpdateDevice
 {
     public record UpdateDeviceLabelCommand : IRequest
     {
@@ -34,7 +34,7 @@ namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
             }
 
             device.UpdateLabel(request.Label);
-            
+
             await _deviceRepository.UpdateAsync(device);
             await _unitOfWork.CompleteAsync(cancellationToken);
 

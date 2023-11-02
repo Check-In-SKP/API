@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaff
+namespace CheckInSKP.Application.Staff.Commands.CreateStaff
 {
     public record CreateStaffCommand : IRequest<int>
     {
@@ -22,7 +22,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaff
         private readonly StaffFactory _staffFactory;
         private readonly IStaffRepository _staffRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateStaffCommandHandler(StaffFactory staffFactory ,IStaffRepository staffRepository, IUnitOfWork unitOfWork)
+        public CreateStaffCommandHandler(StaffFactory staffFactory, IStaffRepository staffRepository, IUnitOfWork unitOfWork)
         {
             _staffFactory = staffFactory ?? throw new ArgumentNullException(nameof(staffFactory));
             _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
@@ -33,7 +33,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaff
             var entity = _staffFactory.CreateNewStaff(request.UserId, request.PhoneNumber, request.CardNumber, request.PhoneNotification);
             await _staffRepository.AddAsync(entity);
             await _unitOfWork.CompleteAsync(cancellationToken);
-            
+
             return entity.Id;
         }
     }

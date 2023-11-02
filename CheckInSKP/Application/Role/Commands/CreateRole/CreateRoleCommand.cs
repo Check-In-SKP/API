@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Role.Commands.CreateRole
+namespace CheckInSKP.Application.Role.Commands.CreateRole
 {
     public record CreateRoleCommand : IRequest<int>
     {
@@ -34,7 +34,7 @@ namespace CheckInSKP.Application.Services.Role.Commands.CreateRole
 
             await _roleRepository.AddAsync(entity);
             await _unitOfWork.CompleteAsync(cancellationToken);
-            
+
             return entity.Id;
         }
     }

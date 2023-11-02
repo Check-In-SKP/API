@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.TimeType.Queries
+namespace CheckInSKP.Application.TimeType.Queries
 {
     public class TimeTypeDto
     {

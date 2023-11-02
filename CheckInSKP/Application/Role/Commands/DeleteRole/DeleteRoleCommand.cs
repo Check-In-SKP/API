@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Role.Commands.DeleteRole
+namespace CheckInSKP.Application.Role.Commands.DeleteRole
 {
     public record DeleteRoleCommand : IRequest
     {

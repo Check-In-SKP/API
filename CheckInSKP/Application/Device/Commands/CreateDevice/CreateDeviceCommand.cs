@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using CheckInSKP.Domain.Factories;
 using CheckInSKP.Domain.Repositories;
 
-namespace CheckInSKP.Application.Services.Device.Commands.CreateDevice
+namespace CheckInSKP.Application.Device.Commands.CreateDevice
 {
     public record CreateDeviceCommand : IRequest<Guid>
     {

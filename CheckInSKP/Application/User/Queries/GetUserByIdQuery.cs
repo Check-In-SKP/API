@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CheckInSKP.Application.Services.User.Queries.Dtos;
+using CheckInSKP.Application.User.Queries.Dtos;
 using CheckInSKP.Domain.Repositories;
 using MediatR;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.User.Queries
+namespace CheckInSKP.Application.User.Queries
 {
     public record GetUserByIdQuery : IRequest<UserDto>
     {
@@ -28,7 +28,7 @@ namespace CheckInSKP.Application.Services.User.Queries
 
         public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.UserAggregate.User user = await _userRepository.GetByIdAsync(request.Id) ?? throw new Exception($"User with id {request.Id} not found");
+            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.Id) ?? throw new Exception($"User with id {request.Id} not found");
             UserDto userDto = _mapper.Map<UserDto>(user);
             return userDto;
         }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.EventHandlers
+namespace CheckInSKP.Application.Staff.EventHandlers
 {
     public class StaffPhoneNumberUpdatedEventHandler : INotificationHandler<StaffPhoneNumberUpdatedEvent>
     {

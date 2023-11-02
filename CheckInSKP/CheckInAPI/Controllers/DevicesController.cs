@@ -1,7 +1,7 @@
-﻿using CheckInSKP.Application.Services.Device.Commands.CreateDevice;
-using CheckInSKP.Application.Services.Device.Commands.DeleteDevice;
-using CheckInSKP.Application.Services.Device.Commands.UpdateDevice;
-using CheckInSKP.Application.Services.Device.Queries;
+﻿using CheckInSKP.Application.Device.Commands.CreateDevice;
+using CheckInSKP.Application.Device.Commands.DeleteDevice;
+using CheckInSKP.Application.Device.Commands.UpdateDevice;
+using CheckInSKP.Application.Device.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Role.Commands.UpdateRole
+namespace CheckInSKP.Application.Role.Commands.UpdateRole
 {
     public record UpdateRoleCommand : IRequest
     {

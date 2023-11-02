@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Device.EventHandler
+namespace CheckInSKP.Application.Device.EventHandlers
 {
     public class DeviceAuthorizedEventHandler : INotificationHandler<DeviceAuthorizedEvent>
     {

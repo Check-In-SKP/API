@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.User.Commands.CreateUser
+namespace CheckInSKP.Application.User.Commands.CreateUser
 {
     public record CreateUserCommand : IRequest<int>
     {
@@ -34,12 +34,12 @@ namespace CheckInSKP.Application.Services.User.Commands.CreateUser
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            if(!await _roleRepository.ExistsAsync(request.RoleId))
+            if (!await _roleRepository.ExistsAsync(request.RoleId))
             {
                 throw new Exception($"Role with id {request.RoleId} not found");
             }
 
-            Domain.Entities.UserAggregate.User user = _userFactory.CreateNewUser(request.Name, request.Username, request.PasswordHash, request.RoleId);
+            Domain.Entities.User user = _userFactory.CreateNewUser(request.Name, request.Username, request.PasswordHash, request.RoleId);
 
             await _userRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync(cancellationToken);

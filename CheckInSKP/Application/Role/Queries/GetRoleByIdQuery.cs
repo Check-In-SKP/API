@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Role.Queries
+namespace CheckInSKP.Application.Role.Queries
 {
     public record GetRoleByIdQuery : IRequest<RoleDto>
     {

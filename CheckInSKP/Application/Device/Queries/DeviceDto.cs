@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Device.Queries
+namespace CheckInSKP.Application.Device.Queries
 {
     public class DeviceDto
     {

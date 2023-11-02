@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.DeleteStaff
+namespace CheckInSKP.Application.Staff.Commands.DeleteStaff
 {
     public record DeleteStaffCommand : IRequest
     {
@@ -29,7 +29,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.DeleteStaff
             {
                 throw new Exception($"Staff with id {request.Id} not found");
             }
-            
+
             await _staffRepository.RemoveAsync(staff.Id);
             await _unitOfWork.CompleteAsync(cancellationToken);
 

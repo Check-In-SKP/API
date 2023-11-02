@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CheckInSKP.Application.Services.User.Queries.Dtos;
+using CheckInSKP.Application.User.Queries.Dtos;
 using CheckInSKP.Domain.Repositories;
 using MediatR;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.User.Queries
+namespace CheckInSKP.Application.User.Queries
 {
     public record GetUsersQuery : IRequest<IEnumerable<UserDto>>;
 
@@ -25,7 +25,7 @@ namespace CheckInSKP.Application.Services.User.Queries
 
         public async Task<IEnumerable<UserDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.UserAggregate.User> users = await _userRepository.GetAllAsync();
+            IEnumerable<Domain.Entities.User> users = await _userRepository.GetAllAsync();
             IEnumerable<UserDto> userDtos = _mapper.Map<IEnumerable<UserDto>>(users);
             return userDtos;
         }

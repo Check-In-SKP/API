@@ -19,7 +19,6 @@ namespace CheckInSKP.Infrastructure.Data
         public DbSet<TimeLogEntity> TimeLogs { get; set; }
         public DbSet<TimeTypeEntity> TimeTypes { get; set; }
         public DbSet<StaffEntity> Staffs { get; set; }
-        public DbSet<TokenEntity> Tokens { get; set; }
         public DbSet<DeviceEntity> Devices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

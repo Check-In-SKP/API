@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.UpdateStaff
+namespace CheckInSKP.Application.Staff.Commands.UpdateStaff
 {
     public record UpdateStaffCommand : IRequest
     {

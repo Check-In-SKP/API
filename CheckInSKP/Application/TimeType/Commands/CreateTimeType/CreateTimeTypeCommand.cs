@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.TimeType.Commands.CreateTimeType
+namespace CheckInSKP.Application.TimeType.Commands.CreateTimeType
 {
     public record CreateTimeTypeCommand : IRequest<int>
     {

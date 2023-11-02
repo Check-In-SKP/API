@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Queries.Dtos
+namespace CheckInSKP.Application.Staff.Queries.Dtos
 {
     public class StaffDto
     {

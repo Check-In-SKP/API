@@ -1,5 +1,4 @@
 ﻿using CheckInSKP.Domain.Entities.StaffAggregate;
-using CheckInSKP.Domain.Entities.UserAggregate;
 
 namespace CheckInSKP.Domain.Repositories
 {

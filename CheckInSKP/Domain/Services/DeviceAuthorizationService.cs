@@ -1,5 +1,4 @@
 ﻿using CheckInSKP.Domain.Entities;
-using CheckInSKP.Domain.Entities.UserAggregate;
 using CheckInSKP.Domain.Repositories;
 using CheckInSKP.Domain.Services.Interfaces;
 using System;

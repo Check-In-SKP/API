@@ -1,7 +1,7 @@
 ﻿using CheckInSKP.Domain.Repositories;
 using MediatR;
 
-namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
+namespace CheckInSKP.Application.Device.Commands.UpdateDevice
 {
     public record DeauthorizeDeviceCommand : IRequest
     {

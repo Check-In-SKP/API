@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace CheckInSKP.Application.Services.Device.Commands.DeleteDevice
+namespace CheckInSKP.Application.Device.Commands.DeleteDevice
 {
     public record DeleteDeviceCommand : IRequest
     {

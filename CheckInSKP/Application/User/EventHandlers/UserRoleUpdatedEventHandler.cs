@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.User.EventHandlers
+namespace CheckInSKP.Application.User.EventHandlers
 {
     public class UserRoleUpdatedEventHandler : INotificationHandler<UserRoleUpdatedEvent>
     {

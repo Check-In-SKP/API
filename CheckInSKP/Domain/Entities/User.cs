@@ -3,7 +3,7 @@ using CheckInSKP.Domain.Events.UserEvents;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 
-namespace CheckInSKP.Domain.Entities.UserAggregate
+namespace CheckInSKP.Domain.Entities
 {
     public class User : DomainEntity
     {
@@ -21,9 +21,6 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
 
         public int RoleId { get; private set; }
 
-        private ImmutableList<Token> _tokens = ImmutableList<Token>.Empty;
-        public IReadOnlyList<Token> Tokens => _tokens;
-
         // Constructor for new User
         public User(string name, string username, string passwordHash, int roleId)
         {
@@ -36,7 +33,7 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
         }
 
         // Constructor for existing User
-        public User(int id, string name, string username, string passwordHash, int roleId, IEnumerable<Token>? tokens = null)
+        public User(int id, string name, string username, string passwordHash, int roleId)
         {
             ValidateInput(name, username, passwordHash, roleId);
 
@@ -45,14 +42,6 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
             Username = username;
             PasswordHash = passwordHash;
             RoleId = roleId;
-
-            if (tokens != null)
-            {
-                foreach (var token in tokens)
-                {
-                    AddToken(token);
-                }
-            }
         }
 
         private void ValidateInput(string name, string username, string passwordHash, int roleId)
@@ -70,18 +59,6 @@ namespace CheckInSKP.Domain.Entities.UserAggregate
         public bool ValidatePasswordHash(string passwordHash)
         {
             return PasswordHash == passwordHash;
-        }
-
-        public void AddToken(Token token)
-        {
-            if (token == null) throw new ArgumentNullException(nameof(token));
-            _tokens = _tokens.Add(token);
-        }
-
-        public void RemoveToken(Token token)
-        {
-            if (token == null) throw new ArgumentNullException(nameof(token));
-            _tokens = _tokens.Remove(token);
         }
 
         public void UpdateName(string newName)

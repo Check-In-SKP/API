@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.UpdateStaff
+namespace CheckInSKP.Application.Staff.Commands.UpdateStaff
 {
     public record UpdateStaffCardNumberCommand : IRequest
     {
         public int StaffId { get; init; }
-        public required string CardNumber { get; init;}
+        public required string CardNumber { get; init; }
     }
 
     public class UpdateStaffCardNumberCommandHandler : IRequestHandler<UpdateStaffCardNumberCommand>

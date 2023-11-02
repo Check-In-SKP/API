@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.User.Commands.DeleteUser
+namespace CheckInSKP.Application.User.Commands.DeleteUser
 {
     public record DeleteUserCommand : IRequest
     {
@@ -26,7 +26,7 @@ namespace CheckInSKP.Application.Services.User.Commands.DeleteUser
 
         public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.UserAggregate.User user = await _userRepository.GetByIdAsync(request.Id);
+            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.Id);
 
             if (user == null)
             {

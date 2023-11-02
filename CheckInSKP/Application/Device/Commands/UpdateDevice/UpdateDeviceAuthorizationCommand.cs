@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Device.Commands.UpdateDevice
+namespace CheckInSKP.Application.Device.Commands.UpdateDevice
 {
     public record UpdateDeviceAuthorizationCommand : IRequest
     {

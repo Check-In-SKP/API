@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.TimeType.Commands.UpdateTimeType
+namespace CheckInSKP.Application.TimeType.Commands.UpdateTimeType
 {
     public record UpdateTimeTypeCommand : IRequest
     {

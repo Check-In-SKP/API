@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CheckInSKP.Application.Services.Staff.Queries.Dtos;
+using CheckInSKP.Application.Staff.Queries.Dtos;
 using CheckInSKP.Domain.Repositories;
 using MediatR;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Queries
+namespace CheckInSKP.Application.Staff.Queries
 {
     public record GetStaffsQuery : IRequest<IEnumerable<StaffDto>>;
 

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CheckInSKP.Domain.Repositories;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.CreateStaffTimeLog
+namespace CheckInSKP.Application.Staff.Commands.CreateStaffTimeLog
 {
     public record CreateStaffTimeLogCommand : IRequest
     {

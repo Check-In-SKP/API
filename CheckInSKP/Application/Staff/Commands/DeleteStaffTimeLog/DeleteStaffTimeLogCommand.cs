@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.Staff.Commands.DeleteStaffTimeLog
+namespace CheckInSKP.Application.Staff.Commands.DeleteStaffTimeLog
 {
     public record DeleteStaffTimeLogCommand : IRequest
     {
@@ -34,7 +34,7 @@ namespace CheckInSKP.Application.Services.Staff.Commands.DeleteStaffTimeLog
             var timeLog = staff.TimeLogs.FirstOrDefault(t => t.Id == request.TimeLogId) ?? throw new Exception($"TimeLog with id {request.TimeLogId} not found");
 
             staff.RemoveTimeLog(timeLog);
-            
+
             await _unitOfWork.CompleteAsync(cancellationToken);
             return;
         }

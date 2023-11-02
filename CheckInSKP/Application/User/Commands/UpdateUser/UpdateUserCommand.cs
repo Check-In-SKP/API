@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Application.Services.User.Commands.UpdateUser
+namespace CheckInSKP.Application.User.Commands.UpdateUser
 {
     public record UpdateUserCommand : IRequest
     {
@@ -32,7 +32,7 @@ namespace CheckInSKP.Application.Services.User.Commands.UpdateUser
 
         public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.UserAggregate.User user = await _userRepository.GetByIdAsync(request.Id) ?? throw new Exception($"User with id {request.Id} not found");
+            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.Id) ?? throw new Exception($"User with id {request.Id} not found");
 
             if (!await _roleRepository.ExistsAsync(request.RoleId))
             {
