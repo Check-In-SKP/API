@@ -1,4 +1,6 @@
-﻿using CheckInSKP.Infrastructure.Entities;
+﻿using CheckInSKP.Domain.Entities;
+using CheckInSKP.Domain.Enums;
+using CheckInSKP.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
@@ -26,19 +28,20 @@ namespace CheckInSKP.Infrastructure.Data
             // Apply configurations
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            // Seed data
+            // Seeds roles from enum
             builder.Entity<RoleEntity>().HasData(
-                new RoleEntity { Id = 1, Name = "Admin" },
-                new RoleEntity { Id = 2, Name = "Moderator" },
-                new RoleEntity { Id = 3, Name = "Staff" },
-                new RoleEntity { Id = 4, Name = "User" },
-                new RoleEntity { Id = 5, Name = "Guest"},
-                new RoleEntity { Id = 6, Name = "Monitor" }
+                Enum.GetValues(typeof(Roles))
+                    .Cast<Roles>()
+                    .Select(role => new RoleEntity { Id = (int)role, Name = Role.GetNameFromEnum(role) })
+                    .ToArray()
             );
 
+            // Seeds timetypes
             builder.Entity<TimeTypeEntity>().HasData(
-                new TimeTypeEntity { Id = 1, Name = "Check In" },
-                new TimeTypeEntity { Id = 2, Name = "Check Out" }
+                Enum.GetValues(typeof(TimeTypes))
+                    .Cast<TimeTypes>()
+                    .Select(timeType => new TimeTypeEntity { Id = (int)timeType, Name = TimeType.GetNameFromEnum(timeType) })
+                    .ToArray()
             );
         }
     }

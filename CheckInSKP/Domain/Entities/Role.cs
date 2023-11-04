@@ -1,4 +1,5 @@
 ﻿using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CheckInSKP.Domain.Entities
@@ -39,6 +40,11 @@ namespace CheckInSKP.Domain.Entities
             if (string.IsNullOrWhiteSpace(newName) || newName.Length > 64)
 
             Name = newName;
+        }
+
+        public static string GetNameFromEnum(Roles role)
+        {
+            return role.ToString();
         }
     }
 }

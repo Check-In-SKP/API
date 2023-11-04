@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CheckInSKP.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231104093233_TestMigration")]
+    [Migration("20231104232238_TestMigration")]
     partial class TestMigration
     {
         /// <inheritdoc />
@@ -103,6 +103,11 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 5,
+                            Name = "Guest"
+                        },
+                        new
+                        {
+                            Id = 6,
                             Name = "Monitor"
                         });
                 });
@@ -215,12 +220,22 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Check In"
+                            Name = "CheckIn"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Check Out"
+                            Name = "CheckOut"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "BreakStart"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "BreakEnd"
                         });
                 });
 

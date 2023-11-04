@@ -141,7 +141,8 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                     { 2, "Moderator" },
                     { 3, "Staff" },
                     { 4, "User" },
-                    { 5, "Monitor" }
+                    { 5, "Guest" },
+                    { 6, "Monitor" }
                 });
 
             migrationBuilder.InsertData(
@@ -149,8 +150,10 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Check In" },
-                    { 2, "Check Out" }
+                    { 1, "CheckIn" },
+                    { 2, "CheckOut" },
+                    { 3, "BreakStart" },
+                    { 4, "BreakEnd" }
                 });
 
             migrationBuilder.CreateIndex(

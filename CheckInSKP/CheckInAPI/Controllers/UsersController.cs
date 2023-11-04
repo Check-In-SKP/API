@@ -6,6 +6,7 @@ using CheckInSKP.Application.User.Commands.LoginUser;
 using CheckInSKP.Application.User.Commands.UpdateUser;
 using CheckInSKP.Application.User.Queries;
 using CheckInSKP.Application.User.Queries.Dtos;
+using CheckInSKP.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,11 +24,11 @@ namespace CheckInAPI.Controllers
         public async Task<IActionResult> CreateUser(ISender sender, [FromBody] CreateUserCommand command)
         {
             await sender.Send(command);
-            return CreatedAtAction(nameof(GetUserById), new { id = command.Username }, command); // TODO: Fix return from command
+            return Ok(new { Status = "Success", Message = "User created successfully." });
         }
 
         [HttpGet("id")]
-        [AuthorizeUserRole(1, 6)] // Resricts access to Admin = 1 and Monitor = 6
+        [AuthorizeUserRole((int)Roles.Admin, (int)Roles.Monitor)]
         public async Task<UserDto> GetUserById(ISender sender, [FromQuery] GetUserByIdQuery query)
         {
             return await sender.Send(query);
@@ -46,21 +47,21 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpGet]
-        [AuthorizeUserRole(1, 6)] // Restricts access to Admin = 1 and Monitor = 6
+        [AuthorizeUserRole((int)Roles.Admin, (int)Roles.Monitor)]
         public async Task<IEnumerable<UserDto>> GetUsers(ISender sender, [FromQuery] GetUsersQuery query)
         {
             return await sender.Send(query);
         }
 
         [HttpGet("paginate")]
-        [AuthorizeUserRole(1, 6)] // Restricts access to Admin = 1 and Monitor = 6
+        [AuthorizeUserRole((int)Roles.Admin, (int)Roles.Monitor)]
         public async Task<IEnumerable<UserDto>> GetUsersPaginated(ISender sender, [FromQuery] GetUsersWithPaginationQuery query)
         {
             return await sender.Send(query);
         }
 
         [HttpPut]
-        [AuthorizeUserRole(1)] // Restricts access to Admin = 1
+        [AuthorizeUserRole(1)]
         public async Task<IActionResult> UpdateUser(ISender sender, [FromBody] UpdateUserCommand command)
         {
             await sender.Send(command);
@@ -71,17 +72,11 @@ namespace CheckInAPI.Controllers
         [SecureAuthorize]
         public async Task<IActionResult> UpdateUserUsername(ISender sender, [FromBody] UpdateUserUsernameCommand command)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            var userRoleClaim = User.FindFirst(ClaimTypes.Role);
-
-            // Parse the claims to int
-            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var userId))
-                return Unauthorized();
-            if (userRoleClaim == null || !int.TryParse(userRoleClaim.Value, out var userRole))
+            var (userId, userRoleId) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (!userId.HasValue || !userRoleId.HasValue)
                 return Unauthorized();
 
-            // Check if the user is the same as the one in the token or has admin privileges
-            if (userId != command.UserId || userRole != 1)
+            if (userId != command.UserId || userRoleId != (int)Roles.Admin)
                 return Unauthorized();
 
             await sender.Send(command);
@@ -96,7 +91,7 @@ namespace CheckInAPI.Controllers
             if (!userId.HasValue || !userRoleId.HasValue)
                 return Unauthorized();
 
-            if (userId != command.UserId || userRoleId != 1)
+            if (userId != command.UserId || userRoleId != (int)Roles.Admin)
                 return Unauthorized();
 
             await sender.Send(command);
@@ -104,7 +99,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpPut("role")]
-        [AuthorizeUserRole(1)] // Restricts access to Admin = 1
+        [AuthorizeUserRole((int)Roles.Admin)]
         public async Task<IActionResult> UpdateUserRole(ISender sender, [FromBody] UpdateUserRoleCommand command)
         {
             await sender.Send(command);
@@ -112,7 +107,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpDelete("id")]
-        [AuthorizeUserRole(1)] // Restricts access to Admin = 1
+        [AuthorizeUserRole((int)Roles.Admin)]
         public async Task<IActionResult> DeleteUser(ISender sender, [FromQuery] DeleteUserCommand command)
         {
             await sender.Send(command);

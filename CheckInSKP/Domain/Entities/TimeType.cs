@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Enums;
 
 namespace CheckInSKP.Domain.Entities
 {
@@ -41,6 +42,11 @@ namespace CheckInSKP.Domain.Entities
             if (string.IsNullOrWhiteSpace(newName) || newName.Length > 64)
                 throw new ArgumentException("Invalid new time type name.", nameof(newName));
             Name = newName;
+        }
+
+        public static string GetNameFromEnum(TimeTypes timeType)
+        {
+            return timeType.ToString();
         }
     }
 }
