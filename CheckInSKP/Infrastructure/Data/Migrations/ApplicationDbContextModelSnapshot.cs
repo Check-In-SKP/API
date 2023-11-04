@@ -221,47 +221,6 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.TokenEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("JwtId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("JwtId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Tokens");
-                });
-
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -337,17 +296,6 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                     b.Navigation("TimeType");
                 });
 
-            modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.TokenEntity", b =>
-                {
-                    b.HasOne("CheckInSKP.Infrastructure.Entities.UserEntity", "User")
-                        .WithMany("Tokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.UserEntity", b =>
                 {
                     b.HasOne("CheckInSKP.Infrastructure.Entities.RoleEntity", "Role")
@@ -362,11 +310,6 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.StaffEntity", b =>
                 {
                     b.Navigation("TimeLogs");
-                });
-
-            modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.UserEntity", b =>
-                {
-                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

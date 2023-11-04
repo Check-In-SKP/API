@@ -8,6 +8,7 @@ using CheckInSKP.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Runtime.Versioning;
 
 namespace CheckInSKP.Infrastructure
@@ -17,6 +18,8 @@ namespace CheckInSKP.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Services
+            services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+            services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 
             // Database

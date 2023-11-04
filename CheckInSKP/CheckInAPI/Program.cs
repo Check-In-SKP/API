@@ -1,5 +1,7 @@
+using CheckInAPI.Services;
 using CheckInSKP.Application;
 using CheckInSKP.Infrastructure;
+using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,8 @@ internal class Program
         // Add configuration file
         builder.Configuration.AddJsonFile($"appsettings.{Environment.MachineName}.json", optional: false, reloadOnChange: true);
 
+        //Console.WriteLine(KeyGenerator.GenerateRandomKey(32));
+
         // Add services to the container.
         builder.Services.AddLogging();
         builder.Services.AddControllers();
@@ -22,10 +26,15 @@ internal class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddAutoMapper(typeof(Program));
 
+        // Add health checks
+        builder.Services.AddHealthChecks();
+        builder.Services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+
         // Adding services from other projects
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
 
+        #region JWT Authentication
         // Add JWT authentication
         var jwtKey = builder.Configuration["JwtSettings:Key"];
 
@@ -57,6 +66,23 @@ internal class Program
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                 };
             });
+        #endregion
+
+        #region CORS Policies
+        // CORS
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "Web",
+                              builder =>
+                              {
+                                  builder.WithOrigins("http://localhost", "https://localhost")
+                                         .AllowAnyHeader()
+                                         .AllowAnyMethod();
+                                  // builder.WithMethods("GET", "POST");
+                                  // builder.AllowCredentials();
+                              });
+        });
+        #endregion
 
         var app = builder.Build();
 
@@ -68,10 +94,12 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseCors("Web");
 
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseHealthChecks("/health");
         app.MapControllers();
 
         app.Run();

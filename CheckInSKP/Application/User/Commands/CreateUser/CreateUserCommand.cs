@@ -1,4 +1,5 @@
-﻿using CheckInSKP.Domain.Factories;
+﻿using CheckInSKP.Application.Common.Interfaces;
+using CheckInSKP.Domain.Factories;
 using CheckInSKP.Domain.Repositories;
 using MediatR;
 using System;
@@ -13,8 +14,7 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
     {
         public required string Name { get; init; }
         public required string Username { get; init; }
-        public required string PasswordHash { get; init; }
-        public required int RoleId { get; init; }
+        public required string Password { get; init; }
     }
 
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
@@ -23,23 +23,36 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public CreateUserCommandHandler(UserFactory userFactory, IUnitOfWork unitOfWork)
+        public CreateUserCommandHandler(UserFactory userFactory, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher)
         {
             _userFactory = userFactory ?? throw new ArgumentNullException(nameof(userFactory));
             _roleRepository = unitOfWork.RoleRepository ?? throw new ArgumentNullException(nameof(unitOfWork.RoleRepository));
             _userRepository = unitOfWork.UserRepository ?? throw new ArgumentNullException(nameof(unitOfWork.UserRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            if (!await _roleRepository.ExistsAsync(request.RoleId))
+            // Checks if user already exists
+            if (await _userRepository.GetByUsernameAsync(request.Username) != null)
             {
-                throw new Exception($"Role with id {request.RoleId} not found");
+                throw new Exception($"User with username {request.Username} already exists");
             }
 
-            Domain.Entities.User user = _userFactory.CreateNewUser(request.Name, request.Username, request.PasswordHash, request.RoleId);
+            // Gets the default role
+            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(4) ?? throw new Exception($"Role not found");
+
+            if(role.Name != "User")
+            {
+                throw new Exception($"Role with ID 4 is not the default role");
+            }
+
+            string passwordHash = _passwordHasher.HashPassword(request.Password);
+
+            Domain.Entities.User user = _userFactory.CreateNewUser(request.Name, request.Username, passwordHash, role.Id);
 
             await _userRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync(cancellationToken);

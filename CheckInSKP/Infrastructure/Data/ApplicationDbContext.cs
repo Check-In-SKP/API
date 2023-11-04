@@ -32,7 +32,8 @@ namespace CheckInSKP.Infrastructure.Data
                 new RoleEntity { Id = 2, Name = "Moderator" },
                 new RoleEntity { Id = 3, Name = "Staff" },
                 new RoleEntity { Id = 4, Name = "User" },
-                new RoleEntity { Id = 5, Name = "Monitor" }
+                new RoleEntity { Id = 5, Name = "Guest"},
+                new RoleEntity { Id = 6, Name = "Monitor" }
             );
 
             builder.Entity<TimeTypeEntity>().HasData(
