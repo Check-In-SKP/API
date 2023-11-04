@@ -1,8 +1,10 @@
-﻿using CheckInSKP.Domain.Factories;
+﻿using CheckInSKP.Application.Common.Interfaces;
+using CheckInSKP.Domain.Factories;
 using CheckInSKP.Domain.Repositories;
 using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Mappings;
 using CheckInSKP.Infrastructure.Repositories;
+using CheckInSKP.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,9 @@ namespace CheckInSKP.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // Services
+            services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
+
             // Database
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("CheckInDB")));
 

@@ -1,6 +1,10 @@
 using CheckInSKP.Application;
 using CheckInSKP.Infrastructure;
+using CheckInSKP.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 internal class Program
 {
@@ -22,6 +26,38 @@ internal class Program
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
 
+        // Add JWT authentication
+        var jwtKey = builder.Configuration["JwtSettings:Key"];
+
+        if (string.IsNullOrWhiteSpace(jwtKey))
+        {
+            throw new Exception("JWT Key is missing from configuration file.");
+        }
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // Validate the JWT Issuer (iss) claim
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+
+                    // Validate the JWT Audience (aud) claim
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JwtSettings:Audience"],
+
+                    // Validate the token expiry
+                    ValidateLifetime = true,
+
+                    // Validate the presence of the SigningKey
+                    ValidateIssuerSigningKey = true,
+
+                    // Specify the SigningKey
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                };
+            });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -33,6 +69,7 @@ internal class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
