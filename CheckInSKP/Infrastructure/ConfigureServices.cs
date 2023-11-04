@@ -21,6 +21,7 @@ namespace CheckInSKP.Infrastructure
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
+            services.AddScoped<IRoleValidationService, RoleValidationService>();
 
             // Database
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("CheckInDB")));

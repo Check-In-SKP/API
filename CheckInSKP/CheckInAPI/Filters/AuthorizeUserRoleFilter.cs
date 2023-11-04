@@ -1,4 +1,4 @@
-﻿using CheckInSKP.Domain.Services.Interfaces;
+﻿using CheckInSKP.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -6,12 +6,14 @@ using System.Security.Claims;
 
 namespace CheckInAPI.Filters
 {
-    public class AuthorizaUserRoleFilter : IAuthorizationFilter
+    public class AuthorizeUserRoleFilter : IAuthorizationFilter
     {
+        private readonly int[] _roleIds;
         private readonly IRoleValidationService _roleValidationService;
 
-        public AuthorizaUserRoleFilter(IRoleValidationService roleValidationService)
+        public AuthorizeUserRoleFilter(int[] roleIds, IRoleValidationService roleValidationService)
         {
+            _roleIds = roleIds;
             _roleValidationService = roleValidationService;
         }
 
@@ -25,13 +27,8 @@ namespace CheckInAPI.Filters
                 context.Result = new UnauthorizedResult();
                 return;
             }
-            if(roleIdClaims == null || !int.TryParse(roleIdClaims.Value, out var roleId))
-            {
-                context.Result = new UnauthorizedResult();
-                return;
-            }
 
-            if(!_roleValidationService.UserHasValidRole(userId, roleId).Result)
+            if(!_roleValidationService.UserHasValidRole(userId, _roleIds).Result)
             {
                 context.Result = new ForbidResult();
             }

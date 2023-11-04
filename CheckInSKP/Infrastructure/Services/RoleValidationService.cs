@@ -1,13 +1,13 @@
-﻿using CheckInSKP.Domain.Entities;
+﻿using CheckInSKP.Application.Common.Interfaces;
+using CheckInSKP.Domain.Entities;
 using CheckInSKP.Domain.Repositories;
-using CheckInSKP.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckInSKP.Domain.Services
+namespace CheckInSKP.Infrastructure.Services
 {
     public class RoleValidationService : IRoleValidationService
     {
@@ -18,16 +18,10 @@ namespace CheckInSKP.Domain.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public async Task<bool> UserHasValidRole(int userId, int roleId)
+        public async Task<bool> UserHasValidRole(int userId, params int[] roleIds)
         {
-            User user = await _userRepository.GetByIdAsync(userId) ?? throw new Exception($"User with id {userId} not found");
-
-            if(user.RoleId == roleId)
-            {
-                return true;
-            }
-
-            return false;
+            var user = await _userRepository.GetByIdAsync(userId);
+            return user != null && roleIds.Contains(user.RoleId);
         }
     }
 }
