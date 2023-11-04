@@ -18,10 +18,18 @@ namespace CheckInSKP.Infrastructure.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
+        // Checks if the user has a valid/authorized role within the provided list of roles
         public async Task<bool> UserHasValidRole(int userId, params int[] roleIds)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             return user != null && roleIds.Contains(user.RoleId);
+        }
+
+        // Checks if the user role claim is valid (Useful to check if a role claim is outdated and token has yet to be revoked or expire)
+        public async Task<bool> UserRoleClaimIsValid(int userId, int roleClaim)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            return user != null && user.RoleId.Equals(roleClaim);
         }
     }
 }

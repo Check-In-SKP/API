@@ -9,5 +9,6 @@ namespace CheckInSKP.Application.Common.Interfaces
     public interface IRoleValidationService
     {
         Task<bool> UserHasValidRole(int userId, params int[] roleIds);
+        Task<bool> UserRoleClaimIsValid(int userId, int roleClaim);
     }
 }
