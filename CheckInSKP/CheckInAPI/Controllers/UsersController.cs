@@ -61,7 +61,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpPut]
-        [AuthorizeUserRole(1)]
+        [AuthorizeUserRole((int)Roles.Admin)]
         public async Task<IActionResult> UpdateUser(ISender sender, [FromBody] UpdateUserCommand command)
         {
             await sender.Send(command);
