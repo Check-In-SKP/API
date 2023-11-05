@@ -68,7 +68,7 @@ namespace CheckInAPI.Controllers
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpPut("username")]
+        [HttpPatch("username")]
         [SecureAuthorize]
         public async Task<IActionResult> UpdateUserUsername(ISender sender, [FromBody] UpdateUserUsernameCommand command)
         {
@@ -83,7 +83,7 @@ namespace CheckInAPI.Controllers
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpPut("password")]
+        [HttpPatch("password")]
         [SecureAuthorize]
         public async Task<IActionResult> UpdateUserPassword(ISender sender, [FromBody] UpdateUserPasswordHashCommand command)
         {
@@ -98,7 +98,7 @@ namespace CheckInAPI.Controllers
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpPut("role")]
+        [HttpPatch("role")]
         [AuthorizeUserRole((int)Roles.Admin)]
         public async Task<IActionResult> UpdateUserRole(ISender sender, [FromBody] UpdateUserRoleCommand command)
         {
