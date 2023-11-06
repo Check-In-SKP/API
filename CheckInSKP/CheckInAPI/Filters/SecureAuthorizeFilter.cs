@@ -1,5 +1,6 @@
 ﻿using CheckInAPI.Common.Utilities;
-using CheckInSKP.Application.Common.Interfaces;
+using CheckInSKP.Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
@@ -9,26 +10,33 @@ namespace CheckInAPI.Filters
 {
     public class SecureAuthorizeFilter : IAuthorizationFilter
     {
-        private readonly IRoleValidationService _roleValidationService;
+        private readonly ITokenValidationService _tokenValidationService;
 
-        public SecureAuthorizeFilter(IRoleValidationService roleValidationService)
+        public SecureAuthorizeFilter(ITokenValidationService tokenValidationService)
         {
-            _roleValidationService = roleValidationService;
+            _tokenValidationService = tokenValidationService;
         }
 
         public async void OnAuthorization(AuthorizationFilterContext context)
         {
-            var (userId, userRoleId) = ClaimUtility.ParseUserAndRoleClaims(context.HttpContext.User);
+            var (deviceId, userId, username, roleId) = ClaimUtility.ParseTokenClaims(context.HttpContext.User);
 
-            if (!userId.HasValue || !userRoleId.HasValue)
+            if (deviceId == null || userId == null || username == null || roleId == null)
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
 
-            if (!await _roleValidationService.UserHasValidRole(userId.Value, userRoleId.Value))
+            if (!await _tokenValidationService.ValidateUserClaims((int)userId, username, (int)roleId))
             {
-                context.Result = new ForbidResult();
+                context.Result = new UnauthorizedResult();
+                return;
+            }
+
+            if (!await _tokenValidationService.DeviceIsAuthorized((Guid)deviceId))
+            {
+                context.Result = new UnauthorizedResult();
+                return;
             }
         }
     }

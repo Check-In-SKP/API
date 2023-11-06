@@ -72,13 +72,6 @@ namespace CheckInAPI.Controllers
         [SecureAuthorize]
         public async Task<IActionResult> UpdateUserUsername(ISender sender, [FromBody] UpdateUserUsernameCommand command)
         {
-            var (userId, userRoleId) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (!userId.HasValue || !userRoleId.HasValue)
-                return Unauthorized();
-
-            if (userId != command.UserId || userRoleId != (int)RoleEnum.Admin)
-                return Unauthorized();
-
             await sender.Send(command);
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
@@ -88,8 +81,6 @@ namespace CheckInAPI.Controllers
         public async Task<IActionResult> UpdateUserPassword(ISender sender, [FromBody] UpdateUserPasswordHashCommand command)
         {
             var (userId, userRoleId) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (!userId.HasValue || !userRoleId.HasValue)
-                return Unauthorized();
 
             if (userId != command.UserId || userRoleId != (int)RoleEnum.Admin)
                 return Unauthorized();

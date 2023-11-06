@@ -9,7 +9,7 @@ namespace CheckInSKP.Infrastructure.Entities
 
         [Required]
         [MaxLength(64)]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [Required]
         public bool IsAuthorized { get; set; }

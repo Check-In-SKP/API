@@ -24,13 +24,15 @@ namespace CheckInSKP.Application.User.Commands.LoginUser
         private readonly IDeviceRepository _deviceRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public LoginUserCommandHandler(IDeviceRepository deviceRepository, IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService)
+        public LoginUserCommandHandler(IDeviceRepository deviceRepository, IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService, IUnitOfWork unitOfWork)
         {
             _deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<string> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -41,16 +43,21 @@ namespace CheckInSKP.Application.User.Commands.LoginUser
             if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
                 throw new Exception("Invalid password");
 
-            if (user.RoleId == (int)RoleEnum.Admin)
-                device.HandleAdminLoginAuthorization(); // fires event
+            // Authorize the device if the user is an admin
+            if (user.RoleId == (int)RoleEnum.Admin && !device.IsAuthorized)
+            {
+                device.Authorize();
+                await _deviceRepository.UpdateAsync(device);
+            }
 
             if (!device.IsAuthorized)
                 throw new Exception($"Device with id {request.DeviceId} is not authorized");
 
-            string token = _tokenService.GenerateAccessToken(user, device);
+            string token = _tokenService.GenerateAccessToken(user, device) ?? throw new Exception("Token generation failed");
 
             user.LoggedIn();
 
+            await _unitOfWork.CompleteAsync(cancellationToken);
             return token;
         }
     }

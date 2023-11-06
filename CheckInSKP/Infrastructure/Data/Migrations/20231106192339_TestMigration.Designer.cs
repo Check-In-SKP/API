@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CheckInSKP.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231106132537_TestMigration")]
+    [Migration("20231106192339_TestMigration")]
     partial class TestMigration
     {
         /// <inheritdoc />
@@ -287,7 +287,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 11, 6, 13, 25, 36, 923, DateTimeKind.Utc).AddTicks(1937),
+                            CreatedAt = new DateTime(2023, 11, 6, 19, 23, 39, 514, DateTimeKind.Utc).AddTicks(9193),
                             Name = "System Administrator",
                             PasswordHash = "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO",
                             RoleId = 1,

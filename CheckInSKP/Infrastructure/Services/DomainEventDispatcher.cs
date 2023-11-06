@@ -26,5 +26,10 @@ namespace CheckInSKP.Infrastructure.Services
                 await _mediator.Publish(domainEvent, cancellationToken);
             }
         }
+
+        public async Task DispatchEventAsync(DomainEvent domainEvent, CancellationToken cancellationToken = default)
+        {
+            await _mediator.Publish(domainEvent, cancellationToken);
+        }
     }
 }

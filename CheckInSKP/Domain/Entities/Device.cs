@@ -9,7 +9,7 @@ namespace CheckInSKP.Domain.Entities
         private readonly Guid _id;
         public Guid Id => _id;
 
-        [Required, StringLength(64)]
+        [MaxLength(64)]
         public string Label { get; private set; }
 
         public bool IsAuthorized { get; private set; }
@@ -61,13 +61,6 @@ namespace CheckInSKP.Domain.Entities
             IsAuthorized = false;
 
             AddDomainEvent(new DeviceDeauthorizedEvent(Id));
-        }
-
-        // Raises event which authenticates the device for admin login
-        public void HandleAdminLoginAuthorization()
-        {
-            if(!IsAuthorized)
-                AddDomainEvent(new AdminAuthorizedDeviceOnLoginEvent(Id));
         }
     }
 }

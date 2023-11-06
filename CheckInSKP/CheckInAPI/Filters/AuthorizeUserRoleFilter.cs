@@ -1,5 +1,5 @@
 ﻿using CheckInAPI.Common.Utilities;
-using CheckInSKP.Application.Common.Interfaces;
+using CheckInSKP.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,9 +10,9 @@ namespace CheckInAPI.Filters
     public class AuthorizeUserRoleFilter : IAuthorizationFilter
     {
         private readonly int[] _roleIds;
-        private readonly IRoleValidationService _roleValidationService;
+        private readonly ITokenValidationService _roleValidationService;
 
-        public AuthorizeUserRoleFilter(int[] roleIds, IRoleValidationService roleValidationService)
+        public AuthorizeUserRoleFilter(int[] roleIds, ITokenValidationService roleValidationService)
         {
             _roleIds = roleIds;
             _roleValidationService = roleValidationService;

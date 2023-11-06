@@ -5,6 +5,7 @@ using CheckInSKP.Infrastructure.Data;
 using CheckInSKP.Infrastructure.Mappings;
 using CheckInSKP.Infrastructure.Repositories;
 using CheckInSKP.Infrastructure.Services;
+using CheckInSKP.Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,12 +18,13 @@ namespace CheckInSKP.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
+
             // Services
-            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             services.AddSingleton<ITokenService, TokenService>();
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
-            services.AddScoped<IRoleValidationService, RoleValidationService>();
+            services.AddScoped<ITokenValidationService, TokenValidationService>();
 
             // Database
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("CheckInDB")));
