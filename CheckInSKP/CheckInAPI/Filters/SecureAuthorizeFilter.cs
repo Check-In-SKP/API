@@ -8,6 +8,13 @@ using System.Security.Claims;
 
 namespace CheckInAPI.Filters
 {
+    /// <summary>
+    /// Class <c>SecureAuthorizeFilter</c> filters out invalid tokens or tokens which no longer represents data in a valid state.
+    /// 
+    /// Cautions:
+    ///     Performance heavy / slow.
+    ///     Only use this filter on endpoints which require a valid token.
+    /// </summary>
     public class SecureAuthorizeFilter : IAuthorizationFilter
     {
         private readonly ITokenValidationService _tokenValidationService;
@@ -27,12 +34,14 @@ namespace CheckInAPI.Filters
                 return;
             }
 
+            // Checks the database if the token claims are still valid.
             if (!await _tokenValidationService.ValidateUserClaims((int)userId, username, (int)roleId))
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
 
+            // Checks the database if the device is still authorized.
             if (!await _tokenValidationService.DeviceIsAuthorized((Guid)deviceId))
             {
                 context.Result = new UnauthorizedResult();

@@ -12,7 +12,7 @@ namespace CheckInSKP.Application.User.Queries
 {
     public record GetUserByIdQuery : IRequest<UserDto>
     {
-        public required int Id { get; init; }
+        public required int UserId { get; init; }
     }
 
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto>
@@ -28,7 +28,7 @@ namespace CheckInSKP.Application.User.Queries
 
         public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.Id) ?? throw new Exception($"User with id {request.Id} not found");
+            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.UserId) ?? throw new Exception($"User with id {request.UserId} not found");
             UserDto userDto = _mapper.Map<UserDto>(user);
             return userDto;
         }

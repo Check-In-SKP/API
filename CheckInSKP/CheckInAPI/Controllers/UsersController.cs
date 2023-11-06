@@ -19,26 +19,34 @@ namespace CheckInAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ISender _sender;
+
+        public UsersController(ISender sender)
+        {
+            _sender = sender;
+        }
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUser(ISender sender, [FromBody] CreateUserCommand command)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
-            await sender.Send(command);
+            await _sender.Send(command);
             return Ok(new { Status = "Success", Message = "User created successfully." });
         }
 
-        [HttpGet("id")]
+        [HttpGet("{userId}")]
         [AuthorizeUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
-        public async Task<UserDto> GetUserById(ISender sender, [FromQuery] GetUserByIdQuery query)
+        public async Task<UserDto> GetUserById([FromRoute] int userId)
         {
-            return await sender.Send(query);
+            var query = new GetUserByIdQuery { UserId = userId };
+            return await _sender.Send(query);
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(ISender sender, [FromBody] LoginUserCommand command)
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            var result = await sender.Send(command);
+            var result = await _sender.Send(command);
             if (result == null)
             {
                 return Unauthorized();
@@ -46,62 +54,75 @@ namespace CheckInAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("list")]
         [AuthorizeUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
-        public async Task<IEnumerable<UserDto>> GetUsers(ISender sender, [FromQuery] GetUsersQuery query)
+        public async Task<IEnumerable<UserDto>> GetUsers([FromQuery] GetUsersQuery query)
         {
-            return await sender.Send(query);
+            return await _sender.Send(query);
         }
 
         [HttpGet("paginate")]
         [AuthorizeUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
-        public async Task<IEnumerable<UserDto>> GetUsersPaginated(ISender sender, [FromQuery] GetUsersWithPaginationQuery query)
+        public async Task<IEnumerable<UserDto>> GetUsersPaginated([FromQuery] GetUsersWithPaginationQuery query)
         {
-            return await sender.Send(query);
+            return await _sender.Send(query);
         }
 
         [HttpPut]
         [AuthorizeUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> UpdateUser(ISender sender, [FromBody] UpdateUserCommand command)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand command)
         {
-            await sender.Send(command);
+            await _sender.Send(command);
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpPatch("username")]
+        [HttpPatch("{userId}/username")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateUserUsername(ISender sender, [FromBody] UpdateUserUsernameCommand command)
+        public async Task<IActionResult> UpdateUserUsername([FromRoute] int userId, [FromBody] UpdateUserUsernameCommand command)
         {
-            await sender.Send(command);
+            // Checks that the user id matches the id in the command
+            if (userId != command.UserId)
+                return BadRequest();
+
+            await _sender.Send(command);
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpPatch("password")]
+        [HttpPatch("{userId}/password")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateUserPassword(ISender sender, [FromBody] UpdateUserPasswordHashCommand command)
+        public async Task<IActionResult> UpdateUserPassword([FromRoute] int userId, [FromBody] UpdateUserPasswordHashCommand command)
         {
-            var (userId, userRoleId) = ClaimUtility.ParseUserAndRoleClaims(User);
+            // Checks that the user id matches the id in the command
+            if(userId != command.UserId)
+                return BadRequest();
 
-            if (userId != command.UserId || userRoleId != (int)RoleEnum.Admin)
+            // Checks token claims to ensure that the user is authorized
+            var (userIdClaim, userRoleIdClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (userIdClaim != command.UserId || userRoleIdClaim != (int)RoleEnum.Admin)
                 return Unauthorized();
 
-            await sender.Send(command);
+            await _sender.Send(command);
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpPatch("role")]
+        [HttpPatch("{userId}/role")]
         [AuthorizeUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> UpdateUserRole(ISender sender, [FromBody] UpdateUserRoleCommand command)
+        public async Task<IActionResult> UpdateUserRole([FromRoute] int userId, [FromBody] UpdateUserRoleCommand command)
         {
-            await sender.Send(command);
+            // Checks that the user id matches the id in the command
+            if (userId != command.UserId)
+                return BadRequest();
+
+            await _sender.Send(command);
             return Ok(new { Status = "Success", Message = "User updated successfully." });
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{userId}")]
         [AuthorizeUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> DeleteUser(ISender sender, [FromQuery] DeleteUserCommand command)
+        public async Task<IActionResult> DeleteUser([FromRoute] int userId)
         {
-            await sender.Send(command);
+            var command = new DeleteUserCommand { UserId = userId };
+            await _sender.Send(command);
             return Ok();
         }
     }

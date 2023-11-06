@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.User.Commands.DeleteUser
 {
     public record DeleteUserCommand : IRequest
     {
-        public int Id { get; init; }
+        public int UserId { get; init; }
     }
 
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
@@ -26,11 +26,11 @@ namespace CheckInSKP.Application.User.Commands.DeleteUser
 
         public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.Id);
+            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.UserId);
 
             if (user == null)
             {
-                throw new Exception($"User with id {request.Id} not found");
+                throw new Exception($"User with id {request.UserId} not found");
             }
 
             await _userRepository.RemoveAsync(user.Id);
