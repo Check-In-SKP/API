@@ -62,5 +62,12 @@ namespace CheckInSKP.Domain.Entities
 
             AddDomainEvent(new DeviceDeauthorizedEvent(Id));
         }
+
+        // Raises event which authenticates the device for admin login
+        public void HandleAdminLoginAuthorization()
+        {
+            if(!IsAuthorized)
+                AddDomainEvent(new AdminAuthorizedDeviceOnLoginEvent(Id));
+        }
     }
 }

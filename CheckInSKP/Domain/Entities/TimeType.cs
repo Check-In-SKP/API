@@ -44,7 +44,7 @@ namespace CheckInSKP.Domain.Entities
             Name = newName;
         }
 
-        public static string GetNameFromEnum(TimeTypes timeType)
+        public static string GetNameFromEnum(TimeTypeEnum timeType)
         {
             return timeType.ToString();
         }

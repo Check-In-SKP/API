@@ -5,7 +5,6 @@ namespace CheckInSKP.Application.Device.Commands.UpdateDevice
 {
     public record DeauthorizeDeviceCommand : IRequest
     {
-        public required string token { get; init; }
         public Guid DeviceId { get; init; }
     }
 

@@ -9,6 +9,6 @@ namespace CheckInSKP.Application.Common.Interfaces
 {
     public interface ITokenService
     {
-        public string GenerateAccessToken(CheckInSKP.Domain.Entities.User user);
+        public string GenerateAccessToken(Domain.Entities.User user, Domain.Entities.Device device);
     }
 }

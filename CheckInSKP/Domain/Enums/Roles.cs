@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Domain.Enums
 {
-    public enum Roles
+    public enum RoleEnum
     {
         Admin = 1,
         Moderator = 2,

@@ -24,7 +24,7 @@ namespace CheckInSKP.Infrastructure.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateAccessToken(User user)
+        public string GenerateAccessToken(User user, Device device)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
@@ -33,6 +33,7 @@ namespace CheckInSKP.Infrastructure.Services
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new System.Security.Claims.Claim[]
                 {
+                    new Claim(ClaimTypes.SerialNumber, device.Id.ToString()),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, user.RoleId.ToString())

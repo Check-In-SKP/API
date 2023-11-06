@@ -30,16 +30,16 @@ namespace CheckInSKP.Infrastructure.Data
 
             // Seeds roles from enum
             builder.Entity<RoleEntity>().HasData(
-                Enum.GetValues(typeof(Roles))
-                    .Cast<Roles>()
+                Enum.GetValues(typeof(RoleEnum))
+                    .Cast<RoleEnum>()
                     .Select(role => new RoleEntity { Id = (int)role, Name = Role.GetNameFromEnum(role) })
                     .ToArray()
             );
 
             // Seeds timetypes
             builder.Entity<TimeTypeEntity>().HasData(
-                Enum.GetValues(typeof(TimeTypes))
-                    .Cast<TimeTypes>()
+                Enum.GetValues(typeof(TimeTypeEnum))
+                    .Cast<TimeTypeEnum>()
                     .Select(timeType => new TimeTypeEntity { Id = (int)timeType, Name = TimeType.GetNameFromEnum(timeType) })
                     .ToArray()
             );

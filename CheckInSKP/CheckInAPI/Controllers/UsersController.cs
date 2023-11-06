@@ -28,7 +28,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpGet("id")]
-        [AuthorizeUserRole((int)Roles.Admin, (int)Roles.Monitor)]
+        [AuthorizeUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
         public async Task<UserDto> GetUserById(ISender sender, [FromQuery] GetUserByIdQuery query)
         {
             return await sender.Send(query);
@@ -47,21 +47,21 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpGet]
-        [AuthorizeUserRole((int)Roles.Admin, (int)Roles.Monitor)]
+        [AuthorizeUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
         public async Task<IEnumerable<UserDto>> GetUsers(ISender sender, [FromQuery] GetUsersQuery query)
         {
             return await sender.Send(query);
         }
 
         [HttpGet("paginate")]
-        [AuthorizeUserRole((int)Roles.Admin, (int)Roles.Monitor)]
+        [AuthorizeUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
         public async Task<IEnumerable<UserDto>> GetUsersPaginated(ISender sender, [FromQuery] GetUsersWithPaginationQuery query)
         {
             return await sender.Send(query);
         }
 
         [HttpPut]
-        [AuthorizeUserRole((int)Roles.Admin)]
+        [AuthorizeUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> UpdateUser(ISender sender, [FromBody] UpdateUserCommand command)
         {
             await sender.Send(command);
@@ -76,7 +76,7 @@ namespace CheckInAPI.Controllers
             if (!userId.HasValue || !userRoleId.HasValue)
                 return Unauthorized();
 
-            if (userId != command.UserId || userRoleId != (int)Roles.Admin)
+            if (userId != command.UserId || userRoleId != (int)RoleEnum.Admin)
                 return Unauthorized();
 
             await sender.Send(command);
@@ -91,7 +91,7 @@ namespace CheckInAPI.Controllers
             if (!userId.HasValue || !userRoleId.HasValue)
                 return Unauthorized();
 
-            if (userId != command.UserId || userRoleId != (int)Roles.Admin)
+            if (userId != command.UserId || userRoleId != (int)RoleEnum.Admin)
                 return Unauthorized();
 
             await sender.Send(command);
@@ -99,7 +99,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpPatch("role")]
-        [AuthorizeUserRole((int)Roles.Admin)]
+        [AuthorizeUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> UpdateUserRole(ISender sender, [FromBody] UpdateUserRoleCommand command)
         {
             await sender.Send(command);
@@ -107,7 +107,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpDelete("id")]
-        [AuthorizeUserRole((int)Roles.Admin)]
+        [AuthorizeUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> DeleteUser(ISender sender, [FromQuery] DeleteUserCommand command)
         {
             await sender.Send(command);

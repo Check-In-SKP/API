@@ -1,4 +1,5 @@
 ﻿using CheckInSKP.Domain.Common;
+using CheckInSKP.Domain.Enums;
 using CheckInSKP.Domain.Events.UserEvents;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
@@ -102,6 +103,17 @@ namespace CheckInSKP.Domain.Entities
             RoleId = newRoleId;
 
             AddDomainEvent(new UserRoleUpdatedEvent(Id, RoleId));
+        }
+
+        public void LoggedIn()
+        {
+            if(RoleId == (int)RoleEnum.Admin)
+            {
+                AddDomainEvent(new AdminLoggedInEvent(Id, RoleId));
+                return;
+            }
+
+            AddDomainEvent(new UserLoggedInEvent(Id, RoleId));
         }
     }
 }

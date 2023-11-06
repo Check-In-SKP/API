@@ -42,7 +42,7 @@ namespace CheckInSKP.Domain.Entities
             Name = newName;
         }
 
-        public static string GetNameFromEnum(Roles role)
+        public static string GetNameFromEnum(RoleEnum role)
         {
             return role.ToString();
         }

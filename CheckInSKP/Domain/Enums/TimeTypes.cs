@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Domain.Enums
 {
-    public enum TimeTypes
+    public enum TimeTypeEnum
     {
         CheckIn = 1,
         CheckOut = 2,
