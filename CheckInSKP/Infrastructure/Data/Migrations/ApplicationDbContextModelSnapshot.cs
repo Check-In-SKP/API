@@ -279,6 +279,17 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2023, 11, 6, 13, 25, 36, 923, DateTimeKind.Utc).AddTicks(1937),
+                            Name = "System Administrator",
+                            PasswordHash = "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO",
+                            RoleId = 1,
+                            Username = "sysadmin"
+                        });
                 });
 
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.StaffEntity", b =>

@@ -18,6 +18,7 @@ namespace CheckInSKP.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Services
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();

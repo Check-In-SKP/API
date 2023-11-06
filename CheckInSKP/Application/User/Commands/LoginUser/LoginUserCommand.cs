@@ -42,7 +42,7 @@ namespace CheckInSKP.Application.User.Commands.LoginUser
                 throw new Exception("Invalid password");
 
             if (user.RoleId == (int)RoleEnum.Admin)
-                device.HandleAdminLoginAuthorization();
+                device.HandleAdminLoginAuthorization(); // fires event
 
             if (!device.IsAuthorized)
                 throw new Exception($"Device with id {request.DeviceId} is not authorized");

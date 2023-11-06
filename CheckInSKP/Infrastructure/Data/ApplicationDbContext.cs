@@ -28,6 +28,18 @@ namespace CheckInSKP.Infrastructure.Data
             // Apply configurations
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            // Seeds admin user
+            builder.Entity<UserEntity>().HasData(
+                new UserEntity
+                {
+                    Id = 1,
+                    Name = "System Administrator",
+                    Username = "sysadmin",
+                    PasswordHash = "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO",
+                    CreatedAt = DateTime.UtcNow,
+                    RoleId = (int)RoleEnum.Admin
+                });
+
             // Seeds roles from enum
             builder.Entity<RoleEntity>().HasData(
                 Enum.GetValues(typeof(RoleEnum))
