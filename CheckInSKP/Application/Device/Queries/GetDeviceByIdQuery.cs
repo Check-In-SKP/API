@@ -11,7 +11,7 @@ namespace CheckInSKP.Application.Device.Queries
 {
     public record GetDeviceByIdQuery : IRequest<DeviceDto>
     {
-        public Guid Id { get; init; }
+        public Guid DeviceId { get; init; }
     }
 
     public class GetDeviceByIdQueryHandler : IRequestHandler<GetDeviceByIdQuery, DeviceDto>
@@ -25,7 +25,7 @@ namespace CheckInSKP.Application.Device.Queries
         }
         public async Task<DeviceDto> Handle(GetDeviceByIdQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.Id);
+            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId);
             DeviceDto deviceDto = _mapper.Map<DeviceDto>(device);
             return deviceDto;
         }

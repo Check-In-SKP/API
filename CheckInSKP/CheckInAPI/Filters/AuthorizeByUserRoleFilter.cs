@@ -7,12 +7,12 @@ using System.Security.Claims;
 
 namespace CheckInAPI.Filters
 {
-    public class AuthorizeUserRoleFilter : IAuthorizationFilter
+    public class AuthorizeByUserRoleFilter : IAuthorizationFilter
     {
         private readonly int[] _roleIds;
         private readonly ITokenValidationService _roleValidationService;
 
-        public AuthorizeUserRoleFilter(int[] roleIds, ITokenValidationService roleValidationService)
+        public AuthorizeByUserRoleFilter(int[] roleIds, ITokenValidationService roleValidationService)
         {
             _roleIds = roleIds;
             _roleValidationService = roleValidationService;

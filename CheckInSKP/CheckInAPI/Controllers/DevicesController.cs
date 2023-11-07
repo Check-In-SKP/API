@@ -1,8 +1,11 @@
-﻿using CheckInSKP.Application.Device.Commands.CreateDevice;
+﻿using CheckInAPI.Filters;
+using CheckInSKP.Application.Device.Commands.CreateDevice;
 using CheckInSKP.Application.Device.Commands.DeleteDevice;
 using CheckInSKP.Application.Device.Commands.UpdateDevice;
 using CheckInSKP.Application.Device.Queries;
+using CheckInSKP.Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,50 +15,86 @@ namespace CheckInAPI.Controllers
     [ApiController]
     public class DevicesController : ControllerBase
     {
+        private readonly ISender _sender;
+
+        public DevicesController(ISender sender)
+        {
+            _sender = sender;
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateDevice(ISender sender, [FromBody] CreateDeviceCommand command)
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateDevice([FromBody] CreateDeviceCommand command)
         {
-            await sender.Send(command);
+            await _sender.Send(command);
             return Ok();
         }
 
-        [HttpGet("id")]
-        public async Task<DeviceDto> GetDeviceById(ISender sender, [FromQuery] GetDeviceByIdQuery query)
+        [HttpGet("{deviceId}")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
+        public async Task<DeviceDto> GetDeviceById([FromRoute] Guid deviceId)
         {
-            return await sender.Send(query);
+            var query = new GetDeviceByIdQuery { DeviceId = deviceId };
+            return await _sender.Send(query);
         }
 
-        [HttpPut("label")]
-        public async Task<IActionResult> UpdateDevice(ISender sender, [FromBody] UpdateDeviceLabelCommand command)
+        [HttpPatch("{deviceId}/label")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin)]
+        public async Task<IActionResult> UpdateDevice([FromRoute] Guid deviceId, [FromBody] UpdateDeviceLabelCommand command)
         {
-            await sender.Send(command);
+            // Checks if the device id matches the id in the command
+            if (deviceId != command.DeviceId)
+                return BadRequest();
+
+            await _sender.Send(command);
             return Ok();
         }
 
-        [HttpPut("authorized")]
-        public async Task<IActionResult> AuthorizeDevice(ISender sender, [FromBody] UpdateDeviceAuthorizationCommand command)
+        [HttpPatch("{deviceId}/authorize")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin)]
+        public async Task<IActionResult> AuthorizeDevice([FromRoute] Guid deviceId, [FromBody] AuthorizeDeviceCommand command)
         {
-            await sender.Send(command);
+            // Checks if the device id matches the id in the command
+            if (deviceId != command.DeviceId)
+                return BadRequest();
+
+            await _sender.Send(command);
             return Ok();
         }
 
-        [HttpDelete("id")]
-        public async Task<IActionResult> DeleteDevice(ISender sender, [FromQuery] DeleteDeviceCommand command)
+        [HttpPatch("{deviceId}/deauthorize")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin)]
+        public async Task<IActionResult> DeauthorizeDevice([FromRoute] Guid deviceId, [FromBody] DeauthorizeDeviceCommand command)
         {
-            await sender.Send(command);
+            // Checks if the device id matches the id in the command
+            if (deviceId != command.DeviceId)
+                return BadRequest();
+
+            await _sender.Send(command);
             return Ok();
         }
 
-        [HttpGet("query")]
-        public async Task<IEnumerable<DeviceDto>> GetDevicesWithPagination(ISender sender, [FromQuery] GetDevicesWithPaginationQuery query)
+        [HttpDelete("{deviceId}")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin)]
+        public async Task<IActionResult> DeleteDevice([FromRoute] Guid deviceId)
         {
-            return await sender.Send(query);
+            var command = new DeleteDeviceCommand { DeviceId = deviceId };
+            await _sender.Send(command);
+            return Ok();
+        }
+
+        [HttpGet("paginate")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
+        public async Task<IEnumerable<DeviceDto>> GetDevicesWithPagination([FromQuery] GetDevicesWithPaginationQuery query)
+        {
+            return await _sender.Send(query);
         }
 
         [HttpGet]
-        public async Task<IEnumerable<DeviceDto>> GetAllDevices(ISender sender)
+        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
+        public async Task<IEnumerable<DeviceDto>> GetAllDevices()
         {
-            return await sender.Send(new GetDevicesQuery());
+            return await _sender.Send(new GetDevicesQuery());
         }
     }
 }

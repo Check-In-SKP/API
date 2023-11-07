@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.User.Commands.UpdateUser
 {
     public record UpdateUserCommand : IRequest
     {
-        public int Id { get; init; }
+        public int UserId { get; init; }
         public required string Name { get; init; }
         public required string Username { get; init; }
         public required string PasswordHash { get; init; }
@@ -33,7 +33,7 @@ namespace CheckInSKP.Application.User.Commands.UpdateUser
 
         public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.Id) ?? throw new Exception($"User with id {request.Id} not found");
+            Domain.Entities.User user = await _userRepository.GetByIdAsync(request.UserId) ?? throw new Exception($"User with id {request.UserId} not found");
 
             if (!await _roleRepository.ExistsAsync(request.RoleId))
             {
