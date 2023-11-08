@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.Staff.Commands.DeleteStaff
 {
     public record DeleteStaffCommand : IRequest
     {
-        public int Id { get; init; }
+        public int StaffId { get; init; }
     }
 
     public class DeleteStaffCommandHandler : IRequestHandler<DeleteStaffCommand>
@@ -24,10 +24,10 @@ namespace CheckInSKP.Application.Staff.Commands.DeleteStaff
         }
         public async Task Handle(DeleteStaffCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.Id);
+            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId);
             if (staff == null)
             {
-                throw new Exception($"Staff with id {request.Id} not found");
+                throw new Exception($"Staff with id {request.StaffId} not found");
             }
 
             await _staffRepository.RemoveAsync(staff.Id);

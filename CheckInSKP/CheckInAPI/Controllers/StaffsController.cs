@@ -1,6 +1,9 @@
 ﻿using CheckInAPI.Common.Utilities;
 using CheckInAPI.Filters;
 using CheckInSKP.Application.Staff.Commands.CreateStaff;
+using CheckInSKP.Application.Staff.Commands.CreateStaffTimeLog;
+using CheckInSKP.Application.Staff.Commands.DeleteStaff;
+using CheckInSKP.Application.Staff.Commands.DeleteStaffTimeLog;
 using CheckInSKP.Application.Staff.Commands.LoginStaff;
 using CheckInSKP.Application.Staff.Commands.UpdateStaff;
 using CheckInSKP.Application.Staff.Queries;
@@ -141,6 +144,40 @@ namespace CheckInAPI.Controllers
             if (staffId != command.StaffId || userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
+            await _sender.Send(command);
+            return Ok();
+        }
+
+        [HttpDelete("{staffId}")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin)]
+        public async Task<IActionResult> DeleteStaff([FromRoute] int staffId)
+        {
+            var command = new DeleteStaffCommand { StaffId = staffId };
+            await _sender.Send(command);
+            return Ok();
+        }
+
+        [HttpPost("{staffId}/TimeLog")]
+        [SecureAuthorize]
+        public async Task<IActionResult> CreateTimeLog([FromRoute] int staffId, [FromBody] CreateStaffTimeLogCommand command) // TODO: Fix authentication
+        {
+            // Checks if the staff id matches the id in the command
+            if (staffId != command.StaffId)
+                return BadRequest();
+
+            var (_, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (staffId != command.StaffId || userRoleClaim != (int)RoleEnum.Admin)
+                return BadRequest();
+
+            await _sender.Send(command);
+            return Ok();
+        }
+
+        [HttpDelete("{staffId}/TimeLog/{timeLogId}")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin)]
+        public async Task<IActionResult> DeleteTimeLog([FromRoute] int staffId, [FromRoute] int timeLogId)
+        {
+            var command = new DeleteStaffTimeLogCommand { StaffId = staffId, TimeLogId = timeLogId };
             await _sender.Send(command);
             return Ok();
         }
