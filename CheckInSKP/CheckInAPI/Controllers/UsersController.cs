@@ -35,7 +35,7 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpGet("{userId}")]
-        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
+        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)] // TODO
         public async Task<UserDto> GetUserById([FromRoute] int userId)
         {
             var query = new GetUserByIdQuery { UserId = userId };

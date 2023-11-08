@@ -11,7 +11,7 @@ namespace CheckInSKP.Application.TimeType.Queries
 {
     public record GetTimeTypeByIdQuery : IRequest<TimeTypeDto>
     {
-        public int Id { get; init; }
+        public int TimeTypeId { get; init; }
     }
 
     public class GetTimeTypeByIdQueryHandler : IRequestHandler<GetTimeTypeByIdQuery, TimeTypeDto>
@@ -25,7 +25,7 @@ namespace CheckInSKP.Application.TimeType.Queries
         }
         public async Task<TimeTypeDto> Handle(GetTimeTypeByIdQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.Id);
+            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.TimeTypeId);
             TimeTypeDto timeTypeDto = _mapper.Map<TimeTypeDto>(timeType);
             return timeTypeDto;
         }

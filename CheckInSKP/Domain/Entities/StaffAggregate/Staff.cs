@@ -114,5 +114,14 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
 
             CardNumber = newCardNumber;
         }
+
+        public void Update(string phoneNumber, string cardNumber, bool phoneNotification, bool isPreoccupied, TimeOnly meetingTime)
+        {
+            UpdatePhoneNumber(phoneNumber);
+            UpdateCardNumber(cardNumber);
+            UpdateOccupation(isPreoccupied);
+            UpdatePhoneNotification(phoneNotification);
+            UpdateMeetingTime(meetingTime);
+        }
     }
 }

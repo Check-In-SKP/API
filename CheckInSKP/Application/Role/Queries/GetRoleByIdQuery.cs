@@ -11,7 +11,7 @@ namespace CheckInSKP.Application.Role.Queries
 {
     public record GetRoleByIdQuery : IRequest<RoleDto>
     {
-        public int Id { get; init; }
+        public int RoleId { get; init; }
     }
 
     public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, RoleDto>
@@ -25,7 +25,7 @@ namespace CheckInSKP.Application.Role.Queries
         }
         public async Task<RoleDto> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(request.Id);
+            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(request.RoleId);
             RoleDto roleDto = _mapper.Map<RoleDto>(role);
             return roleDto;
         }

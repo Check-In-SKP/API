@@ -10,10 +10,9 @@ namespace CheckInAPI.Filters
 {
     /// <summary>
     /// Class <c>SecureAuthorizeFilter</c> filters out invalid tokens or tokens which no longer represents data in a valid state.
-    /// 
+    /// Use for endpoints which require claims to be validated.
     /// Cautions:
-    ///     Performance heavy / slow.
-    ///     Only use this filter on endpoints which require a valid token.
+    ///     Can be performance heavy / slow. (We take use of caching to mitigate this)
     /// </summary>
     public class SecureAuthorizeFilter : IAuthorizationFilter
     {

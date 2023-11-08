@@ -142,5 +142,11 @@ namespace CheckInSKP.Infrastructure.Repositories
             var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).Skip((page - 1) * pageSize).Take(pageSize).FirstOrDefaultAsync(e => e.Id == staffId);
             return _staffMapper.MapToDomain(entity);
         }
+
+        public async Task<Staff> GetByCardNumberAsync(string cardNumber)
+        {
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.CardNumber == cardNumber);
+            return _staffMapper.MapToDomain(entity);
+        }
     }
 }
