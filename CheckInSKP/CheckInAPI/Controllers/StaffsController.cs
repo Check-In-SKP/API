@@ -32,22 +32,28 @@ namespace CheckInAPI.Controllers
         public async Task<IActionResult> CreateStaff([FromBody] CreateStaffCommand command)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-
-            // Checks if the user is authorized to create a staff
             if (userIdClaim != command.UserId && userRoleClaim != (int)RoleEnum.Admin)
                 return Unauthorized();
 
-            // Checks if the user id matches the id in the command
             await _sender.Send(command);
             return Ok();
         }
 
         [HttpGet("{staffId}")]
-        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Staff, (int)RoleEnum.Monitor)] // TODO: Fix authorization
-        public async Task<StaffDto> GetStaffById([FromRoute] int staffId)
+        [SecureAuthorize]
+        public async Task<IActionResult> GetStaffById([FromRoute] int staffId)
         {
+            var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
+                return Unauthorized();
+
             var query = new GetStaffByIdQuery { StaffId = staffId };
-            return await _sender.Send(query);
+            var result = await _sender.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPost("login")]
@@ -80,7 +86,6 @@ namespace CheckInAPI.Controllers
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> UpdateStaff([FromRoute] int staffId, [FromBody] UpdateStaffCommand command)
         {
-            // Checks if the staff id matches the id in the command
             if (staffId != command.StaffId)
                 return BadRequest();
 
@@ -92,7 +97,6 @@ namespace CheckInAPI.Controllers
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> UpdateStaffMeetingTime([FromRoute] int staffId, [FromBody] UpdateStaffMeetingTimeCommand command)
         {
-            // Checks if the staff id matches the id in the command
             if (staffId != command.StaffId)
                 return BadRequest();
 
@@ -104,12 +108,8 @@ namespace CheckInAPI.Controllers
         [SecureAuthorize]
         public async Task<IActionResult> UpdateStaffOccupation([FromRoute] int staffId, [FromBody] UpdateStaffOccupationCommand command)
         {
-            // Checks if the staff id matches the id in the command
-            if (staffId != command.StaffId)
-                return BadRequest();
-
-            var (_, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userRoleClaim != (int)RoleEnum.Admin)
+            var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
@@ -120,12 +120,8 @@ namespace CheckInAPI.Controllers
         [SecureAuthorize]
         public async Task<IActionResult> UpdateStaffPhoneNotification([FromRoute] int staffId, [FromBody] UpdateStaffPhoneNotificationCommand command)
         {
-            // Checks if the staff id matches the id in the command
-            if (staffId != command.StaffId)
-                return BadRequest();
-
-            var (_, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userRoleClaim != (int)RoleEnum.Admin)
+            var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
@@ -136,12 +132,8 @@ namespace CheckInAPI.Controllers
         [SecureAuthorize]
         public async Task<IActionResult> UpdateStaffPhoneNumber([FromRoute] int staffId, [FromBody] UpdateStaffPhoneNumberCommand command)
         {
-            // Checks if the staff id matches the id in the command
-            if (staffId != command.StaffId)
-                return BadRequest();
-
-            var (_, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userRoleClaim != (int)RoleEnum.Admin)
+            var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
@@ -159,14 +151,10 @@ namespace CheckInAPI.Controllers
 
         [HttpPost("{staffId}/TimeLog")]
         [SecureAuthorize]
-        public async Task<IActionResult> CreateTimeLog([FromRoute] int staffId, [FromBody] CreateStaffTimeLogCommand command) // TODO: Fix authentication
+        public async Task<IActionResult> CreateTimeLog([FromRoute] int staffId, [FromBody] CreateStaffTimeLogCommand command)
         {
-            // Checks if the staff id matches the id in the command
-            if (staffId != command.StaffId)
-                return BadRequest();
-
-            var (_, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userRoleClaim != (int)RoleEnum.Admin)
+            var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);

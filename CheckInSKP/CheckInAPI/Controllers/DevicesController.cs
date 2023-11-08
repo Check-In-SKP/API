@@ -42,7 +42,6 @@ namespace CheckInAPI.Controllers
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> UpdateDevice([FromRoute] Guid deviceId, [FromBody] UpdateDeviceLabelCommand command)
         {
-            // Checks if the device id matches the id in the command
             if (deviceId != command.DeviceId)
                 return BadRequest();
 
@@ -54,7 +53,6 @@ namespace CheckInAPI.Controllers
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> AuthorizeDevice([FromRoute] Guid deviceId, [FromBody] AuthorizeDeviceCommand command)
         {
-            // Checks if the device id matches the id in the command
             if (deviceId != command.DeviceId)
                 return BadRequest();
 
@@ -66,7 +64,6 @@ namespace CheckInAPI.Controllers
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
         public async Task<IActionResult> DeauthorizeDevice([FromRoute] Guid deviceId, [FromBody] DeauthorizeDeviceCommand command)
         {
-            // Checks if the device id matches the id in the command
             if (deviceId != command.DeviceId)
                 return BadRequest();
 

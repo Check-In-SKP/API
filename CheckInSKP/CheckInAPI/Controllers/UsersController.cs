@@ -35,11 +35,20 @@ namespace CheckInAPI.Controllers
         }
 
         [HttpGet("{userId}")]
-        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)] // TODO
-        public async Task<UserDto> GetUserById([FromRoute] int userId)
+        [SecureAuthorize]
+        public async Task<IActionResult> GetUserById([FromRoute] int userId)
         {
+            var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
+            if (userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
+                return Unauthorized();
+
             var query = new GetUserByIdQuery { UserId = userId };
-            return await _sender.Send(query);
+            var result = await _sender.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPost("login")]
@@ -48,9 +57,8 @@ namespace CheckInAPI.Controllers
         {
             var result = await _sender.Send(command);
             if (result == null)
-            {
                 return Unauthorized();
-            }
+
             return Ok(result);
         }
 
