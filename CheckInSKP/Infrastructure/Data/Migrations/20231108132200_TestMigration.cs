@@ -83,20 +83,18 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                 name: "Staffs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     CardNumber = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     PhoneNumber = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     PhoneNotification = table.Column<bool>(type: "boolean", nullable: false),
                     Preoccupied = table.Column<bool>(type: "boolean", nullable: false),
                     MeetingTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Staffs", x => x.Id);
+                    table.PrimaryKey("PK_Staffs", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_Staffs_Users_UserId",
                         column: x => x.UserId,
@@ -122,7 +120,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         name: "FK_TimeLogs_Staffs_StaffId",
                         column: x => x.StaffId,
                         principalTable: "Staffs",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TimeLogs_TimeTypes_TimeTypeId",
@@ -159,7 +157,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedAt", "Name", "PasswordHash", "RoleId", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTime(2023, 11, 6, 19, 23, 39, 514, DateTimeKind.Utc).AddTicks(9193), "System Administrator", "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO", 1, null, "sysadmin" });
+                values: new object[] { 1, new DateTime(2023, 11, 8, 13, 22, 0, 32, DateTimeKind.Utc).AddTicks(618), "System Administrator", "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO", 1, null, "sysadmin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Devices_Id",
@@ -192,21 +190,10 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staffs_Id",
-                table: "Staffs",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Staffs_PhoneNumber",
                 table: "Staffs",
                 column: "PhoneNumber",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Staffs_UserId",
-                table: "Staffs",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeLogs_Id",

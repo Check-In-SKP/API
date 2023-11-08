@@ -9,12 +9,12 @@ namespace CheckInSKP.Domain.Events.StaffEvents
 {
     public class StaffMeetingTimeUpdatedEvent : DomainEvent
     {
-        public int StaffId { get; }
+        public int UserId { get; }
         public TimeOnly MeetingTime { get; }
 
-        public StaffMeetingTimeUpdatedEvent(int staffId, TimeOnly meetingTime)
+        public StaffMeetingTimeUpdatedEvent(int userId, TimeOnly meetingTime)
         {
-            StaffId = staffId;
+            UserId = userId;
             MeetingTime = meetingTime;
         }
     }

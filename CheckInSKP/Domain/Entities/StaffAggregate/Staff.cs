@@ -7,8 +7,7 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
 {
     public class Staff : DomainEntity
     {
-        private readonly int _id;
-        public int Id => _id;
+        public int UserId { get; private set; }
 
         [Required, StringLength(64)]
         public string PhoneNumber { get; private set; }
@@ -24,8 +23,6 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         private readonly List<TimeLog> _timeLogs = new();
         public IReadOnlyList<TimeLog> TimeLogs => _timeLogs;
 
-        public int UserId { get; private set; }
-
         // Constructor for new Staff
         public Staff(int userId, string phoneNumber, string cardNumber, bool phoneNotification)
         {
@@ -40,11 +37,10 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         }
 
         // Constructor for existing Staff
-        public Staff(int id, int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
+        public Staff(int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
         {
             ValidateInput(userId, phoneNumber, cardNumber);
 
-            _id = id;
             UserId = userId;
             PhoneNumber = phoneNumber;
             CardNumber = cardNumber;
@@ -90,7 +86,7 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
 
             PhoneNumber = newPhoneNumber;
 
-            AddDomainEvent(new StaffPhoneNumberUpdatedEvent(Id, PhoneNumber));
+            AddDomainEvent(new StaffPhoneNumberUpdatedEvent(UserId, PhoneNumber));
         }
 
         public void UpdatePhoneNotification(bool newPhoneNotification)
@@ -102,7 +98,7 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         {
             MeetingTime = newMeetingTime;
 
-            AddDomainEvent(new StaffMeetingTimeUpdatedEvent(Id, MeetingTime));
+            AddDomainEvent(new StaffMeetingTimeUpdatedEvent(UserId, MeetingTime));
         }
 
         public void UpdateCardNumber(string newCardNumber)

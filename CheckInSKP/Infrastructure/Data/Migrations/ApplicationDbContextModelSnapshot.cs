@@ -111,11 +111,8 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.StaffEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
@@ -142,21 +139,13 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("CardNumber")
                         .IsUnique();
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Staffs");
                 });
@@ -284,7 +273,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 11, 6, 19, 23, 39, 514, DateTimeKind.Utc).AddTicks(9193),
+                            CreatedAt = new DateTime(2023, 11, 8, 13, 22, 0, 32, DateTimeKind.Utc).AddTicks(618),
                             Name = "System Administrator",
                             PasswordHash = "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO",
                             RoleId = 1,
@@ -295,8 +284,8 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.StaffEntity", b =>
                 {
                     b.HasOne("CheckInSKP.Infrastructure.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Staff")
+                        .HasForeignKey("CheckInSKP.Infrastructure.Entities.StaffEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -336,6 +325,12 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.StaffEntity", b =>
                 {
                     b.Navigation("TimeLogs");
+                });
+
+            modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Staff")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

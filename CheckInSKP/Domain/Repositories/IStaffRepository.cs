@@ -4,10 +4,10 @@ namespace CheckInSKP.Domain.Repositories
 {
     public interface IStaffRepository : IGenericRepository<Staff, int>
     {
-        Task<Staff> GetByCardNumberAsync(string cardNumber);
-        Task UpdateTimeLogAsync(int staffId, TimeLog updatedTimeLog);
-        Task RemoveTimeLogAsync(int staffId, int tokenId);
-        Task AddTimeLogAsync(int staffId, TimeLog timeLog);
-        Task<Staff?> GetStaffWithPagedTimeLogs(int staffId, int page, int pageSize);
+        Task UpdateTimeLogAsync(int userId, TimeLog updatedTimeLog);
+        Task RemoveTimeLogAsync(int userId, int tokenId);
+        Task AddTimeLogAsync(int userId, TimeLog timeLog);
+        Task<Staff?> GetStaffWithPagedTimeLogs(int userId, int page, int pageSize);
+        Task<Staff?> GetByCardNumberAsync(string cardNumber);
     }
 }

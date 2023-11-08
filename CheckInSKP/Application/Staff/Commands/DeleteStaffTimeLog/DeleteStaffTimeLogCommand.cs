@@ -25,12 +25,7 @@ namespace CheckInSKP.Application.Staff.Commands.DeleteStaffTimeLog
         }
         public async Task Handle(DeleteStaffTimeLogCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId);
-            if (staff == null)
-            {
-                throw new Exception($"Staff with id {request.StaffId} not found");
-            }
-
+            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId) ?? throw new Exception($"Staff with id {request.StaffId} not found");
             var timeLog = staff.TimeLogs.FirstOrDefault(t => t.Id == request.TimeLogId) ?? throw new Exception($"TimeLog with id {request.TimeLogId} not found");
 
             staff.RemoveTimeLog(timeLog);

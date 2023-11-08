@@ -24,15 +24,10 @@ namespace CheckInSKP.Application.Staff.Commands.DeleteStaff
         }
         public async Task Handle(DeleteStaffCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId);
-            if (staff == null)
-            {
-                throw new Exception($"Staff with id {request.StaffId} not found");
-            }
+            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId) ?? throw new Exception($"Staff with id {request.StaffId} not found");
 
-            await _staffRepository.RemoveAsync(staff.Id);
+            await _staffRepository.RemoveAsync(staff.UserId);
             await _unitOfWork.CompleteAsync(cancellationToken);
-
             return;
         }
     }

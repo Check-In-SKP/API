@@ -4,9 +4,9 @@ namespace CheckInSKP.Domain.Factories
 {
     public class StaffFactory
     {
-        public Staff CreateStaff(int id, int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
+        public Staff CreateStaff(int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
         {
-            return new Staff(id, userId, phoneNumber, cardNumber, phoneNotification, preoccupied, meetingTime);
+            return new Staff(userId, phoneNumber, cardNumber, phoneNotification, preoccupied, meetingTime);
         }
 
         public Staff CreateNewStaff(int userId, string phoneNumber, string cardNumber, bool phoneNotification)

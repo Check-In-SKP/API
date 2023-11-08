@@ -43,7 +43,7 @@ namespace CheckInSKP.Application.Staff.Commands.CreateStaff
 
             await _unitOfWork.CompleteAsync(cancellationToken);
 
-            return entity.Id;
+            return entity.UserId;
         }
     }
 }

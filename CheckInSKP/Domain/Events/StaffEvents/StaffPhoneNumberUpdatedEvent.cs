@@ -9,11 +9,11 @@ namespace CheckInSKP.Domain.Events.StaffEvents
 {
     public class StaffPhoneNumberUpdatedEvent : DomainEvent
     {
-        public int StaffId { get; }
+        public int UserId { get; }
         public string PhoneNumber { get; }
-        public StaffPhoneNumberUpdatedEvent(int staffId, string phoneNumber)
+        public StaffPhoneNumberUpdatedEvent(int userId, string phoneNumber)
         {
-            StaffId = staffId;
+            UserId = userId;
             PhoneNumber = phoneNumber;
         }
     }

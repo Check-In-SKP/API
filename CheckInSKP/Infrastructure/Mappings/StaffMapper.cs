@@ -22,7 +22,7 @@ namespace CheckInSKP.Infrastructure.Mappings
             // Maps entity timelogs from staff to domain timelogs
             var timelogs = entity.TimeLogs.Select(MapTimeLogToDomain).ToList();
 
-            return _staffFactory.CreateStaff(entity.Id, entity.UserId, entity.PhoneNumber, entity.CardNumber, entity.PhoneNotification, entity.Preoccupied, entity.MeetingTime);
+            return _staffFactory.CreateStaff(entity.UserId, entity.PhoneNumber, entity.CardNumber, entity.PhoneNotification, entity.Preoccupied, entity.MeetingTime);
         }
 
         public StaffEntity MapToEntity(Staff domain)
@@ -36,7 +36,6 @@ namespace CheckInSKP.Infrastructure.Mappings
 
             return new StaffEntity
             {
-                Id = domain.Id,
                 UserId = domain.UserId,
                 PhoneNumber = domain.PhoneNumber,
                 CardNumber = domain.CardNumber,

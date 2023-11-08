@@ -20,7 +20,7 @@ namespace CheckInSKP.Application.Staff.EventHandlers
 
         public Task Handle(StaffPhoneNumberUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Phone number updated for staff {StaffId}", notification.StaffId);
+            _logger.LogInformation("Phone number updated for staff {StaffId}", notification.UserId);
 
             return Task.CompletedTask;
         }

@@ -30,5 +30,7 @@ namespace CheckInSKP.Infrastructure.Entities
 
         [ForeignKey(nameof(RoleId))]
         public RoleEntity Role { get; set; }
+
+        public StaffEntity Staff { get; set; }
     }
 }

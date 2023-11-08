@@ -20,7 +20,7 @@ namespace CheckInSKP.Application.Staff.EventHandlers
 
         public Task Handle(StaffMeetingTimeUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Meeting time updated for staff {StaffId}", notification.StaffId);
+            _logger.LogInformation("Meeting time updated for staff {StaffId}", notification.UserId);
 
             return Task.CompletedTask;
         }

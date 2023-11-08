@@ -6,8 +6,8 @@ namespace CheckInSKP.Infrastructure.Entities
     public class StaffEntity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int UserId { get; set; }
 
         [Required]
         [MaxLength(128)]
@@ -26,9 +26,6 @@ namespace CheckInSKP.Infrastructure.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public ICollection<TimeLogEntity> TimeLogs { get; set; } = new List<TimeLogEntity>();
-
-        [Required]
-        public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public UserEntity User { get; set; }

@@ -31,18 +31,11 @@ namespace CheckInSKP.Application.Staff.Commands.CreateStaffTimeLog
 
         public async Task Handle(CreateStaffTimeLogCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId);
-            if (staff == null)
-            {
-                throw new Exception($"Staff with id {request.StaffId} not found");
-            }
-            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.TimeTypeId);
-            if (timeType == null)
-            {
-                throw new Exception($"TimeType with id {request.TimeTypeId} not found");
-            }
+            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId) ?? throw new Exception($"Staff with id {request.StaffId} not found");
+            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.TimeTypeId) ?? throw new Exception($"TimeType with id {request.TimeTypeId} not found");
 
             Domain.Entities.StaffAggregate.TimeLog staffTimeLog = _staffFactory.CreateNewTimeLog(DateTime.Now, timeType.Id);
+            
             staff.AddTimeLog(staffTimeLog);
             await _unitOfWork.CompleteAsync(cancellationToken);
 
