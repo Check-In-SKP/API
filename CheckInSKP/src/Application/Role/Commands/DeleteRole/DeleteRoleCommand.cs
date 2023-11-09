@@ -24,11 +24,7 @@ namespace CheckInSKP.Application.Role.Commands.DeleteRole
         }
         public async Task Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(request.Id);
-            if (role == null)
-            {
-                throw new Exception($"Role with id {request.Id} not found");
-            }
+            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(request.Id) ?? throw new Exception($"Role with id {request.Id} not found");
             await _roleRepository.RemoveAsync(role.Id);
             await _unitOfWork.CompleteAsync(cancellationToken);
             return;

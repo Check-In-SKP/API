@@ -27,12 +27,7 @@ namespace CheckInSKP.Application.Staff.Commands.UpdateStaff
 
         public async Task Handle(UpdateStaffCardNumberCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId);
-            if (staff == null)
-            {
-                throw new Exception($"Staff with id {request.StaffId} not found");
-            }
-
+            Domain.Entities.StaffAggregate.Staff staff = await _staffRepository.GetByIdAsync(request.StaffId) ?? throw new Exception($"Staff with id {request.StaffId} not found");
             staff.UpdateCardNumber(request.CardNumber);
             await _unitOfWork.CompleteAsync(cancellationToken);
             return;

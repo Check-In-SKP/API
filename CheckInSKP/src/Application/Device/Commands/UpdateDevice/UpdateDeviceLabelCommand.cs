@@ -26,13 +26,7 @@ namespace CheckInSKP.Application.Device.Commands.UpdateDevice
         }
         public async Task Handle(UpdateDeviceLabelCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId);
-
-            if (device == null)
-            {
-                throw new Exception($"Device with id {request.DeviceId} not found");
-            }
-
+            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId) ?? throw new Exception($"Device with id {request.DeviceId} not found");
             device.UpdateLabel(request.Label);
 
             await _deviceRepository.UpdateAsync(device);

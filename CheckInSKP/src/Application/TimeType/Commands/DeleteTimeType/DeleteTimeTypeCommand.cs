@@ -26,13 +26,7 @@ namespace CheckInSKP.Application.TimeType.Commands.DeleteTimeType
 
         public async Task Handle(DeleteTimeTypeCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.Id);
-
-            if (timeType == null)
-            {
-                throw new Exception($"TimeType with id {request.Id} not found");
-            }
-
+            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.Id) ?? throw new Exception($"TimeType with id {request.Id} not found");
             await _timeTypeRepository.RemoveAsync(timeType.Id);
             await _unitOfWork.CompleteAsync(cancellationToken);
 

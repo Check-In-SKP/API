@@ -19,13 +19,7 @@ namespace CheckInSKP.Application.Device.Commands.UpdateDevice
         }
         public async Task Handle(DeauthorizeDeviceCommand request, CancellationToken cancellationToken)
         {
-            var device = await _deviceRepository.GetByIdAsync(request.DeviceId);
-
-            if (device == null)
-            {
-                throw new Exception($"Device with id {request.DeviceId} not found");
-            }
-
+            var device = await _deviceRepository.GetByIdAsync(request.DeviceId) ?? throw new Exception($"Device with id {request.DeviceId} not found");
             device.Deauthorize();
 
             await _deviceRepository.UpdateAsync(device);

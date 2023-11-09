@@ -27,13 +27,7 @@ namespace CheckInSKP.Application.TimeType.Commands.UpdateTimeType
 
         public async Task Handle(UpdateTimeTypeCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.Id);
-
-            if (timeType == null)
-            {
-                throw new Exception($"TimeType with id {request.Id} not found");
-            }
-
+            Domain.Entities.TimeType timeType = await _timeTypeRepository.GetByIdAsync(request.Id) ?? throw new Exception($"TimeType with id {request.Id} not found");
             timeType.UpdateName(request.Name);
 
             await _timeTypeRepository.UpdateAsync(timeType);

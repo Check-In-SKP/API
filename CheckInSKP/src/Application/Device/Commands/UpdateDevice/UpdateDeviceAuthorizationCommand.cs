@@ -25,21 +25,11 @@ namespace CheckInSKP.Application.Device.Commands.UpdateDevice
         }
         public async Task Handle(UpdateDeviceAuthorizationCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId);
-
-            if (device == null)
-            {
-                throw new Exception($"Device with id {request.DeviceId} not found");
-            }
-
+            Domain.Entities.Device device = await _deviceRepository.GetByIdAsync(request.DeviceId) ?? throw new Exception($"Device with id {request.DeviceId} not found");
             if (request.IsAuthorized)
-            {
                 device.Authorize();
-            }
-            else
-            {
-                device.Deauthorize();
-            }
+            
+            device.Deauthorize();
 
             await _deviceRepository.UpdateAsync(device);
             await _unitOfWork.CompleteAsync(cancellationToken);
