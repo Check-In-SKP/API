@@ -1,11 +1,11 @@
-﻿using CheckInAPI.Common.Utilities;
+﻿using API.Common.Utilities;
 using CheckInSKP.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace CheckInAPI.Filters
+namespace API.Filters
 {
     public class AuthorizeByUserRoleFilter : IAuthorizationFilter
     {

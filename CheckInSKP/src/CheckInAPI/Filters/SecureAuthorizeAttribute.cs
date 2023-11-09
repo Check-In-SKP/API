@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CheckInAPI.Filters
+namespace API.Filters
 {
     public class SecureAuthorizeAttribute : TypeFilterAttribute
     {

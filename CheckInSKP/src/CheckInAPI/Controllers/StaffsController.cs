@@ -1,5 +1,5 @@
-﻿using CheckInAPI.Common.Utilities;
-using CheckInAPI.Filters;
+﻿using API.Common.Utilities;
+using API.Filters;
 using CheckInSKP.Application.Staff.Commands.CreateStaff;
 using CheckInSKP.Application.Staff.Commands.CreateStaffTimeLog;
 using CheckInSKP.Application.Staff.Commands.DeleteStaff;
@@ -11,10 +11,9 @@ using CheckInSKP.Application.Staff.Queries.Dtos;
 using CheckInSKP.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CheckInAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

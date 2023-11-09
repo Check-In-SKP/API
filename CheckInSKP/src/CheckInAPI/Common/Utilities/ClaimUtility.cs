@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
 
-namespace CheckInAPI.Common.Utilities
+namespace API.Common.Utilities
 {
     public class ClaimUtility
     {
-        public static(int? userId, int? roleId) ParseUserAndRoleClaims(ClaimsPrincipal user)
+        public static (int? userId, int? roleId) ParseUserAndRoleClaims(ClaimsPrincipal user)
         {
             int? userId = null;
             int? roleId = null;
@@ -21,7 +21,7 @@ namespace CheckInAPI.Common.Utilities
             return (userId, roleId);
         }
 
-        public static(Guid? deviceId, int? userId, string? username, int? roleId) ParseTokenClaims(ClaimsPrincipal token)
+        public static (Guid? deviceId, int? userId, string? username, int? roleId) ParseTokenClaims(ClaimsPrincipal token)
         {
             Guid? deviceId = null;
             int? userId = null;

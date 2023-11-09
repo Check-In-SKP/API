@@ -1,4 +1,4 @@
-﻿using CheckInAPI.Filters;
+﻿using API.Filters;
 using CheckInSKP.Application.Device.Commands.CreateDevice;
 using CheckInSKP.Application.Device.Commands.DeleteDevice;
 using CheckInSKP.Application.Device.Commands.UpdateDevice;
@@ -6,10 +6,9 @@ using CheckInSKP.Application.Device.Queries;
 using CheckInSKP.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CheckInAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

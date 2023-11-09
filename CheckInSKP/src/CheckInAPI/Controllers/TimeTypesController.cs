@@ -1,11 +1,10 @@
-﻿using CheckInAPI.Filters;
+﻿using API.Filters;
 using CheckInSKP.Application.TimeType.Queries;
 using CheckInSKP.Domain.Enums;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CheckInAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

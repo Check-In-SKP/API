@@ -1,4 +1,4 @@
-﻿using CheckInAPI.Common.Utilities;
+﻿using API.Common.Utilities;
 using CheckInSKP.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
-namespace CheckInAPI.Filters
+namespace API.Filters
 {
     /// <summary>
     /// Class <c>SecureAuthorizeFilter</c> filters out invalid tokens or tokens which no longer represents data in a valid state.

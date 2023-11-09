@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace CheckInAPI.Services
+namespace API.Services
 {
     public class KeyGenerator
     {

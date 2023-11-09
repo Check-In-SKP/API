@@ -1,10 +1,7 @@
-using CheckInAPI.Services;
 using CheckInSKP.Application;
 using CheckInSKP.Infrastructure;
 using CheckInSKP.Infrastructure.Data;
-using CheckInSKP.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 

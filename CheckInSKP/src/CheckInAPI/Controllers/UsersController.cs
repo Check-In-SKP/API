@@ -1,5 +1,5 @@
-﻿using CheckInAPI.Common.Utilities;
-using CheckInAPI.Filters;
+﻿using API.Common.Utilities;
+using API.Filters;
 using CheckInSKP.Application.User.Commands.CreateUser;
 using CheckInSKP.Application.User.Commands.DeleteUser;
 using CheckInSKP.Application.User.Commands.LoginUser;
@@ -9,11 +9,9 @@ using CheckInSKP.Application.User.Queries.Dtos;
 using CheckInSKP.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
-namespace CheckInAPI.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -105,7 +103,7 @@ namespace CheckInAPI.Controllers
         public async Task<IActionResult> UpdateUserPassword([FromRoute] int userId, [FromBody] UpdateUserPasswordHashCommand command)
         {
             // Checks that the user id matches the id in the command
-            if(userId != command.UserId)
+            if (userId != command.UserId)
                 return BadRequest();
 
             // Checks token claims to ensure that the user is authorized
