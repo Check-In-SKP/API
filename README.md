@@ -1,2 +1,2 @@
-# API
-Really cool api stuff here!
+# CheckInSKP
+This is the main project repository which contains api and database.
