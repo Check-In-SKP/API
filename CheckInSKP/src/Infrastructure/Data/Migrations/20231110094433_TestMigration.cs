@@ -157,7 +157,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedAt", "Name", "PasswordHash", "RoleId", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTime(2023, 11, 8, 13, 22, 0, 32, DateTimeKind.Utc).AddTicks(618), "System Administrator", "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO", 1, null, "sysadmin" });
+                values: new object[] { 1, new DateTime(2023, 11, 10, 9, 44, 33, 363, DateTimeKind.Utc).AddTicks(9569), "System Administrator", "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO", 1, null, "sysadmin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Devices_Id",
