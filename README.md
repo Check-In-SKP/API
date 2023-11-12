@@ -57,8 +57,8 @@ dotnet ef database update InitialCreate --project src/Infrastructure --startup-p
 ```
 
 ### Step 3: Start the project
-Set the API as the single startup project in your development environment.
-Now you're ready to run the API.
+1. Set the API as the single startup project in your development environment.
+2. Run the API!
 ```
 dotnet run --project src/API
 ```
