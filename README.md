@@ -4,7 +4,7 @@
 This repository is the core of CheckInSKP, structured with a focus on Domain-Driven Design (DDD). It includes our API and database components.
 
 ## Building the Project 
-This guide will walk you through setting up and building the CheckInSKP project on your local machine.
+Currently working on simplifying the setup process but for now this guide will walk you through setting up and building the CheckInSKP project on your local machine.
 
 ### Prerequisites
 Ensure you have the following prerequisites installed:
