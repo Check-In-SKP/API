@@ -65,7 +65,7 @@ dotnet run --project src/API
 
 ### Notes:
 After successfully creating the database, an administrative user account is automatically generated. (Remember to change the default password after the initial login)
-- Username: 'sysadmin'
-- Password: 'Kode1234!'
+- Username:  'sysadmin'
+- Password:  'Kode1234!'
 
 You can use this user to access security restricted endpoints.
