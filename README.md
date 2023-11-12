@@ -36,7 +36,7 @@ Replace the placeholders with your specific settings.
 ### Step 2: Create the Database
 Open PostgreSQL and create a new database named 'CheckInDB'.
 
-Step 3: Run Entity Framework Commands
+### Step 3: Run Entity Framework Commands
 In the .NET CLI or the Package Manager Console in Visual Studio, run the following Entity Framework commands to set up the database:
 
 ```
@@ -54,4 +54,6 @@ dotnet ef database update InitialCreate --project src/Infrastructure --startup-p
 ### Step 3: Start the project
 Configure your startup settings to run the API as a single startup project.
 Now you're ready to run the API.
-```dotnet run --project src/API```
+```
+dotnet run --project src/API
+```
