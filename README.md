@@ -13,7 +13,9 @@ Ensure you have the following prerequisites installed:
 - [PostgreSQL](https://www.postgresql.org/download/)
 
 ### Step 1: Setup appsettings.json
-Navigate to the project's root directory and create a configuration file named 'appsettings.[YourEnvironment].json' (e.g., 'appsettings.PcName.json'). Populate this file with the following structure:
+1. Navigate to the project's root directory.
+2. Create a configuration file named appsettings.[YourEnvironment].json (e.g., appsettings.PcName.json).
+3. Populate the file with the following JSON structure and customize it with your specific settings:
 ```json
 {
   "HttpClientSettings": {
@@ -31,28 +33,31 @@ Navigate to the project's root directory and create a configuration file named '
   }
 }
 ```
-Replace the placeholders with your specific settings.
 
 ### Step 2: Create the Database
-Open PostgreSQL and create a new database named 'CheckInDB'.
+1. Launch PostgreSQL.
+2. Create a new database named 'CheckInDB'.
 
 ### Step 3: Run Entity Framework Commands
-In the .NET CLI or the Package Manager Console in Visual Studio, run the following Entity Framework commands to set up the database:
+Execute these Entity Framework commands using the .NET CLI or the Package Manager Console in Visual Studio:
 
+1. build the project:
 ```
 dotnet build
 ```
 
+Add the initial migration:
 ```
 dotnet ef migrations add InitialCreate --project src/Infrastructure --startup-project src/API --output-dir Data/Migrations
 ```
 
+Update the database:
 ```
 dotnet ef database update InitialCreate --project src/Infrastructure --startup-project src/API
 ```
 
 ### Step 3: Start the project
-Configure your startup settings to run the API as a single startup project.
+Set the API as the single startup project in your development environment.
 Now you're ready to run the API.
 ```
 dotnet run --project src/API
