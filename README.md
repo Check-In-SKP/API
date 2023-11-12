@@ -69,5 +69,4 @@ After successfully creating the database, an administrative user account is auto
 - Password: Kode1234!
 
 You can use this user to access security restricted endpoints.
-
 (Remember to change the default password after the initial login)
