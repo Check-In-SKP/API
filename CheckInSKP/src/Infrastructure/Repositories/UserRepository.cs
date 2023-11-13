@@ -21,7 +21,7 @@ namespace CheckInSKP.Infrastructure.Repositories
         public async Task<User?> AddAsync(User user)
         {
             var entity = _userMapper.MapToEntity(user);
-            var addedEntity = await _context.AddAsync(entity);
+            var addedEntity = await _context.Users.AddAsync(entity);
             return _userMapper.MapToDomain(addedEntity.Entity);
         }
 
@@ -31,7 +31,6 @@ namespace CheckInSKP.Infrastructure.Repositories
 
             return _userMapper.MapToDomain(entity);
         }
-
 
         public async Task UpdateAsync(User user)
         {

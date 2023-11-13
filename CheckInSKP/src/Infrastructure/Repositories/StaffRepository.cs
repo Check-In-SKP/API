@@ -21,7 +21,7 @@ namespace CheckInSKP.Infrastructure.Repositories
         public async Task<Staff?> AddAsync(Staff staff)
         {
             var entity = _staffMapper.MapToEntity(staff);
-            var addedEntity = await _context.AddAsync(entity);
+            var addedEntity = await _context.Staffs.AddAsync(entity);
             return _staffMapper.MapToDomain(addedEntity.Entity);
         }
 

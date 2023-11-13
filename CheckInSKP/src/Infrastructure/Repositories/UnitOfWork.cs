@@ -2,6 +2,8 @@
 using CheckInSKP.Domain.Common;
 using CheckInSKP.Domain.Repositories;
 using CheckInSKP.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Threading;
 
 namespace CheckInSKP.Infrastructure.Repositories
 {
@@ -9,6 +11,8 @@ namespace CheckInSKP.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private IDbContextTransaction? _currentTransaction;
+
         public UnitOfWork(ApplicationDbContext context,
         IDeviceRepository deviceRepository,
         IRoleRepository roleRepository,
@@ -34,6 +38,61 @@ namespace CheckInSKP.Infrastructure.Repositories
 
         public async Task<int> CompleteAsync(CancellationToken cancellationToken)
         {
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            if (_currentTransaction != null)
+            {
+                throw new InvalidOperationException("A transaction is already in progress.");
+            }
+
+            _currentTransaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        public void RollbackTransaction()
+        {
+            try
+            {
+                _currentTransaction?.Rollback();
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await CompleteAsync(cancellationToken);
+                _currentTransaction?.Commit();
+
+                await DispatchDomainEventsAsync();
+            }
+            catch
+            {
+                RollbackTransaction();
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        private async Task DispatchDomainEventsAsync()
+        {
             // Dispatches domain events if any
             var domainEntities = this._context.ChangeTracker
                 .Entries<DomainEntity>()
@@ -46,14 +105,9 @@ namespace CheckInSKP.Infrastructure.Repositories
 
             domainEntities.ForEach(entity => entity.Entity.ClearDomainEvents());
 
-            await _domainEventDispatcher.DispatchEventsAsync(domainEvents, cancellationToken);
-
-            return await _context.SaveChangesAsync(cancellationToken);
+            await _domainEventDispatcher.DispatchEventsAsync(domainEvents, CancellationToken.None);
         }
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        public void Dispose() => _context.Dispose();
     }
 }

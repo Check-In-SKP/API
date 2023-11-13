@@ -9,7 +9,6 @@ namespace CheckInSKP.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<DeviceEntity> builder)
         {
             builder.HasIndex(u => u.Id).IsUnique();
-            builder.HasIndex(u => u.Label).IsUnique();
         }
     }
 }

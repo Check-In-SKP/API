@@ -135,5 +135,13 @@ namespace API.Controllers
             await _sender.Send(command);
             return Ok();
         }
+
+        [HttpPost("create-with-staff")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateUserWithStaff([FromBody] CreateUserWithStaffCommand command)
+        {
+            var userId = await _sender.Send(command);
+            return Ok(new { Status = "Success", Message = "User and staff created successfully.", UserId = userId });
+        }
     }
 }

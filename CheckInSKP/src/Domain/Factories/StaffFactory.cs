@@ -1,4 +1,5 @@
-﻿using CheckInSKP.Domain.Entities.StaffAggregate;
+﻿using CheckInSKP.Domain.Entities;
+using CheckInSKP.Domain.Entities.StaffAggregate;
 
 namespace CheckInSKP.Domain.Factories
 {

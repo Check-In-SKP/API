@@ -21,7 +21,7 @@ namespace CheckInSKP.Infrastructure.Repositories
         public async Task<Role?> AddAsync(Role role)
         {
             var entity = _roleMapper.MapToEntity(role);
-            var addedEntity = await _context.AddAsync(entity);
+            var addedEntity = await _context.Roles.AddAsync(entity);
             return _roleMapper.MapToDomain(addedEntity.Entity);
         }
 

@@ -83,6 +83,5 @@ namespace CheckInSKP.Infrastructure.Repositories
         }
 
         public IQueryable<Device?> Query() => _context.Set<DeviceEntity>().Select(e => _deviceMapper.MapToDomain(e)).AsQueryable();
-
     }
 }

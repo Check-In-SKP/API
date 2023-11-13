@@ -1,4 +1,5 @@
 ﻿using CheckInSKP.Application.Common.Interfaces;
+using CheckInSKP.Domain.Enums;
 using CheckInSKP.Domain.Factories;
 using CheckInSKP.Domain.Repositories;
 using MediatR;
@@ -43,7 +44,7 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
             }
 
             // Gets the default role
-            Domain.Entities.Role role = await _roleRepository.GetByIdAsync(4) ?? throw new Exception($"Role not found");
+            Domain.Entities.Role role = await _roleRepository.GetByIdAsync((int)RoleEnum.User) ?? throw new Exception($"Role not found");
 
             if(role.Name != "User")
             {
