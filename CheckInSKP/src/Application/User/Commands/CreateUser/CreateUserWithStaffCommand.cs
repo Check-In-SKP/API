@@ -82,7 +82,7 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
                 // Complete the UnitOfWork to generate the ID
                 await _unitOfWork.CompleteAsync(cancellationToken);
 
-                return userId;
+                return userId ?? throw new Exception($"Weird error");
             }
             catch (Exception)
             {
