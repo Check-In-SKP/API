@@ -168,5 +168,12 @@ namespace API.Controllers
             await _sender.Send(command);
             return Ok();
         }
+
+        [HttpGet("today-timelogs")]
+        [AuthorizeByUserRole((int)RoleEnum.Admin, (int)RoleEnum.Monitor)]
+        public async Task<IEnumerable<StaffDto>> GetTodayTimeLogs([FromQuery] GetAvailableStaffsWithTodayTimeLogsQuery query)
+        {
+            return await _sender.Send(query);
+        }
     }
 }

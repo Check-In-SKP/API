@@ -9,5 +9,6 @@ namespace CheckInSKP.Domain.Repositories
         Task AddTimeLogAsync(int userId, TimeLog timeLog);
         Task<Staff?> GetStaffWithPagedTimeLogs(int userId, int page, int pageSize);
         Task<Staff?> GetByCardNumberAsync(string cardNumber);
+        Task<IEnumerable<Staff?>> GetAvailableStaffsWithTodayTimeLogs();
     }
 }

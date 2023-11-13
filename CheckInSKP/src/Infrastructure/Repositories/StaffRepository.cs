@@ -148,5 +148,18 @@ namespace CheckInSKP.Infrastructure.Repositories
             var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.CardNumber == cardNumber);
             return _staffMapper.MapToDomain(entity);
         }
+
+        // Gets staffs who aren't preoccupied with timelogs for today
+        public async Task<IEnumerable<Staff?>> GetAvailableStaffsWithTodayTimeLogs()
+        {
+            var today = DateTime.Today;
+
+            var entities = await _context.Set<StaffEntity>()
+                                         .Where(e => !e.Preoccupied) // Filter out preoccupied staff
+                                         .Include(e => e.TimeLogs.Where(t => t.TimeStamp >= today))
+                                         .ToListAsync();
+
+            return entities.Select(_staffMapper.MapToDomain).ToList();
+        }
     }
 }
