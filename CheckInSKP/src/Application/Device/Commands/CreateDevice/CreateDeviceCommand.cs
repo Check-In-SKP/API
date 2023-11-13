@@ -30,11 +30,13 @@ namespace CheckInSKP.Application.Device.Commands.CreateDevice
         public async Task<Guid> Handle(CreateDeviceCommand request, CancellationToken cancellationToken)
         {
             var entity = _deviceFactory.CreateNewDevice(request.Label);
-
-            await _deviceRepository.AddAsync(entity);
+            var addedDevice = await _deviceRepository.AddAsync(entity);
             await _unitOfWork.CompleteAsync(cancellationToken);
 
-            return entity.Id;
+            if (addedDevice == null)
+                throw new InvalidOperationException("Could not add device");
+
+            return addedDevice.Id;
         }
     }
 }

@@ -18,10 +18,11 @@ namespace CheckInSKP.Infrastructure.Repositories
             _deviceMapper = deviceMapper ?? throw new ArgumentNullException(nameof(deviceMapper));
         }
 
-        public async Task AddAsync(Device device)
+        public async Task<Device?> AddAsync(Device device)
         {
             var entity = _deviceMapper.MapToEntity(device);
-            _ = await _context.Devices.AddAsync(entity);
+            var addedEntity = await _context.Devices.AddAsync(entity);
+            return _deviceMapper.MapToDomain(addedEntity.Entity);
         }
 
         public async Task<Device?> GetByIdAsync(Guid id)

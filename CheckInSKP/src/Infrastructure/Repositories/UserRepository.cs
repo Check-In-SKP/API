@@ -18,10 +18,11 @@ namespace CheckInSKP.Infrastructure.Repositories
             _userMapper = userMapper ?? throw new ArgumentNullException(nameof(userMapper));
         }
 
-        public async Task AddAsync(User user)
+        public async Task<User?> AddAsync(User user)
         {
             var entity = _userMapper.MapToEntity(user);
-            _ = await _context.Users.AddAsync(entity);
+            var addedEntity = await _context.AddAsync(entity);
+            return _userMapper.MapToDomain(addedEntity.Entity);
         }
 
         public async Task<User?> GetByIdAsync(int id)

@@ -18,10 +18,11 @@ namespace CheckInSKP.Infrastructure.Repositories
             _timeTypeMapper = timeTypeMapper ?? throw new ArgumentNullException(nameof(timeTypeMapper));
         }
 
-        public async Task AddAsync(TimeType timeType)
+        public async Task<TimeType?> AddAsync(TimeType timeType)
         {
             var entity = _timeTypeMapper.MapToEntity(timeType);
-            _ = await _context.TimeTypes.AddAsync(entity);
+            var addedEntity = await _context.TimeTypes.AddAsync(entity);
+            return _timeTypeMapper.MapToDomain(addedEntity.Entity);
         }
 
         public async Task<TimeType?> GetByIdAsync(int id)

@@ -18,10 +18,11 @@ namespace CheckInSKP.Infrastructure.Repositories
             _roleMapper = roleMapper ?? throw new ArgumentNullException(nameof(roleMapper));
         }
 
-        public async Task AddAsync(Role role)
+        public async Task<Role?> AddAsync(Role role)
         {
             var entity = _roleMapper.MapToEntity(role);
-            _ = await _context.Roles.AddAsync(entity);
+            var addedEntity = await _context.AddAsync(entity);
+            return _roleMapper.MapToDomain(addedEntity.Entity);
         }
 
         public async Task<Role?> GetByIdAsync(int id)

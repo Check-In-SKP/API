@@ -25,8 +25,8 @@ namespace API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CreateDevice([FromBody] CreateDeviceCommand command)
         {
-            await _sender.Send(command);
-            return Ok();
+            var deviceId = await _sender.Send(command);
+            return Ok(deviceId);
         }
 
         [HttpGet("{deviceId}")]
