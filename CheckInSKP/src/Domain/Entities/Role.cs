@@ -44,7 +44,12 @@ namespace CheckInSKP.Domain.Entities
 
         public static string GetNameFromEnum(RoleEnum role)
         {
-            return role.ToString();
+            string name = role.ToString();
+
+            if (string.IsNullOrWhiteSpace(name))
+                name = "Dynamic";
+
+            return name;
         }
     }
 }

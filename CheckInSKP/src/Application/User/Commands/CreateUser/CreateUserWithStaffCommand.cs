@@ -57,9 +57,9 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
                 // Checks if role exists
                 Domain.Entities.Role role = await _roleRepository.GetByIdAsync((int)RoleEnum.Staff) ?? throw new Exception($"Role not found");
 
-                if (role.Name != "Staff")
+                if (role.Name != RoleEnum.Staff.ToString())
                 {
-                    throw new Exception($"Role with ID 3 is not the default role");
+                    throw new Exception($"Role with ID {role.Id} is not a staff role");
                 }
 
                 // Hashing password
@@ -86,6 +86,7 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
             }
             catch (Exception)
             {
+                // Manual rollback of user creation if staff creation fails
                 if(userId !> 0)
                 {
                     await _userRepository.RemoveAsync((int)userId);

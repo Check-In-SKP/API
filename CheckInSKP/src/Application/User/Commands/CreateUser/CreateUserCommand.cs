@@ -43,12 +43,12 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
                 throw new Exception($"User with username {request.Username} already exists");
             }
 
-            // Gets the default role
+            // Gets the default role (user)
             Domain.Entities.Role role = await _roleRepository.GetByIdAsync((int)RoleEnum.User) ?? throw new Exception($"Role not found");
 
-            if(role.Name != "User")
+            if(role.Name != RoleEnum.User.ToString())
             {
-                throw new Exception($"Role with ID 4 is not the default role");
+                throw new Exception($"Role with ID {role.Id} is not a user role");
             }
 
             string passwordHash = _passwordHasher.HashPassword(request.Password);

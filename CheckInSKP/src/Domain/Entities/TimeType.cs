@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using CheckInSKP.Domain.Common;
 using CheckInSKP.Domain.Enums;
+using System.Data;
 
 namespace CheckInSKP.Domain.Entities
 {
@@ -46,7 +47,12 @@ namespace CheckInSKP.Domain.Entities
 
         public static string GetNameFromEnum(TimeTypeEnum timeType)
         {
-            return timeType.ToString();
+            string name = timeType.ToString();
+
+            if (string.IsNullOrWhiteSpace(name))
+                name = "Dynamic";
+
+            return name;
         }
     }
 }
