@@ -39,10 +39,7 @@ namespace CheckInSKP.Domain.Entities
 
         public void UpdateLabel(string newLabel)
         {
-            if (string.IsNullOrWhiteSpace(newLabel) || newLabel.Length > 64)
-                throw new ArgumentException("Invalid new device label.", nameof(newLabel));
-
-            Label = newLabel;
+            Label = ValidateInput(newLabel);
         }
 
         public void Authorize()
