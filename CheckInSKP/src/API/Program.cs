@@ -66,35 +66,6 @@ internal class Program
         #endregion
 
         #region CORS Policies
-        // CORS
-        //builder.Services.AddCors(options =>
-        //{
-        //    options.AddPolicy(name: "Web",
-        //                      builder =>
-        //                      {
-        //                          builder.WithOrigins("http://localhost", "https://localhost")
-        //                                 .AllowAnyHeader()
-        //                                 .AllowAnyMethod();
-        //                          // builder.WithMethods("GET", "POST");
-        //                          // builder.AllowCredentials();
-        //                      });
-        //});
-
-        //builder.Services.AddCors(options =>
-        //{
-        //    options.AddPolicy("localhost",
-        //        builder =>
-        //        {
-        //            builder.SetIsOriginAllowed(origin =>
-        //            {
-        //                return new Uri(origin).Host == "localhost"; // This will allow any port on localhost
-        //            })
-        //                   .AllowAnyMethod()
-        //                   .AllowAnyHeader()
-        //                   .AllowCredentials();
-        //        });
-        //});
-
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAllOrigins",
@@ -104,6 +75,15 @@ internal class Program
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 });
+            //    options.AddPolicy(name: "Web",
+            //                      builder =>
+            //                      {
+            //                          builder.WithOrigins("http://localhost", "https://localhost")
+            //                                 .AllowAnyHeader()
+            //                                 .AllowAnyMethod();
+            //                          // builder.WithMethods("GET", "POST");
+            //                          // builder.AllowCredentials();
+            //                      });
         });
 
         #endregion
@@ -118,7 +98,7 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
-        app.UseCors();
+        app.UseCors("AllowAllOrigins");
 
         app.UseAuthentication();
         app.UseAuthorization();
