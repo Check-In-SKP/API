@@ -118,7 +118,7 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
-        app.UseCors("Web");
+        app.UseCors();
 
         app.UseAuthentication();
         app.UseAuthorization();
