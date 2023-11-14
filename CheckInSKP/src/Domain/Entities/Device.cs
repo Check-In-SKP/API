@@ -17,28 +17,24 @@ namespace CheckInSKP.Domain.Entities
         // Constructor for new Device
         public Device(string? label)
         {
-            label ??= "Unknown";
-
-            ValidateInput(label);
-
-            Label = label;
+            Label = ValidateInput(label);
             IsAuthorized = false;
         }
 
         // Constructor for existing Device
         public Device(Guid id, string label, bool authorized)
         {
-            ValidateInput(label);
-
             _id = id;
             Label = label;
             IsAuthorized = authorized;
         }
 
-        private void ValidateInput(string label)
+        private string ValidateInput(string? label)
         {
             if (string.IsNullOrWhiteSpace(label) || label.Length > 64)
-                throw new ArgumentException("Invalid label.", nameof(label));
+                return "Unknown";
+
+            return label;
         }
 
         public void UpdateLabel(string newLabel)
