@@ -80,20 +80,32 @@ internal class Program
         //                      });
         //});
 
+        //builder.Services.AddCors(options =>
+        //{
+        //    options.AddPolicy("localhost",
+        //        builder =>
+        //        {
+        //            builder.SetIsOriginAllowed(origin =>
+        //            {
+        //                return new Uri(origin).Host == "localhost"; // This will allow any port on localhost
+        //            })
+        //                   .AllowAnyMethod()
+        //                   .AllowAnyHeader()
+        //                   .AllowCredentials();
+        //        });
+        //});
+
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("localhost",
+            options.AddPolicy("AllowAllOrigins",
                 builder =>
                 {
-                    builder.SetIsOriginAllowed(origin =>
-                    {
-                        return new Uri(origin).Host == "localhost"; // This will allow any port on localhost
-                    })
+                    builder.AllowAnyOrigin()
                            .AllowAnyMethod()
-                           .AllowAnyHeader()
-                           .AllowCredentials();
+                           .AllowAnyHeader();
                 });
         });
+
         #endregion
 
         var app = builder.Build();
