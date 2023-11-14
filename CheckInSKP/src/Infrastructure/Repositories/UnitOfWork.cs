@@ -38,9 +38,11 @@ namespace CheckInSKP.Infrastructure.Repositories
 
         public async Task<int> CompleteAsync(CancellationToken cancellationToken = default)
         {
+            await DispatchDomainEventsAsync();
             return await _context.SaveChangesAsync(cancellationToken);
         }
 
+        #region Transaction Management
         public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
             if (_currentTransaction != null)
@@ -71,7 +73,7 @@ namespace CheckInSKP.Infrastructure.Repositories
         {
             try
             {
-                await CompleteAsync(cancellationToken);
+                await _context.Database.CommitTransactionAsync(cancellationToken);
                 _currentTransaction?.Commit();
 
                 await DispatchDomainEventsAsync();
@@ -90,6 +92,7 @@ namespace CheckInSKP.Infrastructure.Repositories
                 }
             }
         }
+        #endregion
 
         private async Task DispatchDomainEventsAsync()
         {

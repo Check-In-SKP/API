@@ -34,7 +34,7 @@ namespace API.Controllers
 
         [HttpGet("{userId}")]
         [SecureAuthorize]
-        public async Task<IActionResult> GetUserById([FromRoute] int userId)
+        public async Task<IActionResult> GetUserById([FromRoute] Guid userId)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
             if (userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
@@ -76,7 +76,7 @@ namespace API.Controllers
 
         [HttpPut("{userId}")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserCommand command)
+        public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserCommand command)
         {
             // Checks that the user id matches the id in the command
             if (userId != command.UserId)
@@ -88,7 +88,7 @@ namespace API.Controllers
 
         [HttpPatch("{userId}/username")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateUserUsername([FromRoute] int userId, [FromBody] UpdateUserUsernameCommand command)
+        public async Task<IActionResult> UpdateUserUsername([FromRoute] Guid userId, [FromBody] UpdateUserUsernameCommand command)
         {
             // Checks that the user id matches the id in the command
             if (userId != command.UserId)
@@ -100,7 +100,7 @@ namespace API.Controllers
 
         [HttpPatch("{userId}/password")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateUserPassword([FromRoute] int userId, [FromBody] UpdateUserPasswordHashCommand command)
+        public async Task<IActionResult> UpdateUserPassword([FromRoute] Guid userId, [FromBody] UpdateUserPasswordHashCommand command)
         {
             // Checks that the user id matches the id in the command
             if (userId != command.UserId)
@@ -117,7 +117,7 @@ namespace API.Controllers
 
         [HttpPatch("{userId}/role")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> UpdateUserRole([FromRoute] int userId, [FromBody] UpdateUserRoleCommand command)
+        public async Task<IActionResult> UpdateUserRole([FromRoute] Guid userId, [FromBody] UpdateUserRoleCommand command)
         {
             // Checks that the user id matches the id in the command
             if (userId != command.UserId)
@@ -129,7 +129,7 @@ namespace API.Controllers
 
         [HttpDelete("{userId}")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> DeleteUser([FromRoute] int userId)
+        public async Task<IActionResult> DeleteUser([FromRoute] Guid userId)
         {
             var command = new DeleteUserCommand { UserId = userId };
             await _sender.Send(command);

@@ -47,9 +47,6 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("Label")
-                        .IsUnique();
-
                     b.ToTable("Devices");
                 });
 
@@ -62,7 +59,6 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
@@ -111,8 +107,8 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.StaffEntity", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
@@ -129,7 +125,6 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
@@ -158,8 +153,8 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("StaffId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("StaffId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("timestamp with time zone");
@@ -227,11 +222,9 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.UserEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -272,8 +265,8 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            CreatedAt = new DateTime(2023, 11, 10, 9, 44, 33, 363, DateTimeKind.Utc).AddTicks(9569),
+                            Id = new Guid("9b51acfd-95af-46a7-9354-b108ac6e14be"),
+                            CreatedAt = new DateTime(2023, 11, 14, 8, 24, 18, 39, DateTimeKind.Utc).AddTicks(1906),
                             Name = "System Administrator",
                             PasswordHash = "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO",
                             RoleId = 1,
@@ -329,8 +322,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("CheckInSKP.Infrastructure.Entities.UserEntity", b =>
                 {
-                    b.Navigation("Staff")
-                        .IsRequired();
+                    b.Navigation("Staff");
                 });
 #pragma warning restore 612, 618
         }

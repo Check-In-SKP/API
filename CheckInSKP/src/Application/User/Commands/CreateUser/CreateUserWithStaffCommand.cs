@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.User.Commands.CreateUser
 {
-    public record CreateUserWithStaffCommand : IRequest<int>
+    public record CreateUserWithStaffCommand : IRequest<Guid>
     {
         // User details
         public required string Name { get; init; }
@@ -23,7 +23,7 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
         public required string CardNumber { get; init; }
         public required bool PhoneNotification { get; init; }
     }
-    public class CreateUserWithStaffCommandHandler : IRequestHandler<CreateUserWithStaffCommand, int>
+    public class CreateUserWithStaffCommandHandler : IRequestHandler<CreateUserWithStaffCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IStaffRepository _staffRepository;
@@ -42,10 +42,8 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
             _userFactory = userFactory ?? throw new ArgumentNullException(nameof(userFactory));
             _staffFactory = staffFactory ?? throw new ArgumentNullException(nameof(staffFactory));
         }
-        public async Task<int> Handle(CreateUserWithStaffCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateUserWithStaffCommand request, CancellationToken cancellationToken)
         {
-            int? userId = 0;
-
             try
             {
                 // Checks if user already exists
@@ -69,29 +67,17 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
                 var user = _userFactory.CreateNewUser(request.Name, request.Username, passwordHash, role.Id);
                 user = await _userRepository.AddAsync(user) ?? throw new InvalidOperationException("Could not add user");
 
-                // Complete the UnitOfWork to generate the ID
-                await _unitOfWork.CompleteAsync(cancellationToken);
-
-                var addedUser = await _userRepository.GetByUsernameAsync(request.Username) ?? throw new Exception($"User with username {request.Username} not found");
-                userId = addedUser.Id;
-
                 // Create Staff
-                var staff = _staffFactory.CreateNewStaff((int)userId, request.PhoneNumber, request.CardNumber, request.PhoneNotification);
+                var staff = _staffFactory.CreateNewStaff(user.Id, request.PhoneNumber, request.CardNumber, request.PhoneNotification);
                 staff = await _staffRepository.AddAsync(staff) ?? throw new InvalidOperationException("Could not add staff");
 
                 // Complete the UnitOfWork to generate the ID
                 await _unitOfWork.CompleteAsync(cancellationToken);
 
-                return userId ?? throw new Exception($"Weird error");
+                return user.Id;
             }
             catch (Exception)
             {
-                // Manual rollback of user creation if staff creation fails
-                if(userId !> 0)
-                {
-                    await _userRepository.RemoveAsync((int)userId);
-                }
-
                 throw;
             }
         }

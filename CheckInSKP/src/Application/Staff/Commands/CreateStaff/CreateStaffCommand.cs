@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.Staff.Commands.CreateStaff
 {
-    public record CreateStaffCommand : IRequest<int>
+    public record CreateStaffCommand : IRequest<Guid>
     {
-        public required int UserId { get; init; }
+        public required Guid UserId { get; init; }
         public required string PhoneNumber { get; init; }
         public required string CardNumber { get; init; }
         public required bool PhoneNotification { get; init; }
     }
 
-    public class CreateStaffCommandHandler : IRequestHandler<CreateStaffCommand, int>
+    public class CreateStaffCommandHandler : IRequestHandler<CreateStaffCommand, Guid>
     {
         private readonly StaffFactory _staffFactory;
         private readonly IUserRepository _userRepository;
@@ -31,7 +31,7 @@ namespace CheckInSKP.Application.Staff.Commands.CreateStaff
             _staffRepository = staffRepository ?? throw new ArgumentNullException(nameof(staffRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
-        public async Task<int> Handle(CreateStaffCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateStaffCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId) ?? throw new Exception($"User with id {request.UserId} not found");
             var entity = _staffFactory.CreateNewStaff(request.UserId, request.PhoneNumber, request.CardNumber, request.PhoneNotification);

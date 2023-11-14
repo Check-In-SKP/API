@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.Staff.Commands.UpdateStaff
 {
     public record UpdateStaffOccupationCommand : IRequest
     {
-        public int StaffId { get; init; }
+        public Guid StaffId { get; init; }
         public bool IsPreoccupied { get; init; }
     }
 

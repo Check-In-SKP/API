@@ -9,9 +9,9 @@ namespace CheckInSKP.Domain.Events.StaffEvents
 {
     public class StaffPhoneNumberUpdatedEvent : DomainEvent
     {
-        public int UserId { get; }
+        public Guid UserId { get; }
         public string PhoneNumber { get; }
-        public StaffPhoneNumberUpdatedEvent(int userId, string phoneNumber)
+        public StaffPhoneNumberUpdatedEvent(Guid userId, string phoneNumber)
         {
             UserId = userId;
             PhoneNumber = phoneNumber;

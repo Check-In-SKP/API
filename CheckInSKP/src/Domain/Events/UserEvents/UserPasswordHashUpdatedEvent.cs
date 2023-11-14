@@ -9,9 +9,9 @@ namespace CheckInSKP.Domain.Events.UserEvents
 {
     public class UserPasswordHashUpdatedEvent : DomainEvent
     {
-        public int UserId { get; }
+        public Guid UserId { get; }
         public string PasswordHash { get; }
-        public UserPasswordHashUpdatedEvent(int userId, string passwordHash)
+        public UserPasswordHashUpdatedEvent(Guid userId, string passwordHash)
         {
             UserId = userId;
             PasswordHash = passwordHash;

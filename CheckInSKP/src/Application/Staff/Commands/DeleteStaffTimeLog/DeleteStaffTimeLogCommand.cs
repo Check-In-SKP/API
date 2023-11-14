@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.Staff.Commands.DeleteStaffTimeLog
 {
     public record DeleteStaffTimeLogCommand : IRequest
     {
-        public int StaffId { get; init; }
+        public Guid StaffId { get; init; }
         public int TimeLogId { get; init; }
     }
 

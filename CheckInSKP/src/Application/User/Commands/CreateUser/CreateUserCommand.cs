@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace CheckInSKP.Application.User.Commands.CreateUser
 {
-    public record CreateUserCommand : IRequest<int>
+    public record CreateUserCommand : IRequest<Guid>
     {
         public required string Name { get; init; }
         public required string Username { get; init; }
         public required string Password { get; init; }
     }
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
     {
         private readonly UserFactory _userFactory;
         private readonly IRoleRepository _roleRepository;
@@ -35,7 +35,7 @@ namespace CheckInSKP.Application.User.Commands.CreateUser
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             // Checks if user already exists
             if (await _userRepository.GetByUsernameAsync(request.Username) != null)

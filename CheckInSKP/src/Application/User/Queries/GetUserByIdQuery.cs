@@ -12,7 +12,7 @@ namespace CheckInSKP.Application.User.Queries
 {
     public record GetUserByIdQuery : IRequest<UserDto>
     {
-        public required int UserId { get; init; }
+        public required Guid UserId { get; init; }
     }
 
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto>

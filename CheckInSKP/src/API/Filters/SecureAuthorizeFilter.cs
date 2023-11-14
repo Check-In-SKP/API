@@ -34,7 +34,7 @@ namespace API.Filters
             }
 
             // Checks the database if the token claims are still valid.
-            if (!await _tokenValidationService.ValidateUserClaims((int)userId, username, (int)roleId))
+            if (!await _tokenValidationService.ValidateUserClaims((Guid)userId, username, (int)roleId))
             {
                 context.Result = new UnauthorizedResult();
                 return;

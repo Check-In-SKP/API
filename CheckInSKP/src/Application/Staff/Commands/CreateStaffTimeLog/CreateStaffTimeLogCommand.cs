@@ -11,7 +11,7 @@ namespace CheckInSKP.Application.Staff.Commands.CreateStaffTimeLog
 {
     public record CreateStaffTimeLogCommand : IRequest
     {
-        public required int StaffId { get; init; }
+        public required Guid StaffId { get; init; }
         public required int TimeTypeId { get; init; }
     }
 

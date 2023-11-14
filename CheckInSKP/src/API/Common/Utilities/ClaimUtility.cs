@@ -4,15 +4,15 @@ namespace API.Common.Utilities
 {
     public class ClaimUtility
     {
-        public static (int? userId, int? roleId) ParseUserAndRoleClaims(ClaimsPrincipal user)
+        public static (Guid? userId, int? roleId) ParseUserAndRoleClaims(ClaimsPrincipal user)
         {
-            int? userId = null;
+            Guid? userId = null;
             int? roleId = null;
 
             var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
             var userRoleClaim = user.FindFirst(ClaimTypes.Role);
 
-            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int uid))
+            if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out Guid uid))
                 userId = uid;
 
             if (userRoleClaim != null && int.TryParse(userRoleClaim.Value, out int rid))
@@ -21,10 +21,10 @@ namespace API.Common.Utilities
             return (userId, roleId);
         }
 
-        public static (Guid? deviceId, int? userId, string? username, int? roleId) ParseTokenClaims(ClaimsPrincipal token)
+        public static (Guid? deviceId, Guid? userId, string? username, int? roleId) ParseTokenClaims(ClaimsPrincipal token)
         {
             Guid? deviceId = null;
-            int? userId = null;
+            Guid? userId = null;
             string? username = null;
             int? roleId = null;
 
@@ -36,7 +36,7 @@ namespace API.Common.Utilities
             if (deviceIdClaim != null && Guid.TryParse(deviceIdClaim.Value, out Guid did))
                 deviceId = did;
 
-            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int uid))
+            if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out Guid uid))
                 userId = uid;
 
             if (usernameClaim != null)

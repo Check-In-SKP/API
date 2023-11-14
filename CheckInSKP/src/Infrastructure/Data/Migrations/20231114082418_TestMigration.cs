@@ -35,7 +35,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
+                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,8 +59,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     Username = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
@@ -83,9 +82,9 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                 name: "Staffs",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     CardNumber = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
                     PhoneNotification = table.Column<bool>(type: "boolean", nullable: false),
                     Preoccupied = table.Column<bool>(type: "boolean", nullable: false),
                     MeetingTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
@@ -111,7 +110,7 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TimeStamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TimeTypeId = table.Column<int>(type: "integer", nullable: false),
-                    StaffId = table.Column<int>(type: "integer", nullable: false)
+                    StaffId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,18 +156,12 @@ namespace CheckInSKP.Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedAt", "Name", "PasswordHash", "RoleId", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTime(2023, 11, 10, 9, 44, 33, 363, DateTimeKind.Utc).AddTicks(9569), "System Administrator", "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO", 1, null, "sysadmin" });
+                values: new object[] { new Guid("9b51acfd-95af-46a7-9354-b108ac6e14be"), new DateTime(2023, 11, 14, 8, 24, 18, 39, DateTimeKind.Utc).AddTicks(1906), "System Administrator", "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO", 1, null, "sysadmin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Devices_Id",
                 table: "Devices",
                 column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Devices_Label",
-                table: "Devices",
-                column: "Label",
                 unique: true);
 
             migrationBuilder.CreateIndex(

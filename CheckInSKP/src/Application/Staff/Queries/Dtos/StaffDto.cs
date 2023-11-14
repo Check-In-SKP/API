@@ -9,7 +9,7 @@ namespace CheckInSKP.Application.Staff.Queries.Dtos
 {
     public class StaffDto
     {
-        public int Id { get; init; }
+        public Guid Id { get; init; }
         public string PhoneNumber { get; init; }
         public string CardNumber { get; init; }
         public bool PhoneNotification { get; init; }

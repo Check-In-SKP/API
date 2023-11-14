@@ -7,7 +7,8 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
 {
     public class Staff : DomainEntity
     {
-        public int UserId { get; private set; }
+        private readonly Guid _userId;
+        public Guid UserId => _userId;
 
         [Required, StringLength(64)]
         public string PhoneNumber { get; private set; }
@@ -24,11 +25,11 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         public IReadOnlyList<TimeLog> TimeLogs => _timeLogs;
 
         // Constructor for new Staff
-        public Staff(int userId, string phoneNumber, string cardNumber, bool phoneNotification)
+        public Staff(Guid userId, string phoneNumber, string cardNumber, bool phoneNotification)
         {
-            ValidateInput(userId, phoneNumber, cardNumber);
+            ValidateInput(phoneNumber, cardNumber);
 
-            UserId = userId;
+            _userId = userId;
             PhoneNumber = phoneNumber;
             CardNumber = cardNumber;
             PhoneNotification = phoneNotification;
@@ -37,11 +38,11 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
         }
 
         // Constructor for existing Staff
-        public Staff(int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
+        public Staff(Guid userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
         {
-            ValidateInput(userId, phoneNumber, cardNumber);
+            ValidateInput(phoneNumber, cardNumber);
 
-            UserId = userId;
+            _userId = userId;
             PhoneNumber = phoneNumber;
             CardNumber = cardNumber;
             PhoneNotification = phoneNotification;
@@ -49,9 +50,8 @@ namespace CheckInSKP.Domain.Entities.StaffAggregate
             MeetingTime = meetingTime;
         }
 
-        private void ValidateInput(int userId, string phoneNumber, string cardNumber)
+        private void ValidateInput(string phoneNumber, string cardNumber)
         {
-            if (userId <= 0) throw new ArgumentException("Invalid user ID.", nameof(userId));
             if (string.IsNullOrWhiteSpace(phoneNumber) || phoneNumber.Length > 64)
                 throw new ArgumentException("Invalid phone number.", nameof(phoneNumber));
             if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length > 128)

@@ -14,11 +14,11 @@ namespace CheckInSKP.Infrastructure.Entities
         public int TimeTypeId { get; set; }
 
         [ForeignKey(nameof(TimeTypeId))]
-        public TimeTypeEntity TimeType { get; set; }
+        public TimeTypeEntity? TimeType { get; set; }
 
-        public int StaffId { get; set; }
+        public Guid StaffId { get; set; }
 
         [ForeignKey(nameof(StaffId))]
-        public StaffEntity Staff { get; set; }
+        public StaffEntity? Staff { get; set; }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace CheckInSKP.Domain.Repositories
 {
-    public interface IStaffRepository : IGenericRepository<Staff, int>
+    public interface IStaffRepository : IGenericRepository<Staff, Guid>
     {
-        Task UpdateTimeLogAsync(int userId, TimeLog updatedTimeLog);
-        Task RemoveTimeLogAsync(int userId, int tokenId);
-        Task AddTimeLogAsync(int userId, TimeLog timeLog);
-        Task<Staff?> GetStaffWithPagedTimeLogs(int userId, int page, int pageSize);
+        Task UpdateTimeLogAsync(Guid userId, TimeLog updatedTimeLog);
+        Task RemoveTimeLogAsync(Guid userId, int timeLogId);
+        Task AddTimeLogAsync(Guid userId, TimeLog timeLog);
+        Task<Staff?> GetStaffWithPagedTimeLogs(Guid userId, int page, int pageSize);
         Task<Staff?> GetByCardNumberAsync(string cardNumber);
         Task<IEnumerable<Staff?>> GetAvailableStaffsWithTodayTimeLogs();
     }

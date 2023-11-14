@@ -30,7 +30,7 @@ namespace API.Filters
 
             if (!await _roleValidationService.UserHasValidRole(userId.Value, _roleIds))
             {
-                context.Result = new ForbidResult();
+                context.Result = new UnauthorizedResult();
             }
         }
     }

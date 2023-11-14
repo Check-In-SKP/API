@@ -5,12 +5,12 @@ namespace CheckInSKP.Domain.Factories
 {
     public class StaffFactory
     {
-        public Staff CreateStaff(int userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
+        public Staff CreateStaff(Guid userId, string phoneNumber, string cardNumber, bool phoneNotification, bool preoccupied, TimeOnly meetingTime)
         {
             return new Staff(userId, phoneNumber, cardNumber, phoneNotification, preoccupied, meetingTime);
         }
 
-        public Staff CreateNewStaff(int userId, string phoneNumber, string cardNumber, bool phoneNotification)
+        public Staff CreateNewStaff(Guid userId, string phoneNumber, string cardNumber, bool phoneNotification)
         {
             return new Staff(userId, phoneNumber, cardNumber, phoneNotification);
         }

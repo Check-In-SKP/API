@@ -25,7 +25,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             return _staffMapper.MapToDomain(addedEntity.Entity);
         }
 
-        public async Task<Staff?> GetByIdAsync(int userId)
+        public async Task<Staff?> GetByIdAsync(Guid userId)
         {
             var entity = await _context.Set<StaffEntity>()
                                                .Include(e => e.TimeLogs)
@@ -50,7 +50,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task RemoveAsync(int userId)
+        public async Task RemoveAsync(Guid userId)
         {
             var entity = await _context.Set<StaffEntity>().FindAsync(userId);
             if(entity != null)
@@ -59,7 +59,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> ExistsAsync(int userId)
+        public async Task<bool> ExistsAsync(Guid userId)
         {
             return await _context.Set<StaffEntity>().FindAsync(userId) != null;
         }
@@ -84,7 +84,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.Staffs.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<int> userIds)
+        public async Task RemoveRangeAsync(IEnumerable<Guid> userIds)
         {
             var entities = await _context.Staffs.Where(u => userIds.Contains(u.UserId)).ToListAsync();
             if(entities != null)
@@ -95,9 +95,9 @@ namespace CheckInSKP.Infrastructure.Repositories
 
         public IQueryable<Staff?> Query() => _context.Set<StaffEntity>().Select(e => _staffMapper.MapToDomain(e));
 
-        public async Task UpdateTimeLogAsync(int staffId, TimeLog updatedTimeLog)
+        public async Task UpdateTimeLogAsync(Guid userId, TimeLog updatedTimeLog)
         {
-            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.UserId == staffId);
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.UserId == userId);
 
             if(entity != null)
             {
@@ -110,13 +110,13 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task RemoveTimeLogAsync(int staffId, int tokenId)
+        public async Task RemoveTimeLogAsync(Guid userId, int timeLogId)
         {
-            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.UserId == staffId);
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.UserId == userId);
 
             if(entity != null)
             {
-                var timeLog = entity.TimeLogs.FirstOrDefault(t => t.Id == tokenId);
+                var timeLog = entity.TimeLogs.FirstOrDefault(t => t.Id == timeLogId);
                 if(timeLog != null)
                 {
                     entity.TimeLogs.Remove(timeLog);
@@ -124,9 +124,9 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task AddTimeLogAsync(int staffId, TimeLog timeLog)
+        public async Task AddTimeLogAsync(Guid userId, TimeLog timeLog)
         {
-            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.UserId == staffId);
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).FirstOrDefaultAsync(e => e.UserId == userId);
 
             if(entity != null)
             {
@@ -138,9 +138,9 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task<Staff?> GetStaffWithPagedTimeLogs(int staffId, int page, int pageSize)
+        public async Task<Staff?> GetStaffWithPagedTimeLogs(Guid userId, int page, int pageSize)
         {
-            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).Skip((page - 1) * pageSize).Take(pageSize).FirstOrDefaultAsync(e => e.UserId == staffId);
+            var entity = await _context.Set<StaffEntity>().Include(e => e.TimeLogs).Skip((page - 1) * pageSize).Take(pageSize).FirstOrDefaultAsync(e => e.UserId == userId);
             return _staffMapper.MapToDomain(entity);
         }
 

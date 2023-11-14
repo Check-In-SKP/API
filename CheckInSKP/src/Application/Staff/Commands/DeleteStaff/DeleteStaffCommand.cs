@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.Staff.Commands.DeleteStaff
 {
     public record DeleteStaffCommand : IRequest
     {
-        public int StaffId { get; init; }
+        public Guid StaffId { get; init; }
     }
 
     public class DeleteStaffCommandHandler : IRequestHandler<DeleteStaffCommand>

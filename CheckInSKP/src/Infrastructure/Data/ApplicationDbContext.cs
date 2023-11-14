@@ -32,7 +32,7 @@ namespace CheckInSKP.Infrastructure.Data
             builder.Entity<UserEntity>().HasData(
                 new UserEntity
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Name = "System Administrator",
                     Username = "sysadmin",
                     PasswordHash = "$2a$10$BZ1AY6lFmzN1SSn5KOAqVeFroH2AykeZ7cGYtl3hQC2pFeiDy2zkO",

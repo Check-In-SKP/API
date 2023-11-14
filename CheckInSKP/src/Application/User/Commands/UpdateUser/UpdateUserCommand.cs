@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.User.Commands.UpdateUser
 {
     public record UpdateUserCommand : IRequest
     {
-        public int UserId { get; init; }
+        public Guid UserId { get; init; }
         public required string Name { get; init; }
         public required string Username { get; init; }
         public required string PasswordHash { get; init; }

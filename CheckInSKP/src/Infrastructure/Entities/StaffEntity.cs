@@ -6,15 +6,14 @@ namespace CheckInSKP.Infrastructure.Entities
     public class StaffEntity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
         [MaxLength(128)]
-        public string CardNumber { get; set; }
+        public required string CardNumber { get; set; }
 
         [MaxLength(64)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Required]
         public bool PhoneNotification { get; set; }
@@ -28,6 +27,6 @@ namespace CheckInSKP.Infrastructure.Entities
         public ICollection<TimeLogEntity> TimeLogs { get; set; } = new List<TimeLogEntity>();
 
         [ForeignKey(nameof(UserId))]
-        public UserEntity User { get; set; }
+        public UserEntity? User { get; set; }
     }
 }

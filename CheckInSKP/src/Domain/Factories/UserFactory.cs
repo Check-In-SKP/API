@@ -4,7 +4,7 @@ namespace CheckInSKP.Domain.Factories
 {
     public class UserFactory
     {
-        public User CreateUser(int id, string name, string username, string passwordHash, int roleId)
+        public User CreateUser(Guid id, string name, string username, string passwordHash, int roleId)
         {
             return new User(id, name, username, passwordHash, roleId);
         }

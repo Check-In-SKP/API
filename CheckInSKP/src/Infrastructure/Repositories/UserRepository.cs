@@ -25,7 +25,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             return _userMapper.MapToDomain(addedEntity.Entity);
         }
 
-        public async Task<User?> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(Guid id)
         {
             var entity = await _context.Set<UserEntity>().FirstOrDefaultAsync(e => e.Id == id);
 
@@ -44,7 +44,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(Guid id)
         {
             var entity = await _context.Set<UserEntity>().FindAsync(id);
             if(entity != null)
@@ -53,7 +53,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> ExistsAsync(int id)
+        public async Task<bool> ExistsAsync(Guid id)
         {
             return await _context.Set<UserEntity>().FindAsync(id) != null;
         }
@@ -76,7 +76,7 @@ namespace CheckInSKP.Infrastructure.Repositories
             await _context.Users.AddRangeAsync(entities);
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<int> userIds)
+        public async Task RemoveRangeAsync(IEnumerable<Guid> userIds)
         {
             var entities = await _context.Users.Where(u => userIds.Contains(u.Id)).ToListAsync();
             if(entities != null)

@@ -8,8 +8,8 @@ namespace CheckInSKP.Domain.Entities
 {
     public class User : DomainEntity
     {
-        private readonly int _id;
-        public int Id => _id;
+        private readonly Guid _id;
+        public Guid Id => _id;
 
         [Required, StringLength(64)]
         public string Name { get; private set; }
@@ -34,7 +34,7 @@ namespace CheckInSKP.Domain.Entities
         }
 
         // Constructor for existing User
-        public User(int id, string name, string username, string passwordHash, int roleId)
+        public User(Guid id, string name, string username, string passwordHash, int roleId)
         {
             ValidateInput(name, username, passwordHash, roleId);
 

@@ -38,15 +38,15 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet("{staffId}")]
+        [HttpGet("{userId}")]
         [SecureAuthorize]
-        public async Task<IActionResult> GetStaffById([FromRoute] int staffId)
+        public async Task<IActionResult> GetStaffById([FromRoute] Guid userId)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
+            if (userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
                 return Unauthorized();
 
-            var query = new GetStaffByIdQuery { StaffId = staffId };
+            var query = new GetStaffByIdQuery { StaffId = userId };
             var result = await _sender.Send(query);
 
             if (result == null)
@@ -81,90 +81,90 @@ namespace API.Controllers
             return await _sender.Send(query);
         }
 
-        [HttpPut("{staffId}")]
+        [HttpPut("{userId}")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> UpdateStaff([FromRoute] int staffId, [FromBody] UpdateStaffCommand command)
+        public async Task<IActionResult> UpdateStaff([FromRoute] Guid userId, [FromBody] UpdateStaffCommand command)
         {
-            if (staffId != command.StaffId)
+            if (userId != command.StaffId)
                 return BadRequest();
 
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpPatch("{staffId}/MeetingTime")]
+        [HttpPatch("{userId}/MeetingTime")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> UpdateStaffMeetingTime([FromRoute] int staffId, [FromBody] UpdateStaffMeetingTimeCommand command)
+        public async Task<IActionResult> UpdateStaffMeetingTime([FromRoute] Guid userId, [FromBody] UpdateStaffMeetingTimeCommand command)
         {
-            if (staffId != command.StaffId)
+            if (userId != command.StaffId)
                 return BadRequest();
 
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpPatch("{staffId}/Occupation")]
+        [HttpPatch("{userId}/Occupation")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateStaffOccupation([FromRoute] int staffId, [FromBody] UpdateStaffOccupationCommand command)
+        public async Task<IActionResult> UpdateStaffOccupation([FromRoute] Guid userId, [FromBody] UpdateStaffOccupationCommand command)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
+            if (userId != command.StaffId || userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpPatch("{staffId}/PhoneNotitfication")]
+        [HttpPatch("{userId}/PhoneNotitfication")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateStaffPhoneNotification([FromRoute] int staffId, [FromBody] UpdateStaffPhoneNotificationCommand command)
+        public async Task<IActionResult> UpdateStaffPhoneNotification([FromRoute] Guid userId, [FromBody] UpdateStaffPhoneNotificationCommand command)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
+            if (userId != command.StaffId || userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpPatch("{staffId}/PhoneNumber")]
+        [HttpPatch("{userId}/PhoneNumber")]
         [SecureAuthorize]
-        public async Task<IActionResult> UpdateStaffPhoneNumber([FromRoute] int staffId, [FromBody] UpdateStaffPhoneNumberCommand command)
+        public async Task<IActionResult> UpdateStaffPhoneNumber([FromRoute] Guid userId, [FromBody] UpdateStaffPhoneNumberCommand command)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
+            if (userId != command.StaffId || userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpDelete("{staffId}")]
+        [HttpDelete("{userId}")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> DeleteStaff([FromRoute] int staffId)
+        public async Task<IActionResult> DeleteStaff([FromRoute] Guid userId)
         {
-            var command = new DeleteStaffCommand { StaffId = staffId };
+            var command = new DeleteStaffCommand { StaffId = userId };
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpPost("{staffId}/TimeLog")]
+        [HttpPost("{userId}/TimeLog")]
         [SecureAuthorize]
-        public async Task<IActionResult> CreateTimeLog([FromRoute] int staffId, [FromBody] CreateStaffTimeLogCommand command)
+        public async Task<IActionResult> CreateTimeLog([FromRoute] Guid userId, [FromBody] CreateStaffTimeLogCommand command)
         {
             var (userIdClaim, userRoleClaim) = ClaimUtility.ParseUserAndRoleClaims(User);
-            if (staffId != command.StaffId || userIdClaim != staffId && userRoleClaim != (int)RoleEnum.Admin)
+            if (userId != command.StaffId || userIdClaim != userId && userRoleClaim != (int)RoleEnum.Admin)
                 return BadRequest();
 
             await _sender.Send(command);
             return Ok();
         }
 
-        [HttpDelete("{staffId}/TimeLog/{timeLogId}")]
+        [HttpDelete("{userId}/TimeLog/{timeLogId}")]
         [AuthorizeByUserRole((int)RoleEnum.Admin)]
-        public async Task<IActionResult> DeleteTimeLog([FromRoute] int staffId, [FromRoute] int timeLogId)
+        public async Task<IActionResult> DeleteTimeLog([FromRoute] Guid userId, [FromRoute] int timeLogId)
         {
-            var command = new DeleteStaffTimeLogCommand { StaffId = staffId, TimeLogId = timeLogId };
+            var command = new DeleteStaffTimeLogCommand { StaffId = userId, TimeLogId = timeLogId };
             await _sender.Send(command);
             return Ok();
         }

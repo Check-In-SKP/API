@@ -12,7 +12,7 @@ namespace CheckInSKP.Application.Staff.Queries
 {
     public record GetStaffByIdQuery : IRequest<StaffDto>
     {
-        public int StaffId { get; init; }
+        public Guid StaffId { get; init; }
     }
 
     public class GetStaffByIdQueryHandler : IRequestHandler<GetStaffByIdQuery, StaffDto>

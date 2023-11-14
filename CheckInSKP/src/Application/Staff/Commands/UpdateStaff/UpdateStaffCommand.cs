@@ -10,7 +10,7 @@ namespace CheckInSKP.Application.Staff.Commands.UpdateStaff
 {
     public record UpdateStaffCommand : IRequest
     {
-        public int StaffId { get; init; }
+        public Guid StaffId { get; init; }
         public required string PhoneNumber { get; init; }
         public required string CardNumber { get; init; }
         public bool PhoneNotification { get; init; }

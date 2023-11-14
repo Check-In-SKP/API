@@ -9,9 +9,9 @@ namespace CheckInSKP.Domain.Events.UserEvents
 {
     public class UserUsernameUpdatedEvent : DomainEvent
     {
-        public int UserId { get; }
+        public Guid UserId { get; }
         public string Username { get; }
-        public UserUsernameUpdatedEvent(int userId, string username)
+        public UserUsernameUpdatedEvent(Guid userId, string username)
         {
             UserId = userId;
             Username = username;

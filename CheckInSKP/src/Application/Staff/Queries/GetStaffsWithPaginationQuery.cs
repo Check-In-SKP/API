@@ -27,7 +27,7 @@ namespace CheckInSKP.Application.Staff.Queries
         }
         public async Task<IEnumerable<StaffDto>> Handle(GetStaffsWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Domain.Entities.StaffAggregate.Staff> staffs = await _staffRepository.GetWithPaginationAsync(request.Page, request.PageSize);
+            IEnumerable<Domain.Entities.StaffAggregate.Staff?> staffs = await _staffRepository.GetWithPaginationAsync(request.Page, request.PageSize);
             IEnumerable<StaffDto> staffDtos = _mapper.Map<IEnumerable<StaffDto>>(staffs);
 
             return staffDtos;

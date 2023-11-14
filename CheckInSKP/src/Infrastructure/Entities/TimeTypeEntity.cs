@@ -10,6 +10,6 @@ namespace CheckInSKP.Infrastructure.Entities
         public int Id { get; set; }
 
         [MaxLength(64)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
     }
 }
