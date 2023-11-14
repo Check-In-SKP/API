@@ -67,17 +67,32 @@ internal class Program
 
         #region CORS Policies
         // CORS
+        //builder.Services.AddCors(options =>
+        //{
+        //    options.AddPolicy(name: "Web",
+        //                      builder =>
+        //                      {
+        //                          builder.WithOrigins("http://localhost", "https://localhost")
+        //                                 .AllowAnyHeader()
+        //                                 .AllowAnyMethod();
+        //                          // builder.WithMethods("GET", "POST");
+        //                          // builder.AllowCredentials();
+        //                      });
+        //});
+
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy(name: "Web",
-                              builder =>
-                              {
-                                  builder.WithOrigins("http://localhost", "https://localhost")
-                                         .AllowAnyHeader()
-                                         .AllowAnyMethod();
-                                  // builder.WithMethods("GET", "POST");
-                                  // builder.AllowCredentials();
-                              });
+            options.AddPolicy("localhost",
+                builder =>
+                {
+                    builder.SetIsOriginAllowed(origin =>
+                    {
+                        return new Uri(origin).Host == "localhost"; // This will allow any port on localhost
+                    })
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials();
+                });
         });
         #endregion
 
