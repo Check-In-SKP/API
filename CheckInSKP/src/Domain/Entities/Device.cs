@@ -32,7 +32,7 @@ namespace CheckInSKP.Domain.Entities
         private string ValidateInput(string? label)
         {
             if (string.IsNullOrWhiteSpace(label) || label.Length > 64)
-                return "Unknown";
+                return "unknown";
 
             return label;
         }
