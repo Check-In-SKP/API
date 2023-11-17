@@ -31,10 +31,12 @@ namespace CheckInSKP.Application.Device.Commands.CreateDevice
         {
             var entity = _deviceFactory.CreateNewDevice(request.Label);
             var addedDevice = await _deviceRepository.AddAsync(entity);
-            await _unitOfWork.CompleteAsync(cancellationToken);
 
             if (addedDevice == null)
                 throw new InvalidOperationException("Could not add device");
+
+            await _unitOfWork.CompleteAsync(cancellationToken);
+
 
             return addedDevice.Id;
         }
