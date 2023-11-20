@@ -1,10 +1,7 @@
 ﻿using API.Common.Utilities;
 using CheckInSKP.Infrastructure.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 
 namespace API.Filters
 {
