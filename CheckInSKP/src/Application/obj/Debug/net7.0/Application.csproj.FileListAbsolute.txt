@@ -1,0 +1,15 @@
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\bin\Debug\net7.0\Application.deps.json
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\bin\Debug\net7.0\Application.dll
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\bin\Debug\net7.0\Application.pdb
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\bin\Debug\net7.0\Domain.dll
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\bin\Debug\net7.0\Domain.pdb
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.csproj.AssemblyReference.cache
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.AssemblyInfoInputs.cache
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.AssemblyInfo.cs
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.csproj.CoreCompileInputs.cache
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.csproj.CopyComplete
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.dll
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\refint\Application.dll
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\Application.pdb
+C:\Code\Check-In-SKP\CheckInSKP\CheckInSKP\src\Application\obj\Debug\net7.0\ref\Application.dll
