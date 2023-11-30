@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CheckInSKP.Domain.Common
+﻿namespace CheckInSKP.Domain.Common
 {
     public abstract class DomainEntity
     {
