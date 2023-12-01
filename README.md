@@ -3,6 +3,7 @@
 ## Project Description
 CheckInSKP is a monitoring system designed to keep track of student arrivals and departures from the work area.
 The student uses their student card along with a pin to login from a stand where it promtly provides the user to check in/out.
+
 (An app is currently in the works where the user can store their student card and use the NFC feature to login from the stand see [SKPIdentityCore](https://github.com/Check-In-SKP/SKPIdentityCore))
 
 ## Overview
