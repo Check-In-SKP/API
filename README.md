@@ -20,7 +20,7 @@ Ensure you have the following prerequisites installed:
 
 ### Step 1: Setup appsettings.json
 1. Navigate to the API project.
-2. Create a configuration file named appsettings.[YourEnvironment].json (e.g. appsettings.PC-NAME-VERY-NICE.json).
+2. Create a configuration file named appsettings.[YourEnvironment].json (e.g. appsettings.PC-NAME.json).
 3. Populate the file with the following JSON structure and customize it with your specific settings:
 ```json
 {
