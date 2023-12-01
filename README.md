@@ -24,10 +24,6 @@ Ensure you have the following prerequisites installed:
 3. Populate the file with the following JSON structure and customize it with your specific settings:
 ```json
 {
-  "HttpClientSettings": {
-
-  },
-
   "ConnectionStrings": {
     "CheckInDB": "Host=localhost;Database=CheckInDB;Username=[YourUsername];Password=[YourPassword];Port=5432"
   },
