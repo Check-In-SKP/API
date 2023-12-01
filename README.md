@@ -29,7 +29,7 @@ Ensure you have the following prerequisites installed:
   },
 
   "JwtSettings": {
-    "Key": "[YourJwtKey]",
+    "Key": "[YourVeryLongSecretKey(minimum 32 char)]",
     "Issuer": "CheckInSKP",
     "Audience": "CheckInAPI_Users"
   }
